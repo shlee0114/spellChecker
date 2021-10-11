@@ -30,6 +30,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.apache.commons:commons-lang3:3.11")
+
+    //graghql
+    implementation ("com.graphql-java:graphql-spring-boot-starter:5.0.2")
+    implementation ("com.graphql-java:graphql-java-tools:5.2.4")
+
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
