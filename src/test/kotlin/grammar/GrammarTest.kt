@@ -1,6 +1,7 @@
 package grammar
 
 import com.grammer.grammerchecker.GrammerCheckerApplication
+import org.apache.commons.lang3.RandomStringUtils
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -47,7 +48,7 @@ class GrammarTest{
         val result = mockMvc.perform(
             post("/api/check")
                 .accept(MediaType.APPLICATION_JSON)
-                .param("text", "이거이렇게 안돼나요")
+                .param("text", RandomStringUtils.randomAlphanumeric(501))
         )
         result.andDo(print())
             .andExpect(status().is4xxClientError)
