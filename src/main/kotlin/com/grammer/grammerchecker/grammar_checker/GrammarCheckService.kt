@@ -2,6 +2,8 @@ package com.grammer.grammerchecker.grammar_checker
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.common.base.Preconditions
+import org.apache.commons.lang3.StringUtils
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -13,6 +15,15 @@ import org.springframework.web.client.RestTemplate
 class GrammarCheckService {
     @Transactional(readOnly = true)
     fun checkGrammar(grammar : String) : JsonNode{
+
+        if(grammar == "")
+            throw IllegalArgumentException("grammar is required")
+
+        Preconditions.checkArgument(
+            grammar.length <= 500,
+            "grammar length must be less than 500 characters"
+        )
+
         val header = HttpHeaders()
         header.set("user-gent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36                                         (KHTML, like Gecko)     Chrome/57.0.2987.133 Safari/537.36")
         header.set("referer", "https://search.naver.com/")
