@@ -1,9 +1,7 @@
 package com.grammer.grammerchecker.grammar_checker
 
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.base.Preconditions
-import org.apache.commons.lang3.StringUtils
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -14,7 +12,7 @@ import org.springframework.web.client.RestTemplate
 @Service
 class GrammarCheckService {
     @Transactional(readOnly = true)
-    fun checkGrammar(grammar : String) : JsonNode{
+    fun checkGrammar(grammar : String) : Array<GrammarDto>{
 
         if(grammar == "")
             throw IllegalArgumentException("grammar is required")
@@ -43,6 +41,17 @@ class GrammarCheckService {
 
         val jsonNode = objectMapper.readTree(jsonString)
 
-        return jsonNode.get("message").get("result")
+        val errorCount = jsonNode.get("message").get("result").get("errata_count").toString().toInt()
+        val originFullText = jsonNode.get("message").get("result").get("origin_html").toString()
+        val fixedFullText = jsonNode.get("message").get("result").get("html").toString()
+
+        val originTextArray = originFullText.split("</span>")
+        val fixedTextArray = fixedFullText.split("</span>")
+
+        return Array(errorCount){
+            val errorText = originTextArray[it].substring(originTextArray[it].indexOf(">") + 1)
+            val fixedText = fixedTextArray[it].substring(fixedTextArray[it].indexOf(">") + 1)
+            GrammarDto(errorText, fixedText)
+        }
     }
 }

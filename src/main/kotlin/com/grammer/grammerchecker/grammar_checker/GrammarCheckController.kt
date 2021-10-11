@@ -1,7 +1,5 @@
 package com.grammer.grammerchecker.grammar_checker
 
-import com.fasterxml.jackson.databind.JsonNode
-
 import com.grammer.grammerchecker.utils.ApiUtils.Companion.ApiResult
 import com.grammer.grammerchecker.utils.ApiUtils.Companion.success
 import org.springframework.web.bind.annotation.*
@@ -12,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 class GrammarCheckController(val service: GrammarCheckService) {
 
     @PostMapping("check")
-    fun checkAllSpell(@RequestParam("text", required = false) text : String?) : ApiResult<JsonNode>{
+    fun checkAllSpell(@RequestParam("text", required = false) text : String?) : ApiResult<Array<GrammarDto>>{
         try{
             val result = service.checkGrammar(text?:"")
 
