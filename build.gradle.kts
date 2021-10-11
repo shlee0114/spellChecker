@@ -30,6 +30,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.apache.commons:commons-lang3:3.11")
+    implementation("org.junit.jupiter:junit-jupiter-engine")
 
     //graghql
     implementation ("com.graphql-java:graphql-spring-boot-starter:5.0.2")
