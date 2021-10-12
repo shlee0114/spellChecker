@@ -1,0 +1,12 @@
+schema {
+    query: Query
+}
+
+type result{
+    errorText : String!,
+    fixedText : String
+}
+
+type Query{
+    check(text : String!) : result!
+}
