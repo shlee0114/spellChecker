@@ -40,9 +40,23 @@ class GrammarTest{
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.success", Matchers.`is`(true)))
     }
-
     @Test
     @Order(2)
+    @DisplayName("검색 성공(수정 없음)")
+    fun checkSuccessReturnIsNull(){
+        val result = mockMvc.perform(
+            post("/api/check")
+                .accept(MediaType.APPLICATION_JSON)
+                .param("text", "돼요")
+        )
+        result.andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.success", Matchers.`is`(true)))
+            .andExpect(jsonPath("$.response").isEmpty())
+    }
+
+    @Test
+    @Order(3)
     @DisplayName("검색 실패(최대 길이 500자 초과)")
     fun checkFailedBecauseMaxLengthExceeded(){
         val result = mockMvc.perform(
@@ -55,7 +69,7 @@ class GrammarTest{
             .andExpect(jsonPath("$.success", Matchers.`is`(false)))
     }
     @Test
-    @Order(3)
+    @Order(4)
     @DisplayName("검색 실패(빈 텍스트 전달)")
     fun checkFailedBecauseEmptyText(){
         var result = mockMvc.perform(
