@@ -52,7 +52,7 @@ class GrammarTest{
         result.andDo(print())
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.success", Matchers.`is`(true)))
-            .andExpect(jsonPath("$.response").isEmpty())
+            .andExpect(jsonPath("$.response").isEmpty)
     }
 
     @Test
