@@ -1,7 +1,8 @@
 package com.grammer.grammerchecker.grammar_checker
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.common.base.Preconditions
+import graphql.com.google.common.base.Optional
+import graphql.com.google.common.base.Preconditions
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -12,15 +13,13 @@ import org.springframework.web.client.RestTemplate
 @Service
 class GrammarCheckService {
     @Transactional(readOnly = true)
-    fun checkGrammar(grammar : String) : Array<GrammarDto>{
+    fun checkGrammar(grammar : String) : Optional<Array<GrammarDto>>{
 
         if(grammar == "")
             throw IllegalArgumentException("grammar is required")
-
-        Preconditions.checkArgument(
-            grammar.length <= 500,
-            "grammar length must be less than 500 characters"
-        )
+        if(grammar.length > 500){
+            throw  IllegalArgumentException("grammar length must be less than 500 characters")
+        }
 
         val header = HttpHeaders()
         header.set("user-gent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36                                         (KHTML, like Gecko)     Chrome/57.0.2987.133 Safari/537.36")
@@ -48,10 +47,10 @@ class GrammarCheckService {
         val originTextArray = originFullText.split("</span>")
         val fixedTextArray = fixedFullText.split("</span>")
 
-        return Array(errorCount){
+        return Optional.fromNullable(Array(errorCount){
             val errorText = originTextArray[it].substring(originTextArray[it].indexOf(">") + 1)
             val fixedText = fixedTextArray[it].substring(fixedTextArray[it].indexOf(">") + 1)
             GrammarDto(errorText, fixedText)
-        }
+        })
     }
 }
