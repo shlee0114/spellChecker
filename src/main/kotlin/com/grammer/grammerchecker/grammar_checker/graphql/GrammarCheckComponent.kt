@@ -5,21 +5,29 @@ import io.leangen.graphql.annotations.GraphQLArgument
 import io.leangen.graphql.annotations.GraphQLQuery
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi
 import org.springframework.stereotype.Service
+import javax.servlet.http.HttpServletResponse
 
 @Service
 @GraphQLApi
 class GrammarCheckComponent(val service: GrammarCheckService) {
 
     @GraphQLQuery(name="check")
-    fun check(@GraphQLArgument(name = "text") text : String) : GrammarDomain?{
-        val results = service.checkGrammar(text)
+    fun check(@GraphQLArgument(name = "text") text : String) : GrammarDomain{
+        try{
+            if(text.split(" ").size > 1)
+                throw IllegalArgumentException("no whitespace")
 
-        return if(results.orNull() == null){
-            null
-        }else{
-            val result = GrammarDomain()
-            result.converter(results.get()[0])
-            result
+            val results = service.checkGrammar(text)
+
+            return if(results.get().isEmpty()){
+                GrammarDomain()
+            }else{
+                val result = GrammarDomain()
+                result.converter(results.get()[0])
+                result
+            }
+        }catch (e : IllegalArgumentException){
+            throw IllegalArgumentException(e.message, e)
         }
     }
 
