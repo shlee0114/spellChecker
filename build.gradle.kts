@@ -33,8 +33,7 @@ dependencies {
     implementation("org.junit.jupiter:junit-jupiter-engine")
 
     //graghql
-    implementation ("com.graphql-java:graphql-spring-boot-starter:5.0.2")
-    implementation ("com.graphql-java:graphql-java-tools:5.2.4")
+    implementation ("io.leangen.graphql:graphql-spqr-spring-boot-starter:0.0.6")
 
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
