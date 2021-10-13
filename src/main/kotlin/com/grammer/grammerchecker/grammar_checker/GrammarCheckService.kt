@@ -2,7 +2,6 @@ package com.grammer.grammerchecker.grammar_checker
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import graphql.com.google.common.base.Optional
-import graphql.com.google.common.base.Preconditions
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod

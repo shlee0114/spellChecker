@@ -5,7 +5,6 @@ import io.leangen.graphql.annotations.GraphQLArgument
 import io.leangen.graphql.annotations.GraphQLQuery
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi
 import org.springframework.stereotype.Service
-import javax.servlet.http.HttpServletResponse
 
 @Service
 @GraphQLApi
