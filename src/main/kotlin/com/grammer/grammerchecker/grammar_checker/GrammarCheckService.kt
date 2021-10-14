@@ -1,6 +1,7 @@
 package com.grammer.grammerchecker.grammar_checker
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.grammer.grammerchecker.utils.StringCheckUtils
 import graphql.com.google.common.base.Optional
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -25,11 +26,8 @@ class GrammarCheckService {
     @Transactional(readOnly = true)
     fun checkGrammar(grammar : String) : Optional<Array<GrammarDto>>{
 
-        if(grammar == "")
-            throw IllegalArgumentException("grammar is required")
-        if(grammar.length > 500){
-            throw  IllegalArgumentException("grammar length must be less than 500 characters")
-        }
+        StringCheckUtils().required(grammar, "grammar")
+        StringCheckUtils().lessThen(grammar, 500, "grammar")
 
         val header = HttpHeaders()
         header.set("user-gent", naverUserGent)
