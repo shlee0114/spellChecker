@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../main.css'
+import {default as client} from "../apolloClient";
+import {grammar} from '../graphql/index'
 
 export default function Main (){
 
+    const [ fixedText, setFixedText ] = useState('');
+    const [ textCount, setCount ] = useState(0);
+
     var isCtrl = false
+    var serverSendTimer = null
 
     const inputTextKeyUp = (e) => {
         if(e.which === 17) isCtrl=false;  
@@ -18,35 +24,59 @@ export default function Main (){
         if(serverSendTimer != null){
             clearTimeout(serverSendTimer)
         }
-        sendText = e.target.value.split(" ").pop()
+        
 
         if(e.which === 32){
-            serverSendTimer()
+            sendServer(false)
         }else{
-            serverSendTimer = setTimeout( sendServer, 500 )
+            serverSendTimer = setTimeout( () => {sendServer(false)}, 500 )
         }
+
+        setTimeout(() => {
+            setCount(document.getElementById('input').value.length)
+        }, 0)
+        
     }
 
     const sendServer = (totalYn) => {
+
+        setFixedText('')
+        const sendText = document.getElementById('input').value.replaceAll('\n', ' ').split(" ").pop()
+        if(sendText.trim() === ''){
+            return true
+        }
+
         if(totalYn){
 
         }else{
-            
+            client.url.query({
+                query : grammar.GRAMMAR_CHECK(sendText)
+            }).then(result => {
+                if(!(result.errors??false)){
+                    if(result.data.query.fixedText != null){
+                        setFixedText(result.data.query.fixedText)
+                    }else{
+                        setFixedText(sendText)
+                    }
+                }
+            })
         }
     }
 
     return (
         <article>
             <section className="checkGrammar">
-                <label className="totalTextCount">0/500</label>
+                <label className="totalTextCount">{textCount}/500</label>
                 <label className="infoLabel">ctrl + `키를 누르시면 맞춤법 수정이 됩니다.</label>
-                <button className="checkAll">전체 검사</button>
+                <button className="checkAll" onClick={() => {sendServer(true)}}>전체 검사</button>
                 <div className="textarea">
-                    <textarea className="inputArea" onKeyDown={(e)=>{inputTextKeyDown(e)}} onKeyUp={(e) => {inputTextKeyUp(e)}}>
+                    <textarea className="inputArea" id="input" cols="30" rows="5"
+                    onKeyDown={(e)=>{inputTextKeyDown(e)}}
+                    onKeyUp={(e) => {inputTextKeyUp(e)}}>
 
                     </textarea>
-                    <textarea className="resultArea" readOnly>
-
+                    <textarea className="resultArea" readOnly value={fixedText}>
+                        {fixedText}
                     </textarea>
                 </div>
             </section>
