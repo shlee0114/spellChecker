@@ -3,8 +3,17 @@ import '../main.css'
 
 export default function Main (){
 
-    const inputText = (e) => {
+    var isCtrl = false
 
+    const inputTextKeyUp = (e) => {
+        if(e.which === 17) isCtrl=false;  
+    }
+
+    const inputTextKeyDown = (e) => {
+        if(e.which === 17) isCtrl=true;  
+        if(e.which === 192 && isCtrl === true) {  
+            return false;  
+        }  
     }
 
     return (
@@ -14,10 +23,10 @@ export default function Main (){
                 <label className="infoLabel">ctrl + `키를 누르시면 맞춤법 수정이 됩니다.</label>
                 <button className="checkAll">전체 검사</button>
                 <div className="textarea">
-                    <textarea className="inputArea" onChange={()=>inputText(this)}>
+                    <textarea className="inputArea" onKeyDown={(e)=>{inputTextKeyDown(e)}} onKeyUp={(e) => {inputTextKeyUp(e)}}>
 
                     </textarea>
-                    <textarea className="resultArea">
+                    <textarea className="resultArea" readOnly>
 
                     </textarea>
                 </div>
