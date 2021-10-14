@@ -6,10 +6,10 @@ import axios from 'axios'
 
 export default function Main (){
 
-
     const [ fixedText, setFixedText ] = useState('');
     const [ textCount, setCount ] = useState(0);
     const [ sendText, setText ] = useState('');
+    const [ resultist, setResult ] = useState([]);
 
     var isCtrl = false
     var serverSendTimer = null
@@ -23,7 +23,13 @@ export default function Main (){
 
         if(e.which === 17) isCtrl=true;  
         if(e.which === 192 && isCtrl === true) {  
-            inputArea.value = inputArea.value.replace(new RegExp(sendText+ '$'), fixedText)
+            if(resultist){
+                resultist.map((result) => (
+                    inputArea.value = inputArea.value.replaceAll(result.errorText, result.fixedText)
+                ))
+            }else{
+                inputArea.value = inputArea.value.replace(new RegExp(sendText+ '$'), fixedText)
+            }
             return false;  
         }  
 
@@ -47,6 +53,7 @@ export default function Main (){
         const inputArea = document.getElementById('input')
         const sendText = inputArea.value.replaceAll('\n', ' ').split(" ").pop()
 
+
         setFixedText('')
         setText(sendText)
 
@@ -54,10 +61,24 @@ export default function Main (){
             return true
         }
 
+        setResult([])
         if(totalYn){
             axios.post(`http://localhost:8089/api/check?text=${inputArea.value}`)
-            .then(response => {
-                    console.log(response)
+            .then(result => {
+                const list = result.data.response
+                const resultist = []
+                var fix = ''
+
+                list.map((info) => (
+                    fix +=`${info.errorText} -> ${info.fixedText}\n`,
+                    resultist.push({
+                        errorText : info.errorText,
+                        fixedText : info.fixedText
+                    })
+                ))
+
+                setFixedText(fix)
+                setResult(resultist)
             })
         }else{
             url.query({
