@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -32,7 +32,7 @@ class GrammarTest{
     @DisplayName("검색 성공")
     fun checkSuccess(){
         val result = mockMvc.perform(
-            post("/api/check")
+            get("/api/check")
                 .accept(MediaType.APPLICATION_JSON)
                 .param("text", "이거이렇게 안돼나요")
         )
@@ -45,7 +45,7 @@ class GrammarTest{
     @DisplayName("검색 성공(수정 없음)")
     fun checkSuccessReturnIsNull(){
         val result = mockMvc.perform(
-            post("/api/check")
+            get("/api/check")
                 .accept(MediaType.APPLICATION_JSON)
                 .param("text", "돼요")
         )
@@ -60,7 +60,7 @@ class GrammarTest{
     @DisplayName("검색 실패(최대 길이 500자 초과)")
     fun checkFailedBecauseMaxLengthExceeded(){
         val result = mockMvc.perform(
-            post("/api/check")
+            get("/api/check")
                 .accept(MediaType.APPLICATION_JSON)
                 .param("text", RandomStringUtils.randomAlphanumeric(501))
         )
@@ -73,7 +73,7 @@ class GrammarTest{
     @DisplayName("검색 실패(빈 텍스트 전달)")
     fun checkFailedBecauseEmptyText(){
         var result = mockMvc.perform(
-            post("/api/check")
+            get("/api/check")
                 .accept(MediaType.APPLICATION_JSON)
                 .param("text", "")
         )
@@ -82,7 +82,7 @@ class GrammarTest{
             .andExpect(jsonPath("$.success", Matchers.`is`(false)))
 
         result = mockMvc.perform(
-            post("/api/check")
+            get("/api/check")
                 .accept(MediaType.APPLICATION_JSON)
         )
         result.andDo(print())
