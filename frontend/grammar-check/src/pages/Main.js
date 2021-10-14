@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import '../main.css'
-import {default as client} from "../apolloClient";
+import url from "../apolloClient"
 import {grammar} from '../graphql/index'
 
 export default function Main (){
@@ -28,7 +28,6 @@ export default function Main (){
         if(serverSendTimer != null){
             clearTimeout(serverSendTimer)
         }
-        
 
         if(e.which === 32){
             sendServer(false)
@@ -54,9 +53,8 @@ export default function Main (){
         }
 
         if(totalYn){
-            
         }else{
-            client.url.query({
+            url.query({
                 query : grammar.GRAMMAR_CHECK(sendText)
             }).then(result => {
                 if(!(result.errors??false)){

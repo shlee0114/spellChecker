@@ -1,8 +1,12 @@
 import { gql } from '@apollo/client'
 
-const GRAMMAR_CHECK = (text) => {
+const grammarCheck = (text) => {
     return gql`
     {query: check(text : "${text}") { fixedText } }`
 }
 
-export default GRAMMAR_CHECK
+const querys = {
+    GRAMMAR_CHECK : grammarCheck
+}
+
+export default querys
