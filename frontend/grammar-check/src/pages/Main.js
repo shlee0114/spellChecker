@@ -14,6 +14,25 @@ export default function Main (){
         if(e.which === 192 && isCtrl === true) {  
             return false;  
         }  
+
+        if(serverSendTimer != null){
+            clearTimeout(serverSendTimer)
+        }
+        sendText = e.target.value.split(" ").pop()
+
+        if(e.which === 32){
+            serverSendTimer()
+        }else{
+            serverSendTimer = setTimeout( sendServer, 500 )
+        }
+    }
+
+    const sendServer = (totalYn) => {
+        if(totalYn){
+
+        }else{
+            
+        }
     }
 
     return (
