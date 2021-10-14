@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import '../main.css'
 import {default as client} from "../apolloClient";
 import {grammar} from '../graphql/index'
+import { assertValidExecutionArguments } from 'graphql/execution/execute';
 
 export default function Main (){
 
     const [ fixedText, setFixedText ] = useState('');
     const [ textCount, setCount ] = useState(0);
+    const [ sendText, setText ] = useState('');
 
     var isCtrl = false
     var serverSendTimer = null
@@ -16,8 +18,11 @@ export default function Main (){
     }
 
     const inputTextKeyDown = (e) => {
+        const inputArea = document.getElementById('input')
+
         if(e.which === 17) isCtrl=true;  
         if(e.which === 192 && isCtrl === true) {  
+            inputArea.value = inputArea.value.replace(new RegExp(sendText+ '$'), fixedText)
             return false;  
         }  
 
@@ -33,21 +38,24 @@ export default function Main (){
         }
 
         setTimeout(() => {
-            setCount(document.getElementById('input').value.length)
+            setCount(inputArea.value.length)
         }, 0)
         
     }
 
     const sendServer = (totalYn) => {
+        const inputArea = document.getElementById('input')
+        const sendText = inputArea.value.replaceAll('\n', ' ').split(" ").pop()
 
         setFixedText('')
-        const sendText = document.getElementById('input').value.replaceAll('\n', ' ').split(" ").pop()
+        setText(sendText)
+
         if(sendText.trim() === ''){
             return true
         }
 
         if(totalYn){
-
+            
         }else{
             client.url.query({
                 query : grammar.GRAMMAR_CHECK(sendText)
