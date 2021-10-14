@@ -7,6 +7,4 @@ const url = new ApolloClient({
     cache: new InMemoryCache()
   })
 
-export default {
-    url : url
-}
+export default url

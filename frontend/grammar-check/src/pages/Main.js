@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import '../main.css'
 import {default as client} from "../apolloClient";
 import {grammar} from '../graphql/index'
-import { assertValidExecutionArguments } from 'graphql/execution/execute';
 
 export default function Main (){
 
