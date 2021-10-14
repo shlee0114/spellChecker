@@ -17,20 +17,10 @@ spring:
     database-platform : org.hibernate.dialect.PostgreSQL95Dialect
     database : postgresql
 
-security:
-  sessions: always
-
-graphql:
-  servlet:
-    enabled: true
-    corsEnabled: true
-
 server :
   port: 8089
-endpoints:
-  restart:
-    enabled: true
-  shutdown:
-    enabled: true
-  health:
-    sensitive: false
+
+naver :
+  url : https://m.search.naver.com/p/csearch/ocontent/spellchecker.nhn?_callback=window.__jindo2_callback._spellingCheck_0&q=
+  user-gent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36                                         (KHTML, like Gecko)     Chrome/57.0.2987.133 Safari/537.361
+  referer : https://search.naver.com/
