@@ -63,7 +63,7 @@ export default function Main (){
 
         setResult([])
         if(totalYn){
-            axios.post(`http://localhost:8089/api/check?text=${inputArea.value}`)
+            axios.get(`http://localhost:8089/api/check?text=${inputArea.value}`)
             .then(result => {
                 const list = result.data.response
                 const resultist = []

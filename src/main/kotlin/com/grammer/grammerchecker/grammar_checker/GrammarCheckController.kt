@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("api")
 class GrammarCheckController(val service: GrammarCheckService) {
 
-    @PostMapping("check")
+    @GetMapping("check")
     fun checkAllSpell(@RequestParam("text", required = false) text : String?) : ApiResult<Array<GrammarDto>?>{
         try{
             val result = service.checkGrammar(text?:"")
