@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import '../main.css'
 import url from "../apolloClient"
 import {grammar} from '../graphql/index'
+import axios from 'axios'
 
 export default function Main (){
+
 
     const [ fixedText, setFixedText ] = useState('');
     const [ textCount, setCount ] = useState(0);
@@ -53,6 +55,10 @@ export default function Main (){
         }
 
         if(totalYn){
+            axios.post(`http://localhost:8089/api/check?text=${inputArea.value}`)
+            .then(response => {
+                    console.log(response)
+            })
         }else{
             url.query({
                 query : grammar.GRAMMAR_CHECK(sendText)
@@ -73,7 +79,7 @@ export default function Main (){
             <section className="checkGrammar">
                 <label className="totalTextCount">{textCount}/500</label>
                 <label className="infoLabel">ctrl + `키를 누르시면 맞춤법 수정이 됩니다.</label>
-                <button className="checkAll" onClick={() => {sendServer(true)}}>전체 검사</button>
+                <button className="checkAll" onClick={() => sendServer(true)}>전체 검사</button>
                 <div className="textarea">
                     <textarea className="inputArea" id="input" cols="30" rows="5"
                     onKeyDown={(e)=>{inputTextKeyDown(e)}}
