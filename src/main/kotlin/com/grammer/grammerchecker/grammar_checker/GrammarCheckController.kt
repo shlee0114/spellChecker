@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.*
 class GrammarCheckController(val service: GrammarCheckService) {
 
     @GetMapping("check")
-    fun checkAllSpell(@RequestParam("text", required = false) text : String?) : ApiResult<Array<GrammarDto>?>{
+    fun checkAllSpell(
+        @RequestParam("text", required = false) text: String?
+    ) : ApiResult<Array<GrammarDto>?>{
         try{
             val result = service.checkGrammar(text?:"")
 
             return success(result.orNull())
-        }catch (e : IllegalArgumentException){
+        }catch (e: IllegalArgumentException){
             throw IllegalArgumentException(e.message, e)
         }
     }

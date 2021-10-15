@@ -38,9 +38,11 @@ class GrammarTestGraphql {
 
         val query = "{\"query\":\"{check(text : \\\"되요\\\") { errorText fixedText }}\",\"variables\":null,\"operationName\":null}"
 
-        val mvcResult = mockMvc.perform(post("/graphql")
-            .content(query)
-            .contentType(MediaType.APPLICATION_JSON))
+        val mvcResult = mockMvc.perform(
+            post("/graphql")
+                .content(query)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(CoreMatchers.notNullValue()))
             .andReturn()
@@ -59,9 +61,11 @@ class GrammarTestGraphql {
 
         val query = "{\"query\":\"{check(text : \\\"돼요\\\") { errorText fixedText }}\",\"variables\":null,\"operationName\":null}"
 
-        val mvcResult = mockMvc.perform(post("/graphql")
-            .content(query)
-            .contentType(MediaType.APPLICATION_JSON))
+        val mvcResult = mockMvc.perform(
+            post("/graphql")
+                .content(query)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(CoreMatchers.notNullValue()))
             .andReturn()
@@ -80,9 +84,11 @@ class GrammarTestGraphql {
 
         val query = "{\"query\":\"{check(text : \\\"${RandomStringUtils.randomAlphanumeric(501)}\\\") { errorText fixedText }}\",\"variables\":null,\"operationName\":null}"
 
-        val mvcResult = mockMvc.perform(post("/graphql")
-            .content(query)
-            .contentType(MediaType.APPLICATION_JSON))
+        val mvcResult = mockMvc.perform(
+            post("/graphql")
+                .content(query)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(CoreMatchers.notNullValue()))
             .andReturn()
@@ -100,9 +106,11 @@ class GrammarTestGraphql {
 
         val query = "{\"query\":\"{check(text : \\\"\\\") { errorText fixedText }}\",\"variables\":null,\"operationName\":null}"
 
-        val mvcResult = mockMvc.perform(post("/graphql")
-            .content(query)
-            .contentType(MediaType.APPLICATION_JSON))
+        val mvcResult = mockMvc.perform(
+            post("/graphql")
+                .content(query)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(CoreMatchers.notNullValue()))
             .andReturn()
@@ -120,9 +128,11 @@ class GrammarTestGraphql {
 
         val query = "{\"query\":\"{check(text : \\\"이거 돼요\\\") { errorText fixedText }}\",\"variables\":null,\"operationName\":null}"
 
-        val mvcResult = mockMvc.perform(post("/graphql")
-            .content(query)
-            .contentType(MediaType.APPLICATION_JSON))
+        val mvcResult = mockMvc.perform(
+            post("/graphql")
+                .content(query)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(CoreMatchers.notNullValue()))
             .andReturn()

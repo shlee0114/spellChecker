@@ -18,10 +18,10 @@ import org.springframework.web.servlet.NoHandlerFoundException
 class GeneralExceptionHandler {
     private val log = LoggerFactory.getLogger(javaClass)
 
-    fun newResponse(throwable: Throwable, status : HttpStatus) =
+    fun newResponse(throwable: Throwable, status: HttpStatus) =
         newResponse(throwable.message!!, status)
 
-    fun newResponse(message : String, status : HttpStatus) : ResponseEntity<ApiUtils.Companion.ApiResult<Any>>{
+    fun newResponse(message: String, status: HttpStatus) : ResponseEntity<ApiUtils.Companion.ApiResult<Any>>{
         val header = HttpHeaders()
 
         header.add("Content-Type", "application/json")
@@ -33,7 +33,7 @@ class GeneralExceptionHandler {
         NoHandlerFoundException::class,
         NotFoundException::class
     )
-    fun handleNotFoundException(e : Exception) = newResponse(e, HttpStatus.NOT_FOUND)
+    fun handleNotFoundException(e: Exception) = newResponse(e, HttpStatus.NOT_FOUND)
 
     @ExceptionHandler(
         IllegalArgumentException::class,
@@ -41,7 +41,7 @@ class GeneralExceptionHandler {
         ConstraintViolationException::class,
         MethodArgumentNotValidException::class
     )
-    fun handleBadRequestException(e : Exception) : ResponseEntity<*>{
+    fun handleBadRequestException(e: Exception) : ResponseEntity<*>{
         log.debug("Bad request exception occurred : {}", e.message, e)
 
         return if (e is MethodArgumentNotValidException) {

@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 class DataTimeUtils {
     companion object{
-        fun timestampOf(time : LocalDateTime) =
+        fun timestampOf(time: LocalDateTime) =
             Timestamp.valueOf(time)
 
         fun dateTimeOf(timestamp: Timestamp) =

@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service
 class GrammarCheckComponent(val service: GrammarCheckService) {
 
     @GraphQLQuery(name="check")
-    fun check(@GraphQLArgument(name = "text") text : String) : GrammarDomain{
+    fun check(
+        @GraphQLArgument(name = "text") text: String
+    ) : GrammarDomain{
         try{
             if(text.split(" ").size > 1)
                 throw IllegalArgumentException("no whitespace")
@@ -21,11 +23,9 @@ class GrammarCheckComponent(val service: GrammarCheckService) {
             return if(results.get().isEmpty()){
                 GrammarDomain()
             }else{
-                val result = GrammarDomain()
-                result.converter(results.get()[0])
-                result
+                GrammarDomain().apply { converter(results.get()[0]) }
             }
-        }catch (e : IllegalArgumentException){
+        }catch (e: IllegalArgumentException){
             throw IllegalArgumentException(e.message, e)
         }
     }

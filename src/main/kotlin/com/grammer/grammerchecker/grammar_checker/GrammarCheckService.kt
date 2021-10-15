@@ -24,7 +24,7 @@ class GrammarCheckService {
     private lateinit var naverReferer : String
 
     @Transactional(readOnly = true)
-    fun checkGrammar(grammar : String) : Optional<Array<GrammarDto>>{
+    fun checkGrammar(grammar: String = "") : Optional<Array<GrammarDto>>{
 
         StringCheckUtils().required(grammar, "grammar")
         StringCheckUtils().lessThen(grammar, 500, "grammar")
