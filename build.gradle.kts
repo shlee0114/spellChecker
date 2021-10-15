@@ -32,6 +32,10 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.11")
     implementation("org.junit.jupiter:junit-jupiter-engine")
 
+    //mariadb
+    implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly ("org.mariadb.jdbc:mariadb-java-client:2.7.4")
+
     //graghql
     implementation ("io.leangen.graphql:graphql-spqr-spring-boot-starter:0.0.6")
 

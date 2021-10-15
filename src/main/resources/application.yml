@@ -9,13 +9,22 @@ spring:
         max-idle: 10
         min-idle: 2
   datasource :
-    url : jdbc:postgresql://1.230.255.115:5432/seller_user_table
+    url : jdbc:mariadb://1.230.255.115:3306/grammar_log
     username : tlgj255
     password : wntmd1201
-  jpa :
-    show-sql : true
-    database-platform : org.hibernate.dialect.PostgreSQL95Dialect
-    database : postgresql
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+logging:
+  level:
+    org.hibernate:
+      type.descriptor.sql: trace
+      SQL: DEBUG
 
 server :
   port: 8089
