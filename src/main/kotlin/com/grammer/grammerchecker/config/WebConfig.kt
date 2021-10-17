@@ -13,7 +13,7 @@ class WebConfig : WebMvcConfigurer{
         registry
             .addMapping("/**")
             .allowedHeaders("*")
-            .allowedOrigins("*")
+            .allowedOrigins("http://zifori.me:3000")
             .allowedMethods("*")
             .maxAge(1800)
             .allowCredentials(false)
