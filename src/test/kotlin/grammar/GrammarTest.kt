@@ -33,9 +33,7 @@ class GrammarTest{
     fun checkSuccess(){
         val result = mockMvc.perform(
             get("/api/check")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content("{\"text\":\"이거이렇게 안돼나요\"}")
+                .param("grammar", "이거이렇게 안돼나요")
         )
         result.andDo(print())
             .andExpect(status().isOk)
@@ -48,9 +46,7 @@ class GrammarTest{
     fun checkSuccessReturnIsNull(){
         val result = mockMvc.perform(
             get("/api/check")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"text\":\"돼요\"}")
+                .param("grammar", "돼요")
         )
         result.andDo(print())
             .andExpect(status().isOk)
@@ -64,12 +60,10 @@ class GrammarTest{
     fun checkFailedBecauseMaxLengthExceeded(){
         val result = mockMvc.perform(
             get("/api/check")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"text\":\"${RandomStringUtils.randomAlphanumeric(501)}\"}")
+                .param("grammar", RandomStringUtils.randomAlphanumeric(501))
         )
         result.andDo(print())
-            .andExpect(status().is4xxClientError)
+            .andExpect(status().is5xxServerError)
             .andExpect(jsonPath("$.success", Matchers.`is`(false)))
     }
     @Test
@@ -80,10 +74,10 @@ class GrammarTest{
             get("/api/check")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"text\":\"\"}")
+                .param("grammar", "")
         )
         result.andDo(print())
-            .andExpect(status().is4xxClientError)
+            .andExpect(status().is5xxServerError)
             .andExpect(jsonPath("$.success", Matchers.`is`(false)))
     }
 

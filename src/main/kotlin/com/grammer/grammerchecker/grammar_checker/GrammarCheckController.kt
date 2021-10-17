@@ -2,17 +2,20 @@ package com.grammer.grammerchecker.grammar_checker
 
 import com.grammer.grammerchecker.utils.ApiUtils.Companion.ApiResult
 import com.grammer.grammerchecker.utils.ApiUtils.Companion.success
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
-
+@Validated
 @RestController
 @RequestMapping("api")
 class GrammarCheckController(val service: GrammarCheckService) {
 
     @GetMapping("check")
     fun checkAllSpell(
-        @Valid @RequestBody grammar: GrammarRequest
+        @Valid
+        @RequestParam
+        grammar: GrammarRequest
     ) : ApiResult<Array<GrammarDto>> {
         try{
             val result = service.checkGrammar(grammar.text)
@@ -22,8 +25,8 @@ class GrammarCheckController(val service: GrammarCheckService) {
                     arrayOf()
                 )
             )
-        }catch (e: IllegalArgumentException){
-            throw IllegalArgumentException(e.message, e)
+        }catch (e: Exception){
+            throw Exception(e.message, e)
         }
     }
 }

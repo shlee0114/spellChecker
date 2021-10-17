@@ -63,14 +63,14 @@ export default function Main (){
 
         setResult([])
         if(totalYn){
-            axios.get(`http://localhost:8089/api/check?text=${inputArea.value}`)
+            axios.get(`http://localhost:8089/api/check?grammar=${inputArea.value}`)
             .then(result => {
                 const list = result.data.response
                 const resultist = []
                 var fix = ''
 
                 list.map((info) => (
-                    fix +=`${info.errorText} -> ${info.fixedText}\n`,
+                    fix += `${info.errorText} -> ${info.fixedText}\n`,
                     resultist.push({
                         errorText : info.errorText,
                         fixedText : info.fixedText
