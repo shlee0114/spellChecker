@@ -74,7 +74,7 @@ export default function Main (){
 
         setResult([])
         if(totalYn){
-            axios.get(`http://localhost:8089/api/check?grammar=${inputArea.value}`)
+            axios.get(`http://zifori.me:8089/api/check?grammar=${inputArea.value}`)
             .then(result => {
                 const list = result.data.response
                 const resultist = []
