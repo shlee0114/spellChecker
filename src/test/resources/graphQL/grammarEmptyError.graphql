@@ -1,0 +1,6 @@
+{
+    query:check(text : {text:""}){
+        errorText
+        fixedText
+    }
+}

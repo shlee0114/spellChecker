@@ -1,0 +1,8 @@
+type GrammarDomain{
+    errorText : String!,
+    fixedText : String
+}
+
+input GrammarRequest{
+    text : String!
+}

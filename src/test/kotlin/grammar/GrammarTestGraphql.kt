@@ -1,28 +1,22 @@
 package grammar
 
 import com.grammer.grammerchecker.GrammerCheckerApplication
-import org.apache.commons.lang3.RandomStringUtils
-import org.hamcrest.CoreMatchers
-import org.hamcrest.Matchers
-import org.json.JSONException
-import org.json.JSONObject
+import com.graphql.spring.boot.test.GraphQLTestTemplate
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import java.io.IOException
+import kotlin.jvm.Throws
 
 
-@SpringBootTest(classes = [GrammerCheckerApplication::class])
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = [GrammerCheckerApplication::class])
 @AutoConfigureMockMvc
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class GrammarTestGraphql {
+
+    @Autowired
+    private lateinit var graphQLTestTemplate: GraphQLTestTemplate
 
     private lateinit var mockMvc : MockMvc
 
@@ -31,116 +25,51 @@ class GrammarTestGraphql {
         this.mockMvc = mockMvc
     }
 
+
     @Test
     @Order(1)
     @DisplayName("검색 성공")
+    @Throws(IOException::class)
     fun checkSuccess(){
+        val response = this.graphQLTestTemplate.postForResource("graphQL/grammar.graphql")
+        val result = response.readTree().get("data").get("query")
 
-        val query = "{\"query\":\"{check(text : \\\"되요\\\") { errorText fixedText }}\",\"variables\":null,\"operationName\":null}"
-
-        val mvcResult = mockMvc.perform(
-            post("/graphql")
-                .content(query)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(CoreMatchers.notNullValue()))
-            .andReturn()
-
-        mockMvc.perform(asyncDispatch(mvcResult))
-            .andDo(print())
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$.data.check").isNotEmpty)
-            .andExpect(jsonPath("$.errors").doesNotExist())
+        Assertions.assertEquals(result.get("errorText").toString(), "\"되요\"")
+        Assertions.assertEquals(result.get("fixedText").toString(), "\"돼요\"")
+        Assertions.assertNotNull(result.asText())
     }
 
     @Test
     @Order(2)
     @DisplayName("검색 성공(수정 없음)")
     fun checkSuccessReturnIsNull(){
+        val response = this.graphQLTestTemplate.postForResource("graphQL/grammarNoFix.graphql");
+        val result = response.readTree().get("data").get("query")
 
-        val query = "{\"query\":\"{check(text : \\\"돼요\\\") { errorText fixedText }}\",\"variables\":null,\"operationName\":null}"
-
-        val mvcResult = mockMvc.perform(
-            post("/graphql")
-                .content(query)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(CoreMatchers.notNullValue()))
-            .andReturn()
-
-        mockMvc.perform(asyncDispatch(mvcResult))
-            .andDo(print())
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$.data.check.errorText").isEmpty)
-            .andExpect(jsonPath("$.errors").doesNotExist())
-    }
-
-    @Test
-    @Order(2)
-    @DisplayName("검색 실패(최대 길이 500자 초과)")
-    fun checkFailedBecauseMaxLengthExceeded(){
-
-        val query = "{\"query\":\"{check(text : \\\"${RandomStringUtils.randomAlphanumeric(501)}\\\") { errorText fixedText }}\",\"variables\":null,\"operationName\":null}"
-
-        val mvcResult = mockMvc.perform(
-            post("/graphql")
-                .content(query)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(CoreMatchers.notNullValue()))
-            .andReturn()
-
-        mockMvc.perform(asyncDispatch(mvcResult))
-            .andDo(print())
-            .andExpect(jsonPath("$.data.check").isEmpty)
-            .andExpect(jsonPath("$.errors").exists())
+        Assertions.assertEquals(result.get("errorText").toString(), "\"\"")
+        Assertions.assertEquals(result.get("fixedText").toString(), "\"\"")
+        Assertions.assertNotNull(result.asText())
     }
 
     @Test
     @Order(3)
-    @DisplayName("검색 실패(빈 텍스트 전달)")
-    fun checkFailedBecauseEmptyText(){
+    @DisplayName("검색 실패(최대 길이 500자 초과)")
+    fun checkFailedBecauseMaxLengthExceeded(){
+        val response = this.graphQLTestTemplate.postForResource("graphQL/grammarOverLength.graphql")
+        val result = response.readTree()
 
-        val query = "{\"query\":\"{check(text : \\\"\\\") { errorText fixedText }}\",\"variables\":null,\"operationName\":null}"
-
-        val mvcResult = mockMvc.perform(
-            post("/graphql")
-                .content(query)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(CoreMatchers.notNullValue()))
-            .andReturn()
-
-        mockMvc.perform(asyncDispatch(mvcResult))
-            .andDo(print())
-            .andExpect(jsonPath("$.data.check").isEmpty)
-            .andExpect(jsonPath("$.errors").exists())
+        Assertions.assertNull(result.get("data").get("query"))
+        Assertions.assertNotNull(result.get("errors"))
     }
 
     @Test
     @Order(4)
-    @DisplayName("검색 실패(띄어쓰기 발견)")
-    fun checkFailedBecauseWhiteSpace(){
+    @DisplayName("검색 실패(빈 텍스트 전달)")
+    fun checkFailedBecauseEmptyText(){
+        val response = this.graphQLTestTemplate.postForResource("graphQL/grammarEmptyError.graphql");
+        val result = response.readTree()
 
-        val query = "{\"query\":\"{check(text : \\\"이거 돼요\\\") { errorText fixedText }}\",\"variables\":null,\"operationName\":null}"
-
-        val mvcResult = mockMvc.perform(
-            post("/graphql")
-                .content(query)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(CoreMatchers.notNullValue()))
-            .andReturn()
-
-        mockMvc.perform(asyncDispatch(mvcResult))
-            .andDo(print())
-            .andExpect(jsonPath("$.data.check").isEmpty)
-            .andExpect(jsonPath("$.errors").exists())
+        Assertions.assertNull(result.get("data").get("query"))
+        Assertions.assertNotNull(result.get("errors"))
     }
-
 }

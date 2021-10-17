@@ -1,14 +1,16 @@
 package com.grammer.grammerchecker.grammar_checker
 
+import lombok.Data
 import org.apache.commons.lang3.builder.ToStringBuilder
 import org.apache.commons.lang3.builder.ToStringStyle
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.Size
 
+@Data
 data class GrammarRequest(
     @get:NotBlank(message = "text must be provided")
-    @get:Size(message = "text must be less than or equal to 500", max=100)
+    @get:Size(message = "text must be less than 500", max=500)
     @get:NotEmpty(message = "text must be provided")
     val text: String
 ) {

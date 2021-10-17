@@ -41,11 +41,12 @@ dependencies {
     runtimeOnly ("org.mariadb.jdbc:mariadb-java-client:2.7.4")
 
     //graghql
-    implementation ("io.leangen.graphql:graphql-spqr-spring-boot-starter:0.0.6")
+    implementation ("com.graphql-java-kickstart:graphql-spring-boot-starter:12.0.0")
 
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
+    testImplementation ("com.graphql-java-kickstart:graphql-spring-boot-starter-test:12.0.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
 }
