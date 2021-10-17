@@ -123,10 +123,6 @@ export default function Main (){
                     </textarea>
                 </div>
             </section>
-            <section className="searchHistory">
-                <button className="checkWord">변경 낱말 검사</button>
-                <button className="checkSentence">변경 문장 검사</button>
-            </section>
         </article>
     )
 }
