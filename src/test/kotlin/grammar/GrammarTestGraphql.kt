@@ -12,19 +12,10 @@ import kotlin.jvm.Throws
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = [GrammerCheckerApplication::class])
-@AutoConfigureMockMvc
 class GrammarTestGraphql {
 
     @Autowired
     private lateinit var graphQLTestTemplate: GraphQLTestTemplate
-
-    private lateinit var mockMvc : MockMvc
-
-    @Autowired
-    fun setMockMvc(mockMvc: MockMvc){
-        this.mockMvc = mockMvc
-    }
-
 
     @Test
     @Order(1)
@@ -43,7 +34,7 @@ class GrammarTestGraphql {
     @Order(2)
     @DisplayName("검색 성공(수정 없음)")
     fun checkSuccessReturnIsNull(){
-        val response = this.graphQLTestTemplate.postForResource("graphQL/grammarNoFix.graphql");
+        val response = this.graphQLTestTemplate.postForResource("graphQL/grammarNoFix.graphql")
         val result = response.readTree().get("data").get("query")
 
         Assertions.assertEquals(result.get("errorText").toString(), "\"\"")
@@ -66,7 +57,7 @@ class GrammarTestGraphql {
     @Order(4)
     @DisplayName("검색 실패(빈 텍스트 전달)")
     fun checkFailedBecauseEmptyText(){
-        val response = this.graphQLTestTemplate.postForResource("graphQL/grammarEmptyError.graphql");
+        val response = this.graphQLTestTemplate.postForResource("graphQL/grammarEmptyError.graphql")
         val result = response.readTree()
 
         Assertions.assertNull(result.get("data").get("query"))
