@@ -31,6 +31,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.apache.commons:commons-lang3:3.11")
     implementation("org.junit.jupiter:junit-jupiter-engine")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
     //validation
     implementation("org.hibernate.validator:hibernate-validator:6.1.2.Final")
