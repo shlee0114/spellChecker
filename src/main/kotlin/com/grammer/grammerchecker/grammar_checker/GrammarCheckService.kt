@@ -1,8 +1,6 @@
 package com.grammer.grammerchecker.grammar_checker
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.grammer.grammerchecker.utils.StringCheckUtils
-import graphql.com.google.common.base.Optional
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -10,6 +8,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.RestTemplate
+import java.util.*
 
 @Service
 class GrammarCheckService {
@@ -25,10 +24,6 @@ class GrammarCheckService {
 
     @Transactional(readOnly = true)
     fun checkGrammar(grammar: String = "") : Optional<Array<GrammarDto>>{
-
-        StringCheckUtils().required(grammar, "grammar")
-        StringCheckUtils().lessThen(grammar, 500, "grammar")
-
         val header = HttpHeaders()
         header.set("user-gent", naverUserGent)
         header.set("referer", naverReferer)
@@ -57,7 +52,7 @@ class GrammarCheckService {
         val originTextArray = originFullText.split("</span>")
         val fixedTextArray = fixedFullText.split("</span>")
 
-        return Optional.fromNullable(Array(errorCount){
+        return Optional.ofNullable(Array(errorCount){
             val errorText = originTextArray[it].substring(originTextArray[it].indexOf(">") + 1)
             val fixedText = fixedTextArray[it].substring(fixedTextArray[it].indexOf(">") + 1)
             GrammarDto(errorText, fixedText)

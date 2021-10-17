@@ -32,6 +32,10 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.11")
     implementation("org.junit.jupiter:junit-jupiter-engine")
 
+    //validation
+    implementation("org.hibernate.validator:hibernate-validator:6.1.2.Final")
+    implementation("org.glassfish:jakarta.el:3.0.3")
+
     //mariadb
     implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly ("org.mariadb.jdbc:mariadb-java-client:2.7.4")

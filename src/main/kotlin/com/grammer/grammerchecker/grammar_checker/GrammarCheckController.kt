@@ -3,6 +3,7 @@ package com.grammer.grammerchecker.grammar_checker
 import com.grammer.grammerchecker.utils.ApiUtils.Companion.ApiResult
 import com.grammer.grammerchecker.utils.ApiUtils.Companion.success
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 
 @RestController
@@ -11,12 +12,16 @@ class GrammarCheckController(val service: GrammarCheckService) {
 
     @GetMapping("check")
     fun checkAllSpell(
-        @RequestParam("text", required = false) text: String?
-    ) : ApiResult<Array<GrammarDto>?>{
+        @Valid @RequestBody grammar: GrammarRequest
+    ) : ApiResult<Array<GrammarDto>> {
         try{
-            val result = service.checkGrammar(text?:"")
+            val result = service.checkGrammar(grammar.text)
 
-            return success(result.orNull())
+            return success(
+                result.orElse(
+                    arrayOf()
+                )
+            )
         }catch (e: IllegalArgumentException){
             throw IllegalArgumentException(e.message, e)
         }

@@ -33,12 +33,14 @@ class GrammarTest{
     fun checkSuccess(){
         val result = mockMvc.perform(
             get("/api/check")
+                .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .param("text", "이거이렇게 안돼나요")
+                .content("{\"text\":\"이거이렇게 안돼나요\"}")
         )
         result.andDo(print())
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.success", Matchers.`is`(true)))
+            .andExpect(jsonPath("$.response").isNotEmpty)
     }
     @Test
     @Order(2)
@@ -47,7 +49,8 @@ class GrammarTest{
         val result = mockMvc.perform(
             get("/api/check")
                 .accept(MediaType.APPLICATION_JSON)
-                .param("text", "돼요")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"text\":\"돼요\"}")
         )
         result.andDo(print())
             .andExpect(status().isOk)
@@ -62,7 +65,8 @@ class GrammarTest{
         val result = mockMvc.perform(
             get("/api/check")
                 .accept(MediaType.APPLICATION_JSON)
-                .param("text", RandomStringUtils.randomAlphanumeric(501))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"text\":\"${RandomStringUtils.randomAlphanumeric(501)}\"}")
         )
         result.andDo(print())
             .andExpect(status().is4xxClientError)
@@ -72,18 +76,11 @@ class GrammarTest{
     @Order(4)
     @DisplayName("검색 실패(빈 텍스트 전달)")
     fun checkFailedBecauseEmptyText(){
-        var result = mockMvc.perform(
+        val result = mockMvc.perform(
             get("/api/check")
                 .accept(MediaType.APPLICATION_JSON)
-                .param("text", "")
-        )
-        result.andDo(print())
-            .andExpect(status().is4xxClientError)
-            .andExpect(jsonPath("$.success", Matchers.`is`(false)))
-
-        result = mockMvc.perform(
-            get("/api/check")
-                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"text\":\"\"}")
         )
         result.andDo(print())
             .andExpect(status().is4xxClientError)
