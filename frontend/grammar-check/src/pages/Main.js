@@ -23,7 +23,7 @@ export default function Main (){
 
         if(e.which === 17) isCtrl=true;  
         if(e.which === 192 && isCtrl === true) {  
-            if(resultist){
+            if(resultist.length !== 0){
                 resultist.map((result) => (
                     inputArea.value = inputArea.value.replaceAll(result.errorText, result.fixedText)
                 ))
@@ -85,8 +85,8 @@ export default function Main (){
                 query : grammar.GRAMMAR_CHECK(sendText)
             }).then(result => {
                 if(!(result.errors??false)){
-                    if(result.data.query.fixedText != null){
-                        setFixedText(result.data.query.fixedText)
+                    if(result.data.check.fixedText != null){
+                        setFixedText(result.data.check.fixedText)
                     }else{
                         setFixedText(sendText)
                     }
