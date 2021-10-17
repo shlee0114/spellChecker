@@ -6,7 +6,7 @@ import javax.persistence.Id
 @Entity(name="grammar_word_log")
 data class WordLog (
     @Id
-    val Id: String,
+    val Id: Long,
     val errorWord: String,
     val fixedWord: String,
     val fixedTime: String,
