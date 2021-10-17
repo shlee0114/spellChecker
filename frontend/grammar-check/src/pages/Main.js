@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../main.css'
 import url from "../apolloClient"
 import {grammar} from '../graphql/index'
@@ -10,9 +10,20 @@ export default function Main (){
     const [ textCount, setCount ] = useState(0);
     const [ sendText, setText ] = useState('');
     const [ resultist, setResult ] = useState([]);
+    const [ip, setIP] = useState('');
 
     var isCtrl = false
     var serverSendTimer = null
+
+    const getData = async () => {
+        const res = await axios.get('https://geolocation-db.com/json/')
+        console.log(res.data);
+        setIP(res.data.IPv4)
+    }
+
+    useEffect( () => {
+        getData()
+    }, [])
 
     const inputTextKeyUp = (e) => {
         if(e.which === 17) isCtrl=false;  
