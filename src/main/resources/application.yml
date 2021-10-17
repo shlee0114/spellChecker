@@ -10,8 +10,8 @@ spring:
         min-idle: 2
   datasource :
     url : jdbc:mariadb://1.230.255.115:3306/grammar_log
-    username : tlgj255
-    password : wntmd1201
+    username : carrot
+    password : market
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,6 +19,10 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+
+graphql:
+  servlet:
+    exception-handlers-enabled: true
 
 logging:
   level:
