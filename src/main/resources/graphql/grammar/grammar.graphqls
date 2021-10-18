@@ -6,3 +6,10 @@ type GrammarDomain{
 input GrammarRequest{
     text : String!
 }
+
+input LogRequest{
+    errorText: String!,
+    fixedText: String!,
+    fixedCount: Int,
+    ip: String
+}

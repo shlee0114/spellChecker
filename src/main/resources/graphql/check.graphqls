@@ -1,3 +1,7 @@
 type Query{
     check(text : GrammarRequest) : GrammarDomain!
 }
+
+type Mutation{
+    log(input : LogRequest!) : Boolean!
+}
