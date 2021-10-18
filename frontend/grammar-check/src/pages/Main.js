@@ -4,6 +4,8 @@ import url from "../apolloClient"
 import {grammar} from '../graphql/index'
 import axios from 'axios'
 
+require('dotenv').config()
+
 export default function Main (){
 
     const [ fixedText, setFixedText ] = useState('');
@@ -46,7 +48,7 @@ export default function Main (){
 
                 const afterText = inputArea.value
 
-                axios.post('http://zifori.me:8089/api/log', {errorText: beforeText, fixedText: afterText, fixedCount: resultist.length, ip: ip})
+                axios.post(`${process.env.SERVER_IP}/api/log`, {errorText: beforeText, fixedText: afterText, fixedCount: resultist.length, ip: ip})
             }else{
                 inputArea.value = inputArea.value.replace(new RegExp(sendText+ '$'), fixedText)
                 
@@ -87,7 +89,7 @@ export default function Main (){
 
         setResult([])
         if(totalYn){
-            axios.get(`http://zifori.me:8089/api/check?grammar=${inputArea.value}`)
+            axios.get(`${process.env.SERVER_IP}/api/check?grammar=${inputArea.value}`)
             .then(result => {
                 const list = result.data.response
                 const resultist = []
