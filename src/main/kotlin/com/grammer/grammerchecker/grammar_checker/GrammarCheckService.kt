@@ -11,7 +11,10 @@ import org.springframework.web.client.RestTemplate
 import java.util.*
 
 @Service
-class GrammarCheckService {
+class GrammarCheckService(
+    val wordLog: WordLogRepository,
+    val sentenceLog: SentenceLogRepository
+    ) {
 
     @Value("\${naver.url}")
     private lateinit var naverUrl : String
@@ -58,4 +61,13 @@ class GrammarCheckService {
             GrammarDto(errorText, fixedText)
         })
     }
+
+    fun insertWordLog(log: LogRequest) {
+        wordLog.save(log.toWordLogConverter())
+    }
+
+    fun insertSentenceLog(log: LogRequest) {
+        sentenceLog.save(log.toSentenceLogConverter())
+    }
+
 }

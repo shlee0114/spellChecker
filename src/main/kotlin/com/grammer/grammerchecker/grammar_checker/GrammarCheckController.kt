@@ -29,4 +29,19 @@ class GrammarCheckController(val service: GrammarCheckService) {
             throw Exception(e.message, e)
         }
     }
+
+    @PostMapping("log")
+    fun insertLog(
+        @Valid
+        @RequestBody
+        log: LogRequest
+    ) : ApiResult<Boolean> {
+        try{
+            service.insertSentenceLog(log)
+
+            return success(true)
+        }catch (e: Exception){
+            throw Exception(e.message, e)
+        }
+    }
 }
