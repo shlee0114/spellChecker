@@ -10,6 +10,15 @@ const grammarCheck = (text) => {
     `
 }
 
+const logInsert = (errorText, fixedText, ip) => {
+    return gql`
+    mutation log{
+        log(input: {errorText:"${errorText}", fixedText:"${fixedText}", fixedCount:0, ip:"${ip}"})
+    }
+    `
+}
+
 export default{
     GRAMMAR_CHECK : grammarCheck,
+    LOG_INSERT : logInsert,
 }
