@@ -35,11 +35,24 @@ export default function Main (){
         if(e.which === 17) isCtrl=true;  
         if(e.which === 192 && isCtrl === true) {  
             if(resultist.length !== 0){
-                resultist.map((result) => (
+                const beforeText = inputArea.value
+
+                resultist.map((result) => {
                     inputArea.value = inputArea.value.replaceAll(result.errorText, result.fixedText)
-                ))
+                    url.mutate({
+                        mutation:grammar.LOG_INSERT(result.errorText, result.fixedText, ip)
+                    })
+                })
+
+                const afterText = inputArea.value
+
+                axios.post('http://zifori.me:8089/api/log', {errorText: beforeText, fixedText: afterText, fixedCount: resultist.length, ip: ip})
             }else{
                 inputArea.value = inputArea.value.replace(new RegExp(sendText+ '$'), fixedText)
+                
+                url.mutate({
+                    mutation:grammar.LOG_INSERT(sendText, fixedText, ip)
+                })
             }
             return false;  
         }  
