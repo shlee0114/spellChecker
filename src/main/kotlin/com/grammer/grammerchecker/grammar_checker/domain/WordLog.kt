@@ -12,6 +12,7 @@ data class WordLog (
     val errorWord: String,
     val fixedWord: String,
     val ip: String,
+
     @Temporal(TemporalType.TIMESTAMP)
     val fixedTime: Date
 )
