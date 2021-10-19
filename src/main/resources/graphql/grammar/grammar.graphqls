@@ -3,6 +3,13 @@ type GrammarDto{
     fixedText : String
 }
 
+type LogDto{
+    error : String!,
+    fixed : String!,
+    count : String,
+    fixedTime : String
+}
+
 input GrammarRequest{
     text : String!
 }
