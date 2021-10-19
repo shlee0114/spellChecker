@@ -22,14 +22,14 @@ class GrammarLogTest {
     private lateinit var mockMvc : MockMvc
 
     @Autowired
-    fun setMockMvc(mockMvc: MockMvc){
+    fun setMockMvc(mockMvc: MockMvc) {
         this.mockMvc = mockMvc
     }
 
     @Test
     @Order(1)
     @DisplayName("등록 성공")
-    fun checkSuccess(){
+    fun checkSuccess() {
         val result = mockMvc.perform(
             MockMvcRequestBuilders.post("/api/log")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -44,7 +44,7 @@ class GrammarLogTest {
     @Test
     @Order(2)
     @DisplayName("등록 실패(최대 길이 500자 초과)")
-    fun checkFailedBecauseMaxLengthExceeded(){
+    fun checkFailedBecauseMaxLengthExceeded() {
         var result = mockMvc.perform(
             MockMvcRequestBuilders.post("/api/log")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -74,5 +74,17 @@ class GrammarLogTest {
         result.andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().is4xxClientError)
             .andExpect(MockMvcResultMatchers.jsonPath("$.success", Matchers.`is`(false)))
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("로그 조회 성공")
+    fun checkSuccessSearchLogList() {
+        val result = mockMvc.perform(MockMvcRequestBuilders.get("/api/log"))
+
+        result.andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.success", Matchers.`is`(true)))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.response").isNotEmpty)
     }
 }
