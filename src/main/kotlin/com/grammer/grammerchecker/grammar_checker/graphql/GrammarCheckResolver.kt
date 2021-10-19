@@ -13,14 +13,14 @@ import javax.validation.Valid
 @Validated
 class GrammarCheckResolver(val service: GrammarCheckService) : GraphQLQueryResolver {
 
-    fun check(@Valid text: GrammarRequest) : GrammarDomain {
+    fun check(@Valid text: GrammarRequest) : GrammarDto {
         try {
             val results = service.checkGrammar(text.text)
 
             return if (results.get().isEmpty()) {
-                GrammarDomain()
+                GrammarDto("", "")
             } else {
-                GrammarDomain().apply { converter(results.get()[0]) }
+                results.get()[0]
             }
         } catch (e: IllegalArgumentException) {
             throw GraphQLException(e.message)
