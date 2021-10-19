@@ -1,6 +1,8 @@
 package com.grammer.grammerchecker.grammar_checker
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.grammer.grammerchecker.grammar_checker.domain.SentenceLog
+import com.grammer.grammerchecker.grammar_checker.domain.WordLog
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -69,5 +71,9 @@ class GrammarCheckService(
     fun insertSentenceLog(log: LogRequest) {
         sentenceLog.save(log.toSentenceLogConverter())
     }
+
+    fun wordLogList() : MutableList<WordLog> = wordLog.findAll()
+
+    fun sentenceLogList() : MutableList<SentenceLog> = sentenceLog.findAll()
 
 }

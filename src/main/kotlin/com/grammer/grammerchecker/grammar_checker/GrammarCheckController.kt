@@ -44,4 +44,13 @@ class GrammarCheckController(val service: GrammarCheckService) {
             throw Exception(e.message, e)
         }
     }
+
+    @GetMapping("log")
+    fun logList() : ApiResult<List<LogDto>> {
+        try{
+            return success(service.sentenceLogList().map { LogDto(it) })
+        }catch (e: Exception){
+            throw Exception(e.message, e)
+        }
+    }
 }
