@@ -9,6 +9,7 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.RestTemplate
 import java.util.*
@@ -65,10 +66,12 @@ class GrammarCheckService(
         })
     }
 
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     fun insertWordLog(log: LogRequest) {
         wordLog.save(log.toWordLogConverter())
     }
 
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     fun insertSentenceLog(log: LogRequest) {
         sentenceLog.save(log.toSentenceLogConverter())
     }
