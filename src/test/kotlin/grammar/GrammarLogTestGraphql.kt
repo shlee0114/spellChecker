@@ -2,12 +2,16 @@ package grammar
 
 import com.grammer.grammerchecker.GrammerCheckerApplication
 import com.graphql.spring.boot.test.GraphQLTestTemplate
+import org.hamcrest.Matchers
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = [GrammerCheckerApplication::class])
 class GrammarLogTestGraphql {
@@ -36,5 +40,17 @@ class GrammarLogTestGraphql {
 
         Assertions.assertNull(result.get("data").get("log"))
         Assertions.assertNotNull(result.get("errors"))
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("로그 조회 성공")
+    fun checkSuccessSearchLogList() {
+        val response = this.graphQLTestTemplate.postForResource("graphQL/logList.graphql")
+        val result = response.readTree()
+
+
+        Assertions.assertNotNull(result.get("data").get("log"))
+        Assertions.assertNull(result.get("errors"))
     }
 }
