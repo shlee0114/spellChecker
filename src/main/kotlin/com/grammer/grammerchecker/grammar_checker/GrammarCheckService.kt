@@ -59,11 +59,13 @@ class GrammarCheckService(
         val originTextArray = originFullText.split("</span>")
         val fixedTextArray = fixedFullText.split("</span>")
 
-        return Optional.ofNullable(Array(errorCount){
-            val errorText = originTextArray[it].substring(originTextArray[it].indexOf(">") + 1)
-            val fixedText = fixedTextArray[it].substring(fixedTextArray[it].indexOf(">") + 1)
-            GrammarDto(errorText, fixedText)
-        })
+        return Optional.ofNullable(
+            Array(errorCount) {
+                val errorText = originTextArray[it].substring(originTextArray[it].indexOf(">") + 1)
+                val fixedText = fixedTextArray[it].substring(fixedTextArray[it].indexOf(">") + 1)
+                GrammarDto(errorText, fixedText)
+            }
+        )
     }
 
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
@@ -76,15 +78,15 @@ class GrammarCheckService(
         sentenceLog.save(log.toSentenceLogConverter())
     }
 
+    @Transactional(readOnly = true)
     fun wordLogList() : MutableList<WordLog> {
-
         val sort = Sort.by(Sort.Direction.DESC, "fixedTime")
 
         return wordLog.findAll(sort)
     }
 
+    @Transactional(readOnly = true)
     fun sentenceLogList() : MutableList<SentenceLog> {
-
         val sort = Sort.by(Sort.Direction.DESC, "fixedTime")
 
         return sentenceLog.findAll(sort)
