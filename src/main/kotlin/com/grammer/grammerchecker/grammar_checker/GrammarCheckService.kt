@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.grammer.grammerchecker.grammar_checker.domain.SentenceLog
 import com.grammer.grammerchecker.grammar_checker.domain.WordLog
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -72,8 +73,18 @@ class GrammarCheckService(
         sentenceLog.save(log.toSentenceLogConverter())
     }
 
-    fun wordLogList() : MutableList<WordLog> = wordLog.findAll()
+    fun wordLogList() : MutableList<WordLog> {
 
-    fun sentenceLogList() : MutableList<SentenceLog> = sentenceLog.findAll()
+        val sort = Sort.by(Sort.Direction.DESC, "fixedTime")
+
+        return wordLog.findAll(sort)
+    }
+
+    fun sentenceLogList() : MutableList<SentenceLog> {
+
+        val sort = Sort.by(Sort.Direction.DESC, "fixedTime")
+
+        return sentenceLog.findAll(sort)
+    }
 
 }
