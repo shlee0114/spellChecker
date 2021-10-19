@@ -1,5 +1,5 @@
 type Query{
-    check(text : GrammarRequest) : GrammarDomain!
+    check(text : GrammarRequest) : GrammarDto!
 }
 
 type Mutation{

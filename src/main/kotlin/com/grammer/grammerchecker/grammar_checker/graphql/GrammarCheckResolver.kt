@@ -1,6 +1,7 @@
 package com.grammer.grammerchecker.grammar_checker.graphql
 
 import com.grammer.grammerchecker.grammar_checker.GrammarCheckService
+import com.grammer.grammerchecker.grammar_checker.GrammarDto
 import com.grammer.grammerchecker.grammar_checker.GrammarRequest
 import graphql.GraphQLException
 import graphql.kickstart.tools.GraphQLQueryResolver

@@ -1,4 +1,4 @@
-type GrammarDomain{
+type GrammarDto{
     errorText : String!,
     fixedText : String
 }
