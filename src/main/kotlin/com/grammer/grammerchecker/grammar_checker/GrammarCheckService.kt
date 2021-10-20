@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.RestTemplate
+import reactor.core.publisher.Flux
 import java.util.*
 
 @Service
@@ -30,7 +31,7 @@ class GrammarCheckService(
     private lateinit var naverReferer : String
 
     @Transactional(readOnly = true)
-    fun checkGrammar(grammar: String = "") : Optional<Array<GrammarDto>>{
+    fun checkGrammar(grammar: String = "") : Flux<GrammarDto>{
         val header = HttpHeaders()
         header.set("user-gent", naverUserGent)
         header.set("referer", naverReferer)
@@ -59,8 +60,8 @@ class GrammarCheckService(
         val originTextArray = originFullText.split("</span>")
         val fixedTextArray = fixedFullText.split("</span>")
 
-        return Optional.ofNullable(
-            Array(errorCount) {
+        return Flux.fromIterable(
+            MutableList(errorCount) {
                 val errorText = originTextArray[it].substring(originTextArray[it].indexOf(">") + 1)
                 val fixedText = fixedTextArray[it].substring(fixedTextArray[it].indexOf(">") + 1)
                 GrammarDto(errorText, fixedText)
@@ -79,14 +80,14 @@ class GrammarCheckService(
     }
 
     @Transactional(readOnly = true)
-    fun wordLogList() : MutableList<WordLog> {
+    fun wordLogList() : Flux<WordLog> {
         val sort = Sort.by(Sort.Direction.DESC, "fixedTime")
 
         return wordLog.findAll(sort)
     }
 
     @Transactional(readOnly = true)
-    fun sentenceLogList() : MutableList<SentenceLog> {
+    fun sentenceLogList() : Flux<SentenceLog> {
         val sort = Sort.by(Sort.Direction.DESC, "fixedTime")
 
         return sentenceLog.findAll(sort)
