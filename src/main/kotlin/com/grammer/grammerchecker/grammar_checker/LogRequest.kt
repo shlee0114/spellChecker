@@ -5,6 +5,7 @@ import com.grammer.grammerchecker.grammar_checker.domain.WordLog
 import lombok.Data
 import org.apache.commons.lang3.builder.ToStringBuilder
 import org.apache.commons.lang3.builder.ToStringStyle
+import java.time.LocalDateTime
 import java.util.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
@@ -28,7 +29,7 @@ data class LogRequest(
         fixedSentence = fixedText,
         fixedWordCount = fixedCount,
         ip = ip,
-        fixedTime = Date()
+        fixedTime = LocalDateTime.now()
     )
 
     fun toWordLogConverter() = WordLog(
@@ -36,7 +37,7 @@ data class LogRequest(
         errorWord = errorText,
         fixedWord = fixedText,
         ip = ip,
-        fixedTime = Date()
+        fixedTime = LocalDateTime.now()
     )
 
     override fun toString() =
