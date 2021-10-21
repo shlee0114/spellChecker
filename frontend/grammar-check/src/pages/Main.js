@@ -138,6 +138,10 @@ export default function Main (){
                     </textarea>
                 </div>
             </section>
+            <section>
+                <button className="searchHistory" >문장 수정 기록</button>
+                <button className="checkSentence" >낱말 수정 기록</button>
+            </section>
         </article>
     )
 }
