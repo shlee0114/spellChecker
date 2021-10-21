@@ -1,19 +1,24 @@
 package com.grammer.grammerchecker.grammar_checker.domain
 
-import org.springframework.data.jpa.repository.Temporal
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Column
+import org.springframework.data.relational.core.mapping.Table
+import java.time.LocalDateTime
 import java.util.*
-import javax.persistence.*
 
-@Entity(name="grammar_sentence_log")
+@Table("grammar_sentence_log")
 data class SentenceLog (
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val Id: Long,
+    @Column( "error_sentence")
     val errorSentence: String,
+    @Column( "fixed_sentence")
     val fixedSentence: String,
+    @Column( "fixed_word_count")
     val fixedWordCount: Int,
+    @Column( "ip")
     val ip: String,
 
-    @Temporal(TemporalType.TIMESTAMP)
-    val fixedTime: Date
+    @Column( "fixed_time")
+    val fixedTime: LocalDateTime = LocalDateTime.now()
 )
