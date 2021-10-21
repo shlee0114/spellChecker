@@ -1,25 +1,16 @@
-package com.grammer.grammerchecker.grammar_checker
+package com.grammer.grammerchecker.utils
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.grammer.grammerchecker.grammar_checker.domain.SentenceLog
-import com.grammer.grammerchecker.grammar_checker.domain.WordLog
+import com.grammer.grammerchecker.grammar_checker.GrammarDto
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.data.domain.Sort
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
-import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.RestTemplate
 import reactor.core.publisher.Flux
-import java.util.*
 
-@Service
-class GrammarCheckService(
-    val wordLog: WordLogRepository,
-    val sentenceLog: SentenceLogRepository
-    ) {
+class GrammarChecker {
 
     @Value("\${naver.url}")
     private lateinit var naverUrl : String
@@ -30,8 +21,7 @@ class GrammarCheckService(
     @Value("\${naver.referer}")
     private lateinit var naverReferer : String
 
-    @Transactional(readOnly = true)
-    fun checkGrammar(grammar: String = "") : Flux<GrammarDto>{
+    fun checkGrammar(grammar: String = "") : Flux<GrammarDto> {
         val header = HttpHeaders()
         header.set("user-gent", naverUserGent)
         header.set("referer", naverReferer)
@@ -68,29 +58,4 @@ class GrammarCheckService(
             }
         )
     }
-
-    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    fun insertWordLog(log: LogRequest) {
-        wordLog.save(log.toWordLogConverter())
-    }
-
-    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    fun insertSentenceLog(log: LogRequest) {
-        sentenceLog.save(log.toSentenceLogConverter())
-    }
-
-    @Transactional(readOnly = true)
-    fun wordLogList() : Flux<WordLog> {
-        val sort = Sort.by(Sort.Direction.DESC, "fixedTime")
-
-        return wordLog.findAll(sort)
-    }
-
-    @Transactional(readOnly = true)
-    fun sentenceLogList() : Flux<SentenceLog> {
-        val sort = Sort.by(Sort.Direction.DESC, "fixedTime")
-
-        return sentenceLog.findAll(sort)
-    }
-
 }

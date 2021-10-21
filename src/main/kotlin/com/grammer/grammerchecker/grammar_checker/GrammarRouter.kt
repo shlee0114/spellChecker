@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.server.coRouter
 
 
 @Configuration(proxyBeanMethods = false)
-class GrammarRouter(private val handler: GrammarHandler) {
+class GrammarRouter() {
 
     @Bean
     fun route() = coRouter {

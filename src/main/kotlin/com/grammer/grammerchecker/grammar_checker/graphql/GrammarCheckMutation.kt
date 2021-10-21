@@ -1,7 +1,6 @@
 package com.grammer.grammerchecker.grammar_checker.graphql
 
 import com.expediagroup.graphql.spring.operations.Mutation
-import com.grammer.grammerchecker.grammar_checker.GrammarCheckService
 import com.grammer.grammerchecker.grammar_checker.LogRequest
 import graphql.GraphQLException
 import org.springframework.stereotype.Component
