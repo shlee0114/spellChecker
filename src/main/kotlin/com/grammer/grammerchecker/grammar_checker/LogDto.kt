@@ -8,7 +8,7 @@ data class LogDto(
     val error : String,
     val fixed : String,
     val count : Int,
-    val fixedTime: Date
+    val fixedTime: String
 ) {
     constructor(source: SentenceLog) : this(
         source.errorSentence,

@@ -28,7 +28,7 @@ data class LogRequest(
         fixedSentence = fixedText,
         fixedWordCount = fixedCount,
         ip = ip,
-        fixedTime = Date()
+        fixedTime = Date().toString()
     )
 
     fun toWordLogConverter() = WordLog(
@@ -36,7 +36,7 @@ data class LogRequest(
         errorWord = errorText,
         fixedWord = fixedText,
         ip = ip,
-        fixedTime = Date()
+        fixedTime = Date().toString()
     )
 
     override fun toString() =

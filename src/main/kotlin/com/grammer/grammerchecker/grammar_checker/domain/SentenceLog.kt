@@ -15,5 +15,5 @@ data class SentenceLog (
     val ip: String,
 
     @Temporal(TemporalType.TIMESTAMP)
-    val fixedTime: Date
+    val fixedTime: String
 )

@@ -14,5 +14,5 @@ data class WordLog (
     val ip: String,
 
     @Temporal(TemporalType.TIMESTAMP)
-    val fixedTime: Date
+    val fixedTime: String
 )
