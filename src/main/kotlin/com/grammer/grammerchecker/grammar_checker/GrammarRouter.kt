@@ -2,22 +2,24 @@ package com.grammer.grammerchecker.grammar_checker
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.MediaType
-import org.springframework.web.reactive.function.server.coRouter
+import org.springframework.web.reactive.function.server.RequestPredicates
+import org.springframework.web.reactive.function.server.RouterFunctions.nest
+import org.springframework.web.reactive.function.server.router
 
 
-@Configuration(proxyBeanMethods = false)
-class GrammarRouter() {
-
+@Configuration
+class GrammarRouter(private val handler: GrammarHandler) {
     @Bean
-    fun route() = coRouter {
-        "/api".nest{
-            accept(MediaType.APPLICATION_JSON).nest{
-                GET("/check", handler::checkAllSpell)
-                GET("/log", handler::logList)
+    fun routerFunction() = nest(
+        RequestPredicates.path("/api"),
+        router {
+            charset("UTF-8")
+            listOf(
+                GET("/check", handler::checkGrammar),
+                GET("/log", handler::logList),
                 POST("/log", handler::insertLog)
-            }
+            )
         }
-    }
+    )
 
 }
