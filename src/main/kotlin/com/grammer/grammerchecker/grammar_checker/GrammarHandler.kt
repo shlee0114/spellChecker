@@ -29,22 +29,18 @@ class GrammarHandler(
         )
 
     fun logList(req: ServerRequest): Mono<ServerResponse> = ok()
-        .contentType(MediaType.APPLICATION_JSON)
         .body(
             repository.findAll(
                 Sort.by(Sort.Direction.DESC, "fixedTime")
-            )
+            ).flatMap { Flux.just(LogDto(it)) }
         )
 
     fun insertLog(req: ServerRequest): Mono<ServerResponse> = ok()
-        .contentType(MediaType.APPLICATION_JSON)
         .body(
             req.bodyToMono(LogRequest::class.java)
                 .switchIfEmpty(Mono.empty())
                 .flatMap { log ->
-                    Mono.fromCallable {
                         repository.save(log.toSentenceLogConverter())
-                    }.then(Mono.just(log))
                 }
         )
 }

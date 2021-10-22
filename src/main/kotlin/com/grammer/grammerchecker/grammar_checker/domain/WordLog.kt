@@ -4,7 +4,6 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDateTime
-import java.util.*
 
 @Table("grammar_word_log")
 data class WordLog (
@@ -18,5 +17,5 @@ data class WordLog (
     val ip: String,
 
     @Column( "fixed_time")
-    val fixedTime: LocalDateTime = LocalDateTime.now()
+    val fixedTime: LocalDateTime
 )

@@ -9,19 +9,19 @@ data class LogDto(
     val error : String,
     val fixed : String,
     val count : Int,
-    val fixedTime: LocalDateTime
+    val fixedTime: String
 ) {
     constructor(source: SentenceLog) : this(
         source.errorSentence,
         source.fixedSentence,
         source.fixedWordCount,
-        source.fixedTime
+        source.fixedTime.toString()
     )
 
     constructor(source: WordLog) : this(
         source.errorWord,
         source.fixedWord,
         0,
-        source.fixedTime
+        source.fixedTime.toString()
     )
 }

@@ -1,14 +1,15 @@
 
 spring:
   r2dbc:
-    url: r2dbc:pool:mariadb://1.230.255.115.3306/grammar_log
-    username: carrot
-    password: market
-    pool:
-      initial-size: 100
-      max-size: 500
-      max-idle-time: 30m
-      validation-query: SELECT 1
+    url: r2dbc:mariadb://1.230.255.115:3306/grammar_log
+    username: grammar
+    password: log
+
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: DEBUG
 
 graphql:
   packages:
