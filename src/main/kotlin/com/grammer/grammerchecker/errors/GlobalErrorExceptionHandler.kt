@@ -36,9 +36,8 @@ class GlobalErrorExceptionHandler(
             request,
             ErrorAttributeOptions.defaults()
         )
-        val ex = getError(request) as ResponseStatusException
 
-        return ServerResponse.status(ex.status.value())
+         return ServerResponse.status(errorPropertiesMap["status"] as Int)
             .contentType(MediaType.APPLICATION_JSON)
             .body(BodyInserters.fromValue(errorPropertiesMap))
     }
