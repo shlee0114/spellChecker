@@ -10,7 +10,6 @@ import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.*
-import org.springframework.web.server.ResponseStatusException
 import reactor.core.publisher.Mono
 
 @Component
@@ -31,13 +30,15 @@ class GlobalErrorExceptionHandler(
             this::renderErrorResponse
         )
 
-    private fun renderErrorResponse(request: ServerRequest) : Mono<ServerResponse> {
+    private fun renderErrorResponse(request: ServerRequest): Mono<ServerResponse> {
         val errorPropertiesMap = getErrorAttributes(
             request,
             ErrorAttributeOptions.defaults()
         )
 
-         return ServerResponse.status(errorPropertiesMap["status"] as Int)
+        errorPropertiesMap["timestamp"] = errorPropertiesMap["timestamp"].toString()
+        
+        return ServerResponse.status(errorPropertiesMap["status"] as Int)
             .contentType(MediaType.APPLICATION_JSON)
             .body(BodyInserters.fromValue(errorPropertiesMap))
     }
