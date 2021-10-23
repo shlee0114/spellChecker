@@ -10,10 +10,6 @@ type LogDto{
     fixedTime : String
 }
 
-input GrammarRequest{
-    text : String!
-}
-
 input LogRequest{
     errorText: String!,
     fixedText: String!,

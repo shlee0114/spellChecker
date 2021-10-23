@@ -1,5 +1,5 @@
 type Query{
-    check(text : GrammarRequest) : GrammarDto!
+    check(text : String) : GrammarDto!
     log : [LogDto]!
 }
 
