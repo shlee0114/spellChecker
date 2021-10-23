@@ -6,22 +6,23 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
-import org.springframework.transaction.annotation.Transactional
+import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import reactor.core.publisher.Flux
 
+@Component
 class GrammarChecker {
 
     @Value("\${naver.url}")
-    private lateinit var naverUrl : String
+    private lateinit var naverUrl: String
 
     @Value("\${naver.user-gent}")
-    private lateinit var naverUserGent : String
+    private lateinit var naverUserGent: String
 
     @Value("\${naver.referer}")
-    private lateinit var naverReferer : String
+    private lateinit var naverReferer: String
 
-    fun checkGrammar(grammar: String = "") : Flux<GrammarDto> {
+    fun checkGrammar(grammar: String = ""): Flux<GrammarDto> {
         val header = HttpHeaders()
         header.set("user-gent", naverUserGent)
         header.set("referer", naverReferer)
@@ -33,7 +34,7 @@ class GrammarChecker {
 
         val objectMapper = ObjectMapper()
 
-        var jsonString = respEntity.body?:""
+        var jsonString = respEntity.body ?: ""
         val jsonOpen = jsonString.indexOf("{")
         val jsonClose = jsonString.lastIndex - 1
 

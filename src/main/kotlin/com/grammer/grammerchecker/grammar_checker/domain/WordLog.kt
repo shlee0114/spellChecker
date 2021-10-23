@@ -6,16 +6,16 @@ import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDateTime
 
 @Table("grammar_word_log")
-data class WordLog (
+data class WordLog(
     @Id
     val Id: Long,
     @Column("error_word")
     val errorWord: String,
-    @Column( "fixed_word")
+    @Column("fixed_word")
     val fixedWord: String,
-    @Column( "ip")
+    @Column("ip")
     val ip: String,
 
-    @Column( "fixed_time")
+    @Column("fixed_time")
     val fixedTime: LocalDateTime
 )
