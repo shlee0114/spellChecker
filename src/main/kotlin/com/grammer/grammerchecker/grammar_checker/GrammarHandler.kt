@@ -19,7 +19,7 @@ class GrammarHandler(
     ) {
 
     fun checkGrammar(req: ServerRequest): Mono<ServerResponse> = ok()
-        .body<Flux<GrammarDto>>(
+        .body(
             checker.checkGrammar(
                 req.queryParam("grammar")
                     .filter(Objects::nonNull)
