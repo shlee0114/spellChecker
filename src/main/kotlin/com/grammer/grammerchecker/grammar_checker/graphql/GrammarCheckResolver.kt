@@ -1,11 +1,11 @@
 package com.grammer.grammerchecker.grammar_checker.graphql
 
-import com.expediagroup.graphql.spring.operations.Query
 import com.grammer.grammerchecker.grammar_checker.GrammarDto
 import com.grammer.grammerchecker.grammar_checker.LogDto
+import com.grammer.grammerchecker.grammar_checker.LogRequest
 import com.grammer.grammerchecker.grammar_checker.WordLogRepository
 import com.grammer.grammerchecker.utils.GrammarChecker
-import graphql.GraphQLException
+import graphql.kickstart.tools.GraphQLQueryResolver
 import kotlinx.coroutines.reactive.awaitFirst
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono
 class GrammarCheckResolver(
     private val repository: WordLogRepository,
     private val checker: GrammarChecker
-) : Query {
+) : GraphQLQueryResolver {
 
     suspend fun check(text: String): GrammarDto =
         checker.checkGrammar(text)
@@ -35,4 +35,9 @@ class GrammarCheckResolver(
             Flux.just(LogDto(it))
         }.collectList()
             .awaitFirst()
+
+
+    suspend fun log(log: LogRequest): Boolean =
+        repository.save(log.toWordLogConverter())
+            .thenReturn(true).awaitFirst()
 }

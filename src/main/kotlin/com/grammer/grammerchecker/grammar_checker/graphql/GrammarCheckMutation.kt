@@ -1,21 +1,16 @@
 package com.grammer.grammerchecker.grammar_checker.graphql
 
-import com.expediagroup.graphql.spring.operations.Mutation
 import com.grammer.grammerchecker.grammar_checker.LogRequest
-import graphql.GraphQLException
-import org.springframework.stereotype.Component
-import javax.validation.Valid
+import com.grammer.grammerchecker.grammar_checker.WordLogRepository
+import graphql.kickstart.tools.GraphQLMutationResolver
+import kotlinx.coroutines.reactive.awaitFirst
+import org.springframework.stereotype.Controller
 
-@Component
-class GrammarCheckMutation(val service: GrammarCheckService) : Mutation {
+@Controller
+class GrammarCheckMutation(private val repository: WordLogRepository) : GraphQLMutationResolver {
 
-    fun log(@Valid log: LogRequest) : Boolean{
-        try {
-            service.insertWordLog(log)
 
-            return true
-        } catch (e: Exception) {
-            throw GraphQLException(e.message)
-        }
-    }
+    suspend fun log(log: LogRequest): Boolean =
+        repository.save(log.toWordLogConverter())
+            .thenReturn(true).awaitFirst()
 }

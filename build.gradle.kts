@@ -36,7 +36,7 @@ dependencies {
     implementation("org.glassfish:jakarta.el:3.0.3")
 
     //graghql
-    implementation("com.expediagroup:graphql-kotlin-spring-server:3.6.8")
+    implementation ("com.graphql-java-kickstart:graphql-spring-boot-starter:12.0.0")
 
     //webflux
     implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
