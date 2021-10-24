@@ -5,38 +5,32 @@ import com.grammer.grammerchecker.grammar_checker.domain.WordLog
 import lombok.Data
 import org.apache.commons.lang3.builder.ToStringBuilder
 import org.apache.commons.lang3.builder.ToStringStyle
-import java.util.*
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.Size
+import java.time.Clock
+import java.time.LocalDateTime
 
 @Data
 data class LogRequest(
-    @get:NotBlank(message = "errorText must be provided")
-    @get:Size(message = "errorText must be less than 500", max=500)
     val errorText: String,
-
-    @get:NotBlank(message = "fixedText must be provided")
-    @get:Size(message = "fixedText must be less than 500", max=500)
     val fixedText: String,
     val fixedCount: Int = 0,
     val ip: String = ""
 ) {
 
     fun toSentenceLogConverter() = SentenceLog(
-        Id=0,
+        Id = 0,
         errorSentence = errorText,
         fixedSentence = fixedText,
         fixedWordCount = fixedCount,
         ip = ip,
-        fixedTime = Date().toString()
+        fixedTime = LocalDateTime.now(Clock.systemUTC())
     )
 
     fun toWordLogConverter() = WordLog(
-        Id=0,
+        Id = 0,
         errorWord = errorText,
         fixedWord = fixedText,
         ip = ip,
-        fixedTime = Date().toString()
+        fixedTime = LocalDateTime.now(Clock.systemUTC())
     )
 
     override fun toString() =

@@ -1,5 +1,5 @@
 {
-    query:check(text : {text:""}){
+    query:check(text:""){
         errorText
         fixedText
     }

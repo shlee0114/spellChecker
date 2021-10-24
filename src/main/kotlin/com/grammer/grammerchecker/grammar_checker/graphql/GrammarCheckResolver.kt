@@ -1,38 +1,43 @@
 package com.grammer.grammerchecker.grammar_checker.graphql
 
-import com.grammer.grammerchecker.grammar_checker.GrammarCheckService
 import com.grammer.grammerchecker.grammar_checker.GrammarDto
-import com.grammer.grammerchecker.grammar_checker.GrammarRequest
 import com.grammer.grammerchecker.grammar_checker.LogDto
-import graphql.GraphQLException
+import com.grammer.grammerchecker.grammar_checker.LogRequest
+import com.grammer.grammerchecker.grammar_checker.WordLogRepository
+import com.grammer.grammerchecker.utils.GrammarChecker
 import graphql.kickstart.tools.GraphQLQueryResolver
+import kotlinx.coroutines.reactive.awaitFirst
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
-import org.springframework.validation.annotation.Validated
-import javax.validation.Valid
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @Component
-@Validated
-class GrammarCheckResolver(val service: GrammarCheckService) : GraphQLQueryResolver {
+class GrammarCheckResolver(
+    private val repository: WordLogRepository,
+    private val checker: GrammarChecker
+) : GraphQLQueryResolver {
 
-    fun check(@Valid text: GrammarRequest) : GrammarDto {
-        try {
-            val results = service.checkGrammar(text.text)
-
-            return if (results.get().isEmpty()) {
-                GrammarDto("", "")
-            } else {
-                results.get()[0]
+    suspend fun check(text: String): GrammarDto =
+        checker.checkGrammar(text)
+            .collectList()
+            .flatMap {
+            if(it.isEmpty()){
+                Mono.empty<GrammarDto>()
             }
-        } catch (e: IllegalArgumentException) {
-            throw GraphQLException(e.message)
-        }
-    }
+            Mono.just(it[0])
+        }.awaitFirst()
 
-    fun log() : List<LogDto> {
-        try {
-            return service.wordLogList().map { LogDto(it) }
-        } catch (e: IllegalArgumentException) {
-            throw GraphQLException(e.message)
-        }
-    }
+    suspend fun log(): List<LogDto> =
+        repository.findAll(
+            Sort.by(Sort.Direction.DESC, "fixedTime")
+        ).flatMap {
+            Flux.just(LogDto(it))
+        }.collectList()
+            .awaitFirst()
+
+
+    suspend fun log(log: LogRequest): Boolean =
+        repository.save(log.toWordLogConverter())
+            .thenReturn(true).awaitFirst()
 }

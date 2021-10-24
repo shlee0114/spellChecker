@@ -1,19 +1,19 @@
 package com.grammer.grammerchecker.config
 
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.servlet.config.annotation.CorsRegistry
-import org.springframework.web.servlet.config.annotation.EnableWebMvc
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import org.springframework.web.reactive.config.CorsRegistry
+import org.springframework.web.reactive.config.EnableWebFlux
+import org.springframework.web.reactive.config.WebFluxConfigurer
 
 
-@EnableWebMvc
+@EnableWebFlux
 @Configuration
-class WebConfig : WebMvcConfigurer{
+class WebConfig : WebFluxConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         registry
             .addMapping("/**")
             .allowedHeaders("*")
-            .allowedOrigins("http://zifori.me:3000")
+            .allowedOrigins("http://localhost:3000")
             .allowedMethods("*")
             .maxAge(1800)
             .allowCredentials(false)
