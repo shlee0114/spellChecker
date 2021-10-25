@@ -24,13 +24,15 @@ class LogValidator : Validator {
         if (request.errorText.trim().length > 500) {
             errors.rejectValue(
                 "errorText",
-                "errorText must be less than 500")
+                "errorText must be less than 500"
+            )
         }
 
         if (request.fixedText.trim().length > 500) {
             errors.rejectValue(
                 "fixedText",
-                "fixedText must be less than 500")
+                "fixedText must be less than 500"
+            )
         }
     }
 }
