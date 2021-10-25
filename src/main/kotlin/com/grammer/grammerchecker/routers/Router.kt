@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.server.router
 
 
 @Configuration
-class GrammarRouter(
+class Router(
     private val grammarHandler: GrammarHandler,
     private val logHandler: LogHandler
     ) {
