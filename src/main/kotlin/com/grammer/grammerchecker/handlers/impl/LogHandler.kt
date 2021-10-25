@@ -1,4 +1,4 @@
-package com.grammer.grammerchecker.handlers
+package com.grammer.grammerchecker.handlers.impl
 
 import com.grammer.grammerchecker.model.dto.LogDto
 import com.grammer.grammerchecker.handlers.repository.SentenceLogRepository

@@ -1,4 +1,4 @@
-package com.grammer.grammerchecker.handlers
+package com.grammer.grammerchecker.handlers.impl
 
 import com.grammer.grammerchecker.utils.ApiUtils
 import com.grammer.grammerchecker.utils.GrammarChecker
