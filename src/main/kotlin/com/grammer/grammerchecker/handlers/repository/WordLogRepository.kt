@@ -1,6 +1,6 @@
-package com.grammer.grammerchecker.grammar_checker.repository
+package com.grammer.grammerchecker.handlers.repository
 
-import com.grammer.grammerchecker.grammar_checker.domain.WordLog
+import com.grammer.grammerchecker.model.domain.WordLog
 import org.springframework.data.repository.reactive.ReactiveSortingRepository
 
 interface WordLogRepository : ReactiveSortingRepository<WordLog, Long> {

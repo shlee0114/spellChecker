@@ -1,4 +1,4 @@
-package com.grammer.grammerchecker.grammar_checker.domain
+package com.grammer.grammerchecker.model.domain
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column

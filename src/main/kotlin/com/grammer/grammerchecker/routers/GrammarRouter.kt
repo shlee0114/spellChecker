@@ -1,5 +1,7 @@
-package com.grammer.grammerchecker.grammar_checker
+package com.grammer.grammerchecker.routers
 
+import com.grammer.grammerchecker.handlers.GrammarHandler
+import com.grammer.grammerchecker.handlers.LogHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.server.RequestPredicates

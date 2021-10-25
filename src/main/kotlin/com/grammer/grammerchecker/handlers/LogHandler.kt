@@ -1,8 +1,8 @@
-package com.grammer.grammerchecker.grammar_checker
+package com.grammer.grammerchecker.handlers
 
-import com.grammer.grammerchecker.grammar_checker.dto.LogDto
-import com.grammer.grammerchecker.grammar_checker.repository.SentenceLogRepository
-import com.grammer.grammerchecker.grammar_checker.request.LogRequest
+import com.grammer.grammerchecker.model.dto.LogDto
+import com.grammer.grammerchecker.handlers.repository.SentenceLogRepository
+import com.grammer.grammerchecker.model.request.LogRequest
 import com.grammer.grammerchecker.utils.ApiUtils
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
@@ -34,7 +34,6 @@ class LogHandler(private val repository: SentenceLogRepository) {
             req.bodyToMono(LogRequest::class.java)
                 .switchIfEmpty(Mono.empty())
                 .flatMap { log ->
-
                     repository.save(log.toSentenceLogConverter())
                 }
         )

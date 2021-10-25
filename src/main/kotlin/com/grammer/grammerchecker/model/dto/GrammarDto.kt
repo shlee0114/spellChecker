@@ -1,4 +1,4 @@
-package com.grammer.grammerchecker.grammar_checker.dto
+package com.grammer.grammerchecker.model.dto
 
 data class GrammarDto(
     var errorText: String,

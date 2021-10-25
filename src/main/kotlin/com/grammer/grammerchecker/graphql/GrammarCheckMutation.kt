@@ -1,7 +1,7 @@
-package com.grammer.grammerchecker.grammar_checker.graphql
+package com.grammer.grammerchecker.graphql
 
-import com.grammer.grammerchecker.grammar_checker.request.LogRequest
-import com.grammer.grammerchecker.grammar_checker.repository.WordLogRepository
+import com.grammer.grammerchecker.model.request.LogRequest
+import com.grammer.grammerchecker.handlers.repository.WordLogRepository
 import graphql.kickstart.tools.GraphQLMutationResolver
 import kotlinx.coroutines.reactive.awaitFirst
 import org.springframework.stereotype.Controller

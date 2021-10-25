@@ -1,6 +1,6 @@
 package com.grammer.grammerchecker.utils
 
-import com.grammer.grammerchecker.grammar_checker.dto.GrammarDto
+import com.grammer.grammerchecker.model.dto.GrammarDto
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
