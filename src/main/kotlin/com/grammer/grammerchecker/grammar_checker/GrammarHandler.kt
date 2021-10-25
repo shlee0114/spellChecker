@@ -1,5 +1,6 @@
 package com.grammer.grammerchecker.grammar_checker
 
+import com.grammer.grammerchecker.grammar_checker.request.LogRequest
 import com.grammer.grammerchecker.utils.ApiUtils
 import com.grammer.grammerchecker.utils.GrammarChecker
 import org.springframework.data.domain.Sort
