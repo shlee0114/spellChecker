@@ -1,4 +1,4 @@
-package com.grammer.grammerchecker.model.request
+package com.grammer.grammerchecker.model.dto.request
 
 import com.grammer.grammerchecker.model.domain.SentenceLog
 import com.grammer.grammerchecker.model.domain.WordLog
