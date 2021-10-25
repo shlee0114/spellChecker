@@ -1,11 +1,10 @@
 package com.grammer.grammerchecker.utils
 
-import com.grammer.grammerchecker.grammar_checker.GrammarDto
+import com.grammer.grammerchecker.grammar_checker.dto.GrammarDto
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
 
 @Component
 class GrammarChecker {

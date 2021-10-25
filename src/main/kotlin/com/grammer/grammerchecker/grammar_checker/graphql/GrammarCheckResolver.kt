@@ -1,9 +1,9 @@
 package com.grammer.grammerchecker.grammar_checker.graphql
 
-import com.grammer.grammerchecker.grammar_checker.GrammarDto
-import com.grammer.grammerchecker.grammar_checker.LogDto
+import com.grammer.grammerchecker.grammar_checker.dto.GrammarDto
+import com.grammer.grammerchecker.grammar_checker.dto.LogDto
 import com.grammer.grammerchecker.grammar_checker.request.LogRequest
-import com.grammer.grammerchecker.grammar_checker.WordLogRepository
+import com.grammer.grammerchecker.grammar_checker.repository.WordLogRepository
 import com.grammer.grammerchecker.utils.GrammarChecker
 import graphql.kickstart.tools.GraphQLQueryResolver
 import kotlinx.coroutines.reactive.awaitFirst

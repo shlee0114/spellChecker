@@ -1,4 +1,4 @@
-package com.grammer.grammerchecker.grammar_checker
+package com.grammer.grammerchecker.grammar_checker.dto
 
 import com.grammer.grammerchecker.grammar_checker.domain.SentenceLog
 import com.grammer.grammerchecker.grammar_checker.domain.WordLog
