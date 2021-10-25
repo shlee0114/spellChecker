@@ -1,11 +1,14 @@
 package com.grammer.grammerchecker.errors
 
 import com.grammer.grammerchecker.utils.ApiUtils
+import com.grammer.grammerchecker.utils.ErrorUtils
+import io.netty.handler.codec.http.HttpResponseStatus
 import org.springframework.boot.autoconfigure.web.WebProperties
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.reactive.error.ErrorAttributes
 import org.springframework.context.ApplicationContext
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.stereotype.Component
@@ -30,20 +33,17 @@ class GlobalErrorExceptionHandler(
             this::renderErrorResponse
         )
 
-    private fun renderErrorResponse(request: ServerRequest): Mono<ServerResponse> {
-        val errorPropertiesMap = getErrorAttributes(
-            request,
-            ErrorAttributeOptions.defaults()
-        )
-
-        errorPropertiesMap["timestamp"] = errorPropertiesMap["timestamp"].toString()
-
-        val result = Mono.just(
-            ApiUtils<Any>(success = false, error = errorPropertiesMap)
-        )
-
-        return ServerResponse.status(errorPropertiesMap["status"] as Int)
+    private fun renderErrorResponse(request: ServerRequest) =
+        ServerResponse.status(HttpStatus.BAD_REQUEST)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(result)
-    }
+            .body(
+                Mono.just(
+                    ApiUtils<Any>(
+                        success = false, error = ErrorUtils(
+                            message = getError(request).message ?: "",
+                            status = HttpStatus.BAD_REQUEST.value()
+                        )
+                    )
+                )
+            )
 }
