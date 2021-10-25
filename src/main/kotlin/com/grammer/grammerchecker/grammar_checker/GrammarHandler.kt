@@ -1,5 +1,6 @@
 package com.grammer.grammerchecker.grammar_checker
 
+import com.grammer.grammerchecker.utils.ApiUtils
 import com.grammer.grammerchecker.utils.GrammarChecker
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
@@ -16,7 +17,7 @@ import java.util.*
 class GrammarHandler(
     private val repository: SentenceLogRepository,
     private val checker: GrammarChecker
-    ) {
+) {
 
     fun checkGrammar(req: ServerRequest): Mono<ServerResponse> = ok()
         .body(
@@ -24,14 +25,26 @@ class GrammarHandler(
                 req.queryParam("grammar")
                     .filter(Objects::nonNull)
                     .orElse("")
-            )
+            ).collectList()
+                .flatMap {
+                    Mono.just(
+                        ApiUtils(response = it)
+                    )
+                }
         )
 
     fun logList(req: ServerRequest): Mono<ServerResponse> = ok()
         .body(
             repository.findAll(
                 Sort.by(Sort.Direction.DESC, "fixedTime")
-            ).flatMap { Flux.just(LogDto(it)) }
+            ).flatMap {
+                Flux.just(LogDto(it))
+            }.collectList()
+                .flatMap {
+                    Mono.just(
+                        ApiUtils(response = it)
+                    )
+                }
         )
 
     fun insertLog(req: ServerRequest): Mono<ServerResponse> = ok()
@@ -39,7 +52,7 @@ class GrammarHandler(
             req.bodyToMono(LogRequest::class.java)
                 .switchIfEmpty(Mono.empty())
                 .flatMap { log ->
-                        repository.save(log.toSentenceLogConverter())
+                    repository.save(log.toSentenceLogConverter())
                 }
         )
 }
