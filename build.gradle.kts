@@ -23,7 +23,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -31,19 +30,15 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.11")
     implementation("org.junit.jupiter:junit-jupiter-engine")
 
-    //validation
-    implementation("org.hibernate.validator:hibernate-validator:6.1.2.Final")
-    implementation("org.glassfish:jakarta.el:3.0.3")
-
     //graghql
     implementation ("com.graphql-java-kickstart:graphql-spring-boot-starter:12.0.0")
 
     //webflux
     implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation ("org.mariadb:r2dbc-mariadb:1.0.3")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     compileOnly("org.projectlombok:lombok")
-    runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation ("com.graphql-java-kickstart:graphql-spring-boot-starter-test:12.0.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
