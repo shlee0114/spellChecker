@@ -4,6 +4,8 @@ spring:
     url: r2dbc:mariadb://1.230.255.115:3306/grammar_log
     username: grammar
     password: log
+  main:
+    web-application-type: reactive
 
 logging:
   level:
