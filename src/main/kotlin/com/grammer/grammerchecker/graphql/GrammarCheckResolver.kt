@@ -5,6 +5,7 @@ import com.grammer.grammerchecker.model.dto.LogDto
 import com.grammer.grammerchecker.model.dto.request.LogRequest
 import com.grammer.grammerchecker.handlers.repository.WordLogRepository
 import com.grammer.grammerchecker.utils.GrammarChecker
+import com.grammer.grammerchecker.validator.GrammarValidator
 import graphql.kickstart.tools.GraphQLQueryResolver
 import kotlinx.coroutines.reactive.awaitFirst
 import org.springframework.data.domain.Sort
@@ -15,18 +16,21 @@ import reactor.core.publisher.Mono
 @Component
 class GrammarCheckResolver(
     private val repository: WordLogRepository,
-    private val checker: GrammarChecker
+    private val checker: GrammarChecker,
+    private val validator: GrammarValidator
 ) : GraphQLQueryResolver {
 
     suspend fun check(text: String): GrammarDto =
-        checker.checkGrammar(text)
-            .collectList()
+        Flux.just(text).flatMap {
+            validator.validate(it)
+            checker.checkGrammar(it)
+        }.collectList()
             .flatMap {
-            if(it.isEmpty()){
-                Mono.empty<GrammarDto>()
-            }
-            Mono.just(it[0])
-        }.awaitFirst()
+                if (it.isEmpty()) {
+                    Mono.empty<GrammarDto>()
+                }
+                Mono.just(it[0])
+            }.awaitFirst()
 
     suspend fun log(): List<LogDto> =
         repository.findAll(
