@@ -55,6 +55,8 @@ class LogHandler(
                             )
                         )
                     }
-                }
+                }.then(Mono.just(
+                    ApiUtils(response = true)
+                ))
         )
 }
