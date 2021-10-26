@@ -17,7 +17,4 @@ http://zifori.me:3000/
 1. spring boot + kotlin
 2. reactJS
 
-webflux를 사용했으며 
-api 서버 : graphql non blocking 방식으로 변경 및 test code 작성
-view 서버 : log list 출력
-기능만 남았습니다
+webflux 
