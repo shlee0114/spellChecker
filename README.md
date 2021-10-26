@@ -17,4 +17,7 @@ http://zifori.me:3000/
 1. spring boot + kotlin
 2. reactJS
 
-기본적인 RESTful과 graphQL에 집중했으며, kotlin 코드 컨벤션등 기본에 집중해서 개발했습니다.
+webflux를 사용했으며 
+api 서버 : graphql non blocking 방식으로 변경 및 test code 작성
+view 서버 : log list 출력
+기능만 남았습니다
