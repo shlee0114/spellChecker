@@ -12,10 +12,13 @@ logging:
     org:
       springframework:
         r2dbc: DEBUG
-
 graphql:
-  packages:
-    - "com.grammer.grammerchecker"
+  tools:
+    schema-location-pattern: "**/*.graphqls"
+    introspection-enabled: true
+  servlet:
+    mapping: /api/graphql
+    enabled: true
 
 server :
   port: 8089
