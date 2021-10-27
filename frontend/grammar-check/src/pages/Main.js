@@ -15,7 +15,7 @@ export default function Main (){
     const [ sendText, setText ] = useState('');
     const [ resultist, setResult ] = useState([]);
     const [ip, setIP] = useState('');
-    const serverIp = 'http://zifori.me/api/'
+    const serverIp = 'http://zifori.me:8089/api/'
 
     var isCtrl = false
     var serverSendTimer = null
