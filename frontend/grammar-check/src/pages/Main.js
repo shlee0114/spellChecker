@@ -46,18 +46,25 @@ export default function Main (){
                     inputArea.value = inputArea.value.replaceAll(result.errorText, result.fixedText)
                     url.mutate({
                         mutation:grammar.LOG_INSERT(result.errorText, result.fixedText, ip)
+                    }).catch(res => {
+                        console.log(res)
                     })
                 })
 
                 const afterText = inputArea.value
 
                 axios.post(`${serverIp}log`, 
-                {errorText: beforeText, fixedText: afterText, fixedCount: resultist.length, ip: ip})
+                {errorText: beforeText, fixedText: afterText, fixedCount: resultist.length, ip: ip}
+                ).catch(res => {
+                    console.log(res)
+                })
             }else{
                 inputArea.value = inputArea.value.replace(new RegExp(sendText+ '$'), fixedText)
                 
                 url.mutate({
                     mutation:grammar.LOG_INSERT(sendText, fixedText, ip)
+                }).catch(res => {
+                    console.log(res)
                 })
             }
             return false;  
