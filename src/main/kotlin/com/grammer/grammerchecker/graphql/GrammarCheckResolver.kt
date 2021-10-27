@@ -27,9 +27,10 @@ class GrammarCheckResolver(
         }.collectList()
             .flatMap {
                 if (it.isEmpty()) {
-                    Mono.empty<GrammarDto>()
+                    Mono.just(GrammarDto("",""))
+                }else{
+                    Mono.just(it[0])
                 }
-                Mono.just(it[0])
             }.awaitFirst()
 
     suspend fun log(): List<LogDto> =
