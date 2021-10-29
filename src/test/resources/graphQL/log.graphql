@@ -1,3 +1,0 @@
-mutation{
-    log(input:{errorText:"테스트", fixedText:"테스트", fixedCount:0, ip:"test"})
-}

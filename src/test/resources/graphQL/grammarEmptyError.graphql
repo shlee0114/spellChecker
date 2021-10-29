@@ -1,6 +1,0 @@
-{
-    query:check(text:""){
-        errorText
-        fixedText
-    }
-}

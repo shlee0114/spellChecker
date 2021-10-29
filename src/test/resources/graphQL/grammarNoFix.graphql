@@ -1,6 +1,0 @@
-{
-    query:check(text:"돼요"){
-        errorText
-        fixedText
-    }
-}

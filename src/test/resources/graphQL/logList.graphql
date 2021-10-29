@@ -1,8 +1,0 @@
-query{
-    log{
-        error,
-        fixed,
-        count,
-        fixedTime
-    }
-}
