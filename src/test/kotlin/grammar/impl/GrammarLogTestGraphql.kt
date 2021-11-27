@@ -1,4 +1,4 @@
-package grammar
+package grammar.impl
 
 import com.grammer.grammerchecker.GrammerCheckerApplication
 import org.apache.commons.lang3.RandomStringUtils
