@@ -3,6 +3,7 @@ package grammar.impl
 import com.grammer.grammerchecker.GrammerCheckerApplication
 import grammar.TestDefaultSetting
 import grammar.type.CheckType
+import grammar.type.GraphQLType
 import grammar.type.RequestMethodType
 import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import org.junit.jupiter.api.Test
@@ -52,6 +53,24 @@ class GrammarLogTest : TestDefaultSetting() {
             .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
     }
+
+    @Test
+    fun insertEmptyLog_throwException_fail() {
+        preWebClient(
+            value = "{\"errorText\":\"\",\"fixedText\":\"테스트\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}",
+            type = RequestMethodType.POST
+        )
+            .webClientCheck(CheckType.CLIENT_ERROR)
+            .jsonPath("$.success").isEqualTo(false)
+
+        preWebClient(
+            value = "{\"errorText\":\"테스트\",\"fixedText\":\"\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}",
+            type = RequestMethodType.POST
+        )
+            .webClientCheck(CheckType.CLIENT_ERROR)
+            .jsonPath("$.success").isEqualTo(false)
+    }
+
 
     @Test
     fun searchLog_returnValue_success() {
