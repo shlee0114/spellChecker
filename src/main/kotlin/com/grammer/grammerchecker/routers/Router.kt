@@ -1,7 +1,7 @@
 package com.grammer.grammerchecker.routers
 
-import com.grammer.grammerchecker.handlers.impl.GrammarHandler
-import com.grammer.grammerchecker.handlers.impl.LogHandler
+import com.grammer.grammerchecker.handlers.GrammarHandler
+import com.grammer.grammerchecker.handlers.LogHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
