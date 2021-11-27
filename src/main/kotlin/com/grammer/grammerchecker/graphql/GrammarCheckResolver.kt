@@ -2,7 +2,7 @@ package com.grammer.grammerchecker.graphql
 
 import com.grammer.grammerchecker.model.dto.GrammarDto
 import com.grammer.grammerchecker.model.dto.LogDto
-import com.grammer.grammerchecker.model.dto.request.LogRequest
+import com.grammer.grammerchecker.model.dto.LogRequest
 import com.grammer.grammerchecker.handlers.repository.WordLogRepository
 import com.grammer.grammerchecker.utils.GrammarChecker
 import com.grammer.grammerchecker.validator.GrammarValidator

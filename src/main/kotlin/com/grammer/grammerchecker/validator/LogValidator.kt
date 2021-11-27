@@ -1,6 +1,6 @@
 package com.grammer.grammerchecker.validator
 
-import com.grammer.grammerchecker.model.dto.request.LogRequest
+import com.grammer.grammerchecker.model.dto.LogRequest
 import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
 import org.springframework.validation.ValidationUtils

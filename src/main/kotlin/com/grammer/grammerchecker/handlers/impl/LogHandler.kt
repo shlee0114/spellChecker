@@ -2,7 +2,7 @@ package com.grammer.grammerchecker.handlers.impl
 
 import com.grammer.grammerchecker.handlers.repository.SentenceLogRepository
 import com.grammer.grammerchecker.model.dto.LogDto
-import com.grammer.grammerchecker.model.dto.request.LogRequest
+import com.grammer.grammerchecker.model.dto.LogRequest
 import com.grammer.grammerchecker.utils.ApiUtils
 import com.grammer.grammerchecker.validator.LogValidator
 import org.springframework.data.domain.Sort

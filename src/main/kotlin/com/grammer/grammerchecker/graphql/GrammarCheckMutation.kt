@@ -1,6 +1,6 @@
 package com.grammer.grammerchecker.graphql
 
-import com.grammer.grammerchecker.model.dto.request.LogRequest
+import com.grammer.grammerchecker.model.dto.LogRequest
 import com.grammer.grammerchecker.handlers.repository.WordLogRepository
 import com.grammer.grammerchecker.validator.LogValidator
 import graphql.kickstart.tools.GraphQLMutationResolver
