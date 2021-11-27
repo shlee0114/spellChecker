@@ -4,7 +4,7 @@ import com.grammer.grammerchecker.model.dto.GrammarDto
 import com.grammer.grammerchecker.model.dto.LogDto
 import com.grammer.grammerchecker.model.dto.LogRequest
 import com.grammer.grammerchecker.handlers.repository.WordLogRepository
-import com.grammer.grammerchecker.utils.GrammarChecker
+import com.grammer.grammerchecker.model.domain.WordLog
 import com.grammer.grammerchecker.validator.GrammarValidator
 import graphql.kickstart.tools.GraphQLQueryResolver
 import kotlinx.coroutines.reactive.awaitFirst
@@ -42,6 +42,6 @@ class GrammarCheckResolver(
             .awaitFirst()
 
     suspend fun log(log: LogRequest): Boolean =
-        repository.save(log.toWordLogConverter())
+        repository.save(WordLog(log))
             .thenReturn(true).awaitFirst()
 }

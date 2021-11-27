@@ -1,6 +1,7 @@
 package com.grammer.grammerchecker.handlers
 
 import com.grammer.grammerchecker.handlers.repository.SentenceLogRepository
+import com.grammer.grammerchecker.model.domain.SentenceLog
 import com.grammer.grammerchecker.model.dto.LogDto
 import com.grammer.grammerchecker.model.dto.LogRequest
 import com.grammer.grammerchecker.utils.ApiUtils
@@ -46,7 +47,7 @@ class LogHandler(
                     validator.validate(log, errors)
 
                     if (errors.allErrors.isEmpty()) {
-                        repository.save(log.toSentenceLogConverter())
+                        repository.save(SentenceLog(log))
                     } else {
                         error(
                             ResponseStatusException(

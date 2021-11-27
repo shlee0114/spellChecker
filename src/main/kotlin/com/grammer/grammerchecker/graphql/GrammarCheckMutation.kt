@@ -2,6 +2,7 @@ package com.grammer.grammerchecker.graphql
 
 import com.grammer.grammerchecker.model.dto.LogRequest
 import com.grammer.grammerchecker.handlers.repository.WordLogRepository
+import com.grammer.grammerchecker.model.domain.WordLog
 import com.grammer.grammerchecker.validator.LogValidator
 import graphql.kickstart.tools.GraphQLMutationResolver
 import kotlinx.coroutines.reactive.awaitFirst
@@ -23,7 +24,7 @@ class GrammarCheckMutation(
             validator.validate(it, errors)
 
             if (errors.allErrors.isEmpty()) {
-                repository.save(it.toWordLogConverter())
+                repository.save(WordLog(it))
             } else {
                 error(
                     ResponseStatusException(

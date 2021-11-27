@@ -1,21 +1,27 @@
 package com.grammer.grammerchecker.model.domain
 
+import com.grammer.grammerchecker.model.dto.LogRequest
 import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
+import java.time.Clock
 import java.time.LocalDateTime
+import javax.annotation.Generated
 
 @Table("grammar_word_log")
 data class WordLog(
     @Id
+    @Generated
     val Id: Long,
-    @Column("error_word")
     val errorWord: String,
-    @Column("fixed_word")
     val fixedWord: String,
-    @Column("ip")
     val ip: String,
-
-    @Column("fixed_time")
     val fixedTime: LocalDateTime
-)
+) {
+    constructor(log: LogRequest) : this(
+        Id = 0,
+        errorWord = log.errorText,
+        fixedWord = log.fixedText,
+        ip = log.ip,
+        fixedTime = LocalDateTime.now(Clock.systemUTC())
+    )
+}
