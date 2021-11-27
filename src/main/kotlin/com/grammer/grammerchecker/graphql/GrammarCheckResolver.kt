@@ -27,7 +27,7 @@ class GrammarCheckResolver(
         }.collectList()
             .flatMap {
                 if (it.isEmpty()) {
-                    Mono.just(GrammarDto("",""))
+                    Mono.just(GrammarDto())
                 }else{
                     Mono.just(it[0])
                 }
@@ -40,7 +40,6 @@ class GrammarCheckResolver(
             Flux.just(LogDto(it))
         }.collectList()
             .awaitFirst()
-
 
     suspend fun log(log: LogRequest): Boolean =
         repository.save(log.toWordLogConverter())
