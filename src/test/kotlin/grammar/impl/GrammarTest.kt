@@ -18,9 +18,7 @@ class GrammarTest : TestDefaultSetting() {
     override val uri: String = "/api/check"
 
     @Test
-    @Order(1)
-    @DisplayName("검색 성공")
-    fun checkSuccess() {
+    fun grammarCheck_returnValue_success() {
         preWebClient(value = "grammar=이거이렇게 안돼나요")
             .webClientCheck()
             .jsonPath("$.success").isEqualTo(true)
@@ -28,9 +26,7 @@ class GrammarTest : TestDefaultSetting() {
     }
 
     @Test
-    @Order(2)
-    @DisplayName("검색 성공(수정 없음)")
-    fun checkSuccessReturnIsNull() {
+    fun grammarCheck_returnEmptyValue_success() {
         preWebClient(value = "grammar=돼요")
             .webClientCheck()
             .jsonPath("$.success").isEqualTo(true)
@@ -38,9 +34,7 @@ class GrammarTest : TestDefaultSetting() {
     }
 
     @Test
-    @Order(3)
-    @DisplayName("검색 실패(최대 길이 500자 초과)")
-    fun checkFailedBecauseMaxLengthExceeded() {
+    fun overLengthGrammarCheck_throwException_fail() {
         preWebClient(value = "grammar=${randomAlphanumeric(501)}")
             .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
@@ -48,9 +42,7 @@ class GrammarTest : TestDefaultSetting() {
     }
 
     @Test
-    @Order(4)
-    @DisplayName("검색 실패(빈 텍스트 전달)")
-    fun checkFailedBecauseEmptyText() {
+    fun emptyGrammarCheck_throwException_fail() {
         preWebClient(value = "grammar=")
             .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)

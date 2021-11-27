@@ -20,7 +20,7 @@ class GrammarLogTest : TestDefaultSetting() {
     override val uri: String = "/api/log"
 
     @Test
-    fun checkSuccess() {
+    fun insertLog_returnTrue_success() {
         preWebClient(
             value = "{\"errorText\":\"되요\",\"fixedText\":\"돼요\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}",
             type = RequestMethodType.POST
@@ -30,7 +30,7 @@ class GrammarLogTest : TestDefaultSetting() {
     }
 
     @Test
-    fun checkFailedBecauseMaxLengthExceeded() {
+    fun insertOverLengthLog_throwException_fail() {
         preWebClient(
             value = "{\"errorText\":\"${randomAlphanumeric(501)}\",\"fixedText\":\"돼요\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}",
             type = RequestMethodType.POST
@@ -54,7 +54,7 @@ class GrammarLogTest : TestDefaultSetting() {
     }
 
     @Test
-    fun checkSuccessSearchLogList() {
+    fun searchLog_returnValue_success() {
         preWebClient()
             .webClientCheck()
             .jsonPath("$.success").isEqualTo(true)

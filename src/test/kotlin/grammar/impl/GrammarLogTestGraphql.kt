@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class GrammarLogTestGraphql : GraphQLTestDefaultSetting() {
 
     @Test
-    fun checkSuccess() {
+    fun insertLog_returnTrue_success() {
         preWebClient(
             value = "log(input:{errorText:\\\"테스트\\\", fixedText:\\\"테스트\\\", fixedCount:0, ip:\\\"test\\\"})",
             type = GraphQLType.MUTATION
@@ -28,7 +28,7 @@ class GrammarLogTestGraphql : GraphQLTestDefaultSetting() {
     }
 
     @Test
-    fun checkFailedBecauseMaxLengthExceeded() {
+    fun insertOverLengthLog_returnFalse_fail() {
         preWebClient(
             value = "log(input:{errorText:\\\"${randomAlphanumeric(501)}\\\", fixedText:\\\"테스트\\\", fixedCount:0, ip:\\\"test\\\"})",
             type = GraphQLType.MUTATION
@@ -63,7 +63,7 @@ class GrammarLogTestGraphql : GraphQLTestDefaultSetting() {
     }
 
     @Test
-    fun checkFailedBecauseEmpty() {
+    fun insertEmptyLog_returnFalse_fail() {
         preWebClient(
             value = "log(input:{errorText:\\\"\\\", fixedText:\\\"테스트\\\", fixedCount:0, ip:\\\"테스트\\\"})",
             type = GraphQLType.MUTATION
@@ -82,7 +82,7 @@ class GrammarLogTestGraphql : GraphQLTestDefaultSetting() {
     }
 
     @Test
-    fun checkSuccessSearchLogList() {
+    fun searchLog_returnValue_success() {
         preWebClient(value = "log{error,fixed,count,fixedTime}")
             .webClientCheck()
             .jsonPath("$.data.log").isArray

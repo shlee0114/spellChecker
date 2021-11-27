@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class GrammarTestGraphql : GraphQLTestDefaultSetting() {
 
     @Test
-    fun checkSuccess(){
+    fun grammarCheck_returnValue_success(){
         preWebClient(value = "check(text:\\\"되요\\\"){errorText fixedText}")
             .webClientCheck()
             .jsonPath("$.data.check.errorText").isEqualTo("되요")
@@ -23,7 +23,7 @@ class GrammarTestGraphql : GraphQLTestDefaultSetting() {
     }
 
     @Test
-    fun checkSuccessReturnIsNull(){
+    fun grammarCheck_returnEmptyValue_success(){
         preWebClient(value = "check(text:\\\"돼요\\\"){errorText fixedText}")
             .webClientCheck()
             .jsonPath("$.data.check.errorText").isEqualTo("")
@@ -31,7 +31,7 @@ class GrammarTestGraphql : GraphQLTestDefaultSetting() {
     }
 
     @Test
-    fun checkFailedBecauseMaxLengthExceeded(){
+    fun overLengthGrammarCheck_throwException_fail(){
         preWebClient(value = "check(text:\\\"${RandomStringUtils.randomAlphanumeric(501)}\\\"){errorText fixedText}")
             .webClientCheck()
             .jsonPath("$.data").doesNotExist()
@@ -39,7 +39,7 @@ class GrammarTestGraphql : GraphQLTestDefaultSetting() {
     }
 
     @Test
-    fun checkFailedBecauseEmptyText(){
+    fun emptyGrammarCheck_throwException_fail(){
         preWebClient(value = "check(text:\\\"\\\"){errorText fixedText}")
             .webClientCheck()
             .jsonPath("$.data").doesNotExist()
