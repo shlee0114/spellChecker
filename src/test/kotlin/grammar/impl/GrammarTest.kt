@@ -1,45 +1,28 @@
 package grammar.impl
 
 import com.grammer.grammerchecker.GrammerCheckerApplication
-import org.apache.commons.lang3.RandomStringUtils
+import grammar.TestDefaultSetting
+import grammar.type.CheckType
+import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import org.junit.jupiter.api.*
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.ApplicationContext
-import org.springframework.http.MediaType
-import org.springframework.test.web.reactive.server.WebTestClient
 
 @SpringBootTest(
     classes = [GrammerCheckerApplication::class],
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @AutoConfigureWebTestClient(timeout = "10000")
-class GrammarTest {
-    @Autowired
-    private lateinit var context: ApplicationContext
+class GrammarTest : TestDefaultSetting() {
 
-    private lateinit var webclient: WebTestClient
-
-    @BeforeEach
-    fun setUp() {
-        webclient = WebTestClient.bindToApplicationContext(context).build()
-    }
+    override val uri: String = "/api/check"
 
     @Test
     @Order(1)
     @DisplayName("검색 성공")
     fun checkSuccess() {
-        webclient.get().uri { builder ->
-            builder
-                .path("/api/check")
-                .queryParam("grammar", "이거이렇게 안돼나요")
-                .build()
-        }
-            .accept(MediaType.APPLICATION_JSON)
-            .exchange()
-            .expectStatus().isOk
-            .expectBody()
+        preWebClient(value = "grammar=이거이렇게 안돼나요")
+            .webClientCheck()
             .jsonPath("$.success").isEqualTo(true)
             .jsonPath("$.response").isNotEmpty
     }
@@ -48,16 +31,8 @@ class GrammarTest {
     @Order(2)
     @DisplayName("검색 성공(수정 없음)")
     fun checkSuccessReturnIsNull() {
-        webclient.get().uri { builder ->
-            builder
-                .path("/api/check")
-                .queryParam("grammar", "돼요")
-                .build()
-        }
-            .accept(MediaType.APPLICATION_JSON)
-            .exchange()
-            .expectStatus().isOk
-            .expectBody()
+        preWebClient(value = "grammar=돼요")
+            .webClientCheck()
             .jsonPath("$.success").isEqualTo(true)
             .jsonPath("$.response").isEmpty
     }
@@ -66,16 +41,8 @@ class GrammarTest {
     @Order(3)
     @DisplayName("검색 실패(최대 길이 500자 초과)")
     fun checkFailedBecauseMaxLengthExceeded() {
-        webclient.get().uri { builder ->
-            builder
-                .path("/api/check")
-                .queryParam("grammar", RandomStringUtils.randomAlphanumeric(501))
-                .build()
-        }
-            .accept(MediaType.APPLICATION_JSON)
-            .exchange()
-            .expectStatus().is4xxClientError
-            .expectBody()
+        preWebClient(value = "grammar=${randomAlphanumeric(501)}")
+            .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
             .jsonPath("$.response").isEmpty
     }
@@ -84,16 +51,8 @@ class GrammarTest {
     @Order(4)
     @DisplayName("검색 실패(빈 텍스트 전달)")
     fun checkFailedBecauseEmptyText() {
-        webclient.get().uri { builder ->
-            builder
-                .path("/api/check")
-                .queryParam("grammar", "")
-                .build()
-        }
-            .accept(MediaType.APPLICATION_JSON)
-            .exchange()
-            .expectStatus().is4xxClientError
-            .expectBody()
+        preWebClient(value = "grammar=")
+            .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
             .jsonPath("$.response").isEmpty
     }

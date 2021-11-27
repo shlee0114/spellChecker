@@ -1,18 +1,13 @@
 package grammar.impl
 
 import com.grammer.grammerchecker.GrammerCheckerApplication
-import org.apache.commons.lang3.RandomStringUtils
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Order
+import grammar.TestDefaultSetting
+import grammar.type.CheckType
+import grammar.type.RequestMethodType
+import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.ApplicationContext
-import org.springframework.http.MediaType
-import org.springframework.test.web.reactive.server.WebTestClient
-import org.springframework.web.reactive.function.BodyInserters
 
 
 @SpringBootTest(
@@ -20,75 +15,48 @@ import org.springframework.web.reactive.function.BodyInserters
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @AutoConfigureWebTestClient(timeout = "10000")
-class GrammarLogTest {
-    @Autowired
-    private lateinit var context: ApplicationContext
+class GrammarLogTest : TestDefaultSetting() {
 
-    private lateinit var webclient: WebTestClient
-
-    @BeforeEach
-    fun setUp() {
-        webclient = WebTestClient.bindToApplicationContext(context).build()
-    }
+    override val uri: String = "/api/log"
 
     @Test
-    @Order(1)
-    @DisplayName("등록 성공")
     fun checkSuccess() {
-        webclient.post().uri("/api/log")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .body(
-                BodyInserters.fromValue("{\"errorText\":\"되요\",\"fixedText\":\"돼요\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}")
-            ).exchange()
-            .expectStatus().isOk
-            .expectBody()
+        preWebClient(
+            value = "{\"errorText\":\"되요\",\"fixedText\":\"돼요\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}",
+            type = RequestMethodType.POST
+        )
+            .webClientCheck()
             .jsonPath("$.success").isEqualTo(true)
     }
 
     @Test
-    @Order(2)
-    @DisplayName("등록 실패(최대 길이 500자 초과)")
     fun checkFailedBecauseMaxLengthExceeded() {
-        webclient.post().uri("/api/log")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .body(
-                BodyInserters.fromValue("{\"errorText\":\"${RandomStringUtils.randomAlphanumeric(501)}\",\"fixedText\":\"돼요\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}")
-            ).exchange()
-            .expectStatus().is4xxClientError
-            .expectBody()
+        preWebClient(
+            value = "{\"errorText\":\"${randomAlphanumeric(501)}\",\"fixedText\":\"돼요\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}",
+            type = RequestMethodType.POST
+        )
+            .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
 
-        webclient.post().uri("/api/log")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .body(
-                BodyInserters.fromValue("{\"errorText\":\"돠요\",\"fixedText\":\"${RandomStringUtils.randomAlphanumeric(501)}\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}")
-            ).exchange()
-            .expectStatus().is4xxClientError
-            .expectBody()
+        preWebClient(
+            value = "{\"errorText\":\"돠요\",\"fixedText\":\"${randomAlphanumeric(501)}\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}",
+            type = RequestMethodType.POST
+        )
+            .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
 
-        webclient.post().uri("/api/log")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .body(
-                BodyInserters.fromValue("{\"errorText\":\"${RandomStringUtils.randomAlphanumeric(501)}\",\"fixedText\":\"${RandomStringUtils.randomAlphanumeric(501)}\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}")
-            ).exchange()
-            .expectStatus().is4xxClientError
-            .expectBody()
+        preWebClient(
+            value = "{\"errorText\":\"${randomAlphanumeric(501)}\",\"fixedText\":\"${randomAlphanumeric(501)}\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}",
+            type = RequestMethodType.POST
+        )
+            .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
     }
 
     @Test
-    @Order(3)
-    @DisplayName("로그 조회 성공")
     fun checkSuccessSearchLogList() {
-        webclient.get().uri("/api/log")
-            .exchange()
-            .expectStatus().isOk
-            .expectBody()
+        preWebClient()
+            .webClientCheck()
             .jsonPath("$.success").isEqualTo(true)
             .jsonPath("$.response").isNotEmpty
     }
