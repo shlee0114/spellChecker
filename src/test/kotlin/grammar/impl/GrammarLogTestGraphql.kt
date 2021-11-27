@@ -28,7 +28,7 @@ class GrammarLogTestGraphql : GraphQLTestDefaultSetting() {
     }
 
     @Test
-    fun insertOverLengthLog_returnFalse_fail() {
+    fun insertOverLengthLog_throwException_fail() {
         preWebClient(
             value = "log(input:{errorText:\\\"${randomAlphanumeric(501)}\\\", fixedText:\\\"테스트\\\", fixedCount:0, ip:\\\"test\\\"})",
             type = GraphQLType.MUTATION
@@ -63,7 +63,7 @@ class GrammarLogTestGraphql : GraphQLTestDefaultSetting() {
     }
 
     @Test
-    fun insertEmptyLog_returnFalse_fail() {
+    fun insertEmptyLog_throwException_fail() {
         preWebClient(
             value = "log(input:{errorText:\\\"\\\", fixedText:\\\"테스트\\\", fixedCount:0, ip:\\\"테스트\\\"})",
             type = GraphQLType.MUTATION
