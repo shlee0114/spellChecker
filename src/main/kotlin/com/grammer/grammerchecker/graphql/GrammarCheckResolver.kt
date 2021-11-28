@@ -5,7 +5,7 @@ import com.grammer.grammerchecker.model.dto.GrammarDto
 import com.grammer.grammerchecker.model.dto.LogDto
 import com.grammer.grammerchecker.model.dto.LogRequest
 import com.grammer.grammerchecker.model.domain.GrammarWordLog
-import com.grammer.grammerchecker.validator.GrammarValidator
+import com.grammer.grammerchecker.validator.impl.GrammarValidator
 import graphql.kickstart.tools.GraphQLQueryResolver
 import kotlinx.coroutines.reactive.awaitFirst
 import org.springframework.stereotype.Component

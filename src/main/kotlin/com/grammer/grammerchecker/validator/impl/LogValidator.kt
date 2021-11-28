@@ -1,4 +1,4 @@
-package com.grammer.grammerchecker.validator
+package com.grammer.grammerchecker.validator.impl
 
 import com.grammer.grammerchecker.model.dto.LogRequest
 import org.springframework.stereotype.Component

@@ -1,4 +1,4 @@
-package com.grammer.grammerchecker.validator
+package com.grammer.grammerchecker.validator.impl
 
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
