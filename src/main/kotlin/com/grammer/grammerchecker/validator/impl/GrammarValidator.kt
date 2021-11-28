@@ -16,20 +16,14 @@ class GrammarValidator : CommonValidator() {
     override fun validate(target: Any, errors: Errors) {
         val text = target as String
 
-        if(text.isBlank()) {
+        if (text.isBlank()) {
             error(
-                ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    ValidationText.invalidValue("grammar")
-                )
+                ValidationText.invalidValue("grammar")
             )
         }
-        if(text.length > 500) {
+        if (text.length > 500) {
             error(
-                ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    ValidationText.sizeLess("grammar", 500)
-                )
+                ValidationText.sizeLess("grammar", 500)
             )
         }
 
