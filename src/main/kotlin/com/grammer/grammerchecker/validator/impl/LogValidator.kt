@@ -1,7 +1,7 @@
 package com.grammer.grammerchecker.validator.impl
 
 import com.grammer.grammerchecker.model.dto.LogRequest
-import org.springframework.stereotype.Component
+import com.grammer.grammerchecker.validator.ValidationText
 import org.springframework.validation.Errors
 import org.springframework.validation.ValidationUtils
 import org.springframework.validation.Validator
@@ -13,10 +13,14 @@ class LogValidator : Validator {
 
     override fun validate(target: Any, errors: Errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(
-            errors, "errorText", "field.required"
+            errors,
+            "errorText",
+            ValidationText.invalidValue("errorText")
         )
         ValidationUtils.rejectIfEmptyOrWhitespace(
-            errors, "fixedText", "field.required"
+            errors,
+            "fixedText",
+            ValidationText.invalidValue("fixedText")
         )
 
         val request = target as LogRequest
@@ -24,14 +28,14 @@ class LogValidator : Validator {
         if (request.errorText.trim().length > 500) {
             errors.rejectValue(
                 "errorText",
-                "errorText must be less than 500"
+                ValidationText.sizeLess("errorText", 500)
             )
         }
 
         if (request.fixedText.trim().length > 500) {
             errors.rejectValue(
                 "fixedText",
-                "fixedText must be less than 500"
+                ValidationText.sizeLess("fixedText", 500)
             )
         }
     }
