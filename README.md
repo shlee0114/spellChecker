@@ -6,8 +6,7 @@
 링크에서 바로 확인 가능합니다. > 
 http://zifori.me:3000/
 
-기본 화면이며, 왼쪽에 텍스트를 입력하시면 자동으로 맞춤법을 검사해서 우측 textarea에 뿌려줍니다.
+Spring Framework + Kotlin, ReactJS를 사용하여 개발
 
-전체 검색은 하단의 버튼을 누를 시 전체 검색이 되며, 단일 검색과 동일하게 ctrl + `을 누를 시 우측의 맞춤법으로 변경됩니다.
+WebFlux를 사용하고 non-blocking한 프로그래밍을 하는 것과 기본 적인 에러 처리를 집중하여 개발
 
-![화면 캡처 2021-10-17 231000](https://user-images.githubusercontent.com/19691052/137631047-34050926-5682-4888-a8a2-8da9fd89b397.png)
