@@ -38,6 +38,7 @@ class GrammarLogTest : TestDefaultSetting() {
         )
             .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
+            .jsonPath("$.error.message").isEqualTo("'errorText' must be less than 500")
 
         preWebClient(
             value = "{\"errorText\":\"돠요\",\"fixedText\":\"${randomAlphanumeric(501)}\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}",
@@ -45,6 +46,7 @@ class GrammarLogTest : TestDefaultSetting() {
         )
             .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
+            .jsonPath("$.error.message").isEqualTo("'fixedText' must be less than 500")
 
         preWebClient(
             value = "{\"errorText\":\"${randomAlphanumeric(501)}\",\"fixedText\":\"${randomAlphanumeric(501)}\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}",
@@ -52,6 +54,7 @@ class GrammarLogTest : TestDefaultSetting() {
         )
             .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
+            .jsonPath("$.error.message").isEqualTo("'errorText' must be less than 500")
     }
 
     @Test
@@ -62,6 +65,7 @@ class GrammarLogTest : TestDefaultSetting() {
         )
             .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
+            .jsonPath("$.error.message").isEqualTo("invalid value 'errorText'")
 
         preWebClient(
             value = "{\"errorText\":\"테스트\",\"fixedText\":\"\",\"fixedCount\":1,\"ip\":\"123.123.123.123\"}",
@@ -69,6 +73,7 @@ class GrammarLogTest : TestDefaultSetting() {
         )
             .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
+            .jsonPath("$.error.message").isEqualTo("invalid value 'fixedText'")
     }
 
 

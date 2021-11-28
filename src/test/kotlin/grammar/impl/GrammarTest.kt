@@ -39,6 +39,7 @@ class GrammarTest : TestDefaultSetting() {
             .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
             .jsonPath("$.response").isEmpty
+            .jsonPath("$.error.message").isEqualTo("'grammar' must be less than 500")
     }
 
     @Test
@@ -47,5 +48,6 @@ class GrammarTest : TestDefaultSetting() {
             .webClientCheck(CheckType.CLIENT_ERROR)
             .jsonPath("$.success").isEqualTo(false)
             .jsonPath("$.response").isEmpty
+            .jsonPath("$.error.message").isEqualTo("invalid value 'grammar'")
     }
 }
