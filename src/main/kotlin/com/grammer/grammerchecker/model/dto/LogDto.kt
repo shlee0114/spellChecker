@@ -1,7 +1,7 @@
 package com.grammer.grammerchecker.model.dto
 
-import com.grammer.grammerchecker.model.domain.SentenceLog
-import com.grammer.grammerchecker.model.domain.WordLog
+import com.grammer.grammerchecker.model.domain.GrammarSentenceLog
+import com.grammer.grammerchecker.model.domain.GrammarWordLog
 
 data class LogDto(
     val error: String,
@@ -9,14 +9,14 @@ data class LogDto(
     val count: Int,
     val fixedTime: String
 ) {
-    constructor(source: SentenceLog) : this(
+    constructor(source: GrammarSentenceLog) : this(
         source.errorSentence,
         source.fixedSentence,
         source.fixedWordCount,
         source.fixedTime.toString()
     )
 
-    constructor(source: WordLog) : this(
+    constructor(source: GrammarWordLog) : this(
         source.errorWord,
         source.fixedWord,
         0,

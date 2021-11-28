@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 import javax.annotation.Generated
 
 @Table("grammar_sentence_log")
-data class SentenceLog(
+data class GrammarSentenceLog(
     @Id
     @Generated
     val Id: Long,
