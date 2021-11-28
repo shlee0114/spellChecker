@@ -2,10 +2,8 @@ package com.grammer.grammerchecker.validator.impl
 
 import com.grammer.grammerchecker.validator.CommonValidator
 import com.grammer.grammerchecker.validator.ValidationText
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
-import org.springframework.web.server.ResponseStatusException
 
 
 @Component
