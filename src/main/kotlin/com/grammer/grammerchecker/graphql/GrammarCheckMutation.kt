@@ -1,8 +1,8 @@
 package com.grammer.grammerchecker.graphql
 
+import com.grammer.grammerchecker.handlers.service.impl.GrammarGraphQLServiceImpl
 import com.grammer.grammerchecker.model.dto.LogRequest
-import com.grammer.grammerchecker.handlers.repository.WordLogRepository
-import com.grammer.grammerchecker.model.domain.WordLog
+import com.grammer.grammerchecker.model.domain.GrammarWordLog
 import com.grammer.grammerchecker.validator.LogValidator
 import graphql.kickstart.tools.GraphQLMutationResolver
 import kotlinx.coroutines.reactive.awaitFirst
@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono
 
 @Controller
 class GrammarCheckMutation(
-    private val repository: WordLogRepository,
+    private val service: GrammarGraphQLServiceImpl,
     private val validator: LogValidator
 ) : GraphQLMutationResolver {
 
@@ -24,12 +24,11 @@ class GrammarCheckMutation(
             validator.validate(it, errors)
 
             if (errors.allErrors.isEmpty()) {
-                repository.save(WordLog(it))
+                service.logSave(GrammarWordLog(it))
             } else {
                 error(
                     ResponseStatusException(
-                        HttpStatus.BAD_REQUEST
-                        , errors.allErrors.toString()
+                        HttpStatus.BAD_REQUEST, errors.allErrors.toString()
                     )
                 )
             }

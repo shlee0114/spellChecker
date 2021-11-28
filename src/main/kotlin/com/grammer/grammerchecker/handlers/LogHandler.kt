@@ -1,36 +1,35 @@
 package com.grammer.grammerchecker.handlers
 
-import com.grammer.grammerchecker.handlers.repository.SentenceLogRepository
-import com.grammer.grammerchecker.model.domain.SentenceLog
+import com.grammer.grammerchecker.handlers.service.impl.GrammarServiceImpl
+import com.grammer.grammerchecker.model.domain.GrammarSentenceLog
 import com.grammer.grammerchecker.model.dto.LogDto
 import com.grammer.grammerchecker.model.dto.LogRequest
 import com.grammer.grammerchecker.utils.ApiUtils
 import com.grammer.grammerchecker.validator.LogValidator
-import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
-import org.springframework.web.reactive.function.server.body
 import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.reactive.function.server.body
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import javax.annotation.Resource
 
 
 @Component
 class LogHandler(
-    private val repository: SentenceLogRepository,
-    private val validator: LogValidator
+    private val validator: LogValidator,
+    private val service: GrammarServiceImpl
 ) {
 
     fun logList(req: ServerRequest): Mono<ServerResponse> = ServerResponse.ok()
         .body(
-            repository.findAll(
-                Sort.by(Sort.Direction.DESC, "fixedTime")
-            ).flatMap {
-                Flux.just(LogDto(it))
-            }.collectList()
+            service.findAll()
+                .flatMap {
+                    Flux.just(LogDto(it))
+                }.collectList()
                 .flatMap {
                     Mono.just(
                         ApiUtils(response = it)
@@ -47,17 +46,18 @@ class LogHandler(
                     validator.validate(log, errors)
 
                     if (errors.allErrors.isEmpty()) {
-                        repository.save(SentenceLog(log))
+                        service.logSave(GrammarSentenceLog(log))
                     } else {
                         error(
                             ResponseStatusException(
-                                HttpStatus.BAD_REQUEST
-                                , errors.allErrors.toString()
+                                HttpStatus.BAD_REQUEST, errors.allErrors.toString()
                             )
                         )
                     }
-                }.then(Mono.just(
-                    ApiUtils(response = true)
-                ))
+                }.then(
+                    Mono.just(
+                        ApiUtils(response = true)
+                    )
+                )
         )
 }
