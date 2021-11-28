@@ -20,17 +20,7 @@ class GrammarCheckMutation(
 
     suspend fun log(log: LogRequest): Boolean =
         Mono.just(log).flatMap {
-            val errors = BeanPropertyBindingResult(it, LogRequest::class.java.name)
-            validator.validate(it, errors)
-
-            if (errors.allErrors.isEmpty()) {
-                service.logSave(GrammarWordLog(it))
-            } else {
-                error(
-                    ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, errors.allErrors.toString()
-                    )
-                )
-            }
+            validator.validationCheck(it)
+            service.logSave(GrammarWordLog(it))
         }.thenReturn(true).awaitFirst()
 }

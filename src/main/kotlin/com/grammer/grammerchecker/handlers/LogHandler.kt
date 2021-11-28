@@ -41,18 +41,8 @@ class LogHandler(
             req.bodyToMono(LogRequest::class.java)
                 .switchIfEmpty(Mono.empty())
                 .flatMap { log ->
-                    val errors = BeanPropertyBindingResult(log, LogRequest::class.java.name)
-                    validator.validate(log, errors)
-
-                    if (errors.allErrors.isEmpty()) {
-                        service.logSave(GrammarSentenceLog(log))
-                    } else {
-                        error(
-                            ResponseStatusException(
-                                HttpStatus.BAD_REQUEST, errors.allErrors.toString()
-                            )
-                        )
-                    }
+                    validator.validationCheck(log)
+                    service.logSave(GrammarSentenceLog(log))
                 }.then(
                     Mono.just(
                         ApiUtils(response = true)

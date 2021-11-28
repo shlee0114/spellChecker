@@ -4,8 +4,8 @@ import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.validation.Validator
 
 abstract class CommonValidator : Validator {
-    fun validationCheck(any: Any, name: String) {
-        val errors = BeanPropertyBindingResult(any, name)
+    fun validationCheck(any: Any) {
+        val errors = BeanPropertyBindingResult(any, any::class.java.name)
         validate(any, errors)
 
         if(errors.allErrors.isNotEmpty()) {

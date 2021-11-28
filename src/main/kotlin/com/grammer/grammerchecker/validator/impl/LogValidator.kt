@@ -1,13 +1,14 @@
 package com.grammer.grammerchecker.validator.impl
 
 import com.grammer.grammerchecker.model.dto.LogRequest
+import com.grammer.grammerchecker.validator.CommonValidator
 import com.grammer.grammerchecker.validator.ValidationText
+import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
 import org.springframework.validation.ValidationUtils
-import org.springframework.validation.Validator
 
 @Component
-class LogValidator : Validator {
+class LogValidator : CommonValidator() {
     override fun supports(clazz: Class<*>) =
         LogRequest::class.java.isAssignableFrom(clazz)
 

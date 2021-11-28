@@ -23,7 +23,7 @@ class GrammarHandler(
                 req.queryParam("grammar")
                     .orElse("")
             ).flatMap {
-                validator.validate(it)
+                validator.validationCheck(it)
                 service.checkGrammar(it)
             }.collectList()
                 .flatMap {

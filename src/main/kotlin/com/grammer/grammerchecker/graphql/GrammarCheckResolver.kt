@@ -20,7 +20,7 @@ class GrammarCheckResolver(
 
     suspend fun check(text: String): GrammarDto =
         Flux.just(text).flatMap {
-            validator.validate(it)
+            validator.validationCheck(it)
             service.checkGrammar(it)
         }.collectList()
             .flatMap {
