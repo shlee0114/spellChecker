@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Button } from "../common/Button";
 
 const Area = styled.article`
   width: 70%;
@@ -21,17 +20,7 @@ const TextArea = styled.textarea`
   font-family: 'noto sans KR';
 `;
 
-const TextUtilArea = styled.div`
-  bottom: 0;
-  display:flex;
-  float: right
-`
-const TextCounter = styled.label`
-  margin: auto 10px;
-`
-
-export const InputTextArea = () => {
-    const [ textCount, setCount ] = useState(0);
+export const InputTextArea = ({setCount}) => {
     const [ text, setText ] = useState("");
     var isCtrl = false
 
@@ -64,10 +53,6 @@ export const InputTextArea = () => {
         onChange={inputTextChange}
         value={text}
       ></TextArea>
-      <TextUtilArea>
-    <TextCounter>{textCount}/500</TextCounter>
-    <Button>검사</Button>
-      </TextUtilArea>
     </Area>
   );
 };
