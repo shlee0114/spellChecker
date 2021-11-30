@@ -6,12 +6,10 @@ import {Header} from './components/header/Header'
 function App() {
 
     return (
-        <body>
-          <Header/>
           <BrowserRouter>
+            <Header/>
             <Route exact path="/" component={Main}/>
           </BrowserRouter>
-        </body>
     );
 }
 
