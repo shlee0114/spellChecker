@@ -47,6 +47,11 @@ const QuickChecker = styled.label`
 `;
 
 export const InputTextArea = () => {
+  const ENTER_KEY_CODE = 32
+  const CTRL_KEY_CODE = 17
+  const SINGLE_QUOTATION_KEY_CODE = 192
+  const BACKSPACE_KEY_CODE = 8
+
   const [textCount, setCount] = useState(0);
   const [text, setText] = useState("");
   const [fixedText, setFixedText] = useState("");
@@ -57,12 +62,16 @@ export const InputTextArea = () => {
   var serverSendTimer = null;
 
   const inputTextKeyUp = (e) => {
-    if (e.which === 17) isCtrl = false;
-    setCount(text.length);
+    if (e.which === BACKSPACE_KEY_CODE) {
+      setCount(text.length);
+      sendServer()
+      return 
+    }
+    if (e.which === CTRL_KEY_CODE) isCtrl = false;
   };
 
   const inputTextKeyDown = (e) => {
-    if (e.which === 17) {
+    if (e.which === CTRL_KEY_CODE) {
       isCtrl = true;
       return;
     }
@@ -76,18 +85,17 @@ export const InputTextArea = () => {
     setText(targetText);
     setCount(text.length);
 
+    sendServer()
+  };
+
+  const sendServer = () => {
     if (serverSendTimer != null) {
       clearTimeout(serverSendTimer);
     }
-
-    if (e.which === 32) {
+    serverSendTimer = setTimeout(() => {
       sendServerQuick();
-    } else {
-      serverSendTimer = setTimeout(() => {
-        sendServerQuick();
-      }, 800);
-    }
-  };
+    }, 800);
+  }
 
   const sendServerQuick = () => {
     const inputArea = document.getElementById("input");
