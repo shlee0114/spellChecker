@@ -2,9 +2,9 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import oc from "open-color";
 import { Button } from "../common/Button";
-import url from "../../apolloClient"
-import {grammar} from '../../graphql/index'
-import {gsap} from 'gsap'
+import url from "../../apolloClient";
+import { grammar } from "../../graphql/index";
+import { gsap } from "gsap";
 
 const Area = styled.article`
   width: 70%;
@@ -37,26 +37,24 @@ const TextCounter = styled.label`
 const Spacer = styled.div`
   flex-grow: 1;
 `;
-  
+
 const QuickChecker = styled.label`
   margin: auto 10px;
   border: 1px solid ${oc.cyan[6]};
   padding: 0.5rem;
   position: absolute;
-  opacity: 0;    
+  opacity: 0;
 `;
 
 export const InputTextArea = () => {
-
   const [textCount, setCount] = useState(0);
   const [text, setText] = useState("");
-  const [ fixedText, setFixedText ] = useState('');
+  const [fixedText, setFixedText] = useState("");
 
-  const quickCheckerRef = useRef()
+  const quickCheckerRef = useRef();
 
   var isCtrl = false;
   var serverSendTimer = null;
-
 
   const inputTextKeyUp = (e) => {
     if (e.which === 17) isCtrl = false;
@@ -92,7 +90,7 @@ export const InputTextArea = () => {
   };
 
   const sendServerQuick = () => {
-    const inputArea = document.getElementById('input')
+    const inputArea = document.getElementById("input");
     const sendText = inputArea.value.replaceAll("\n", " ").split(" ").pop();
 
     if (sendText.trim() === "") {
@@ -108,18 +106,18 @@ export const InputTextArea = () => {
           !(result.errors ?? false) &&
           (result.data.check.fixedText ?? "") !== ""
         ) {
-          setFixedText(`${sendText} -> ${result.data.check.fixedText}`)
+          setFixedText(`${sendText} -> ${result.data.check.fixedText}`);
           gsap.to(quickCheckerRef.current, {
-            top: '0',
-            opacity: '1',
-            duration: 1
-          })
+            top: "0",
+            opacity: "1",
+            duration: 1,
+          });
         } else {
           gsap.to(quickCheckerRef.current, {
-            top: '-100%',
-            opacity: '0',
-            duration: 1
-          })
+            top: "-100%",
+            opacity: "0",
+            duration: 1,
+          });
         }
       })
       .catch((res) => {
