@@ -12,7 +12,8 @@ const CorverArea = styled.div`
     width: 100%;
     height: 100%;
     position:absolute;
-    background:#EFEFEC
+    background:#EFEFEC;
+    z-index:10
 `
 const FixedArea = styled.div`
     width: 100%;
