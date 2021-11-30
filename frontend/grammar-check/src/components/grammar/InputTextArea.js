@@ -26,6 +26,9 @@ const QuickChecker = styled.label`
   margin: auto 10px;
   border : 1px solid ${oc.cyan[6]};
   padding : 0.5rem;
+  position: absolute;
+  top: 100%;
+  opacity: 0;
 `
 
 const TextUtilArea = styled.div`
