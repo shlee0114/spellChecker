@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import oc from 'open-color'
+import { Button } from "../common/Button";
 
 const Area = styled.article`
   width: 70%;
@@ -25,6 +26,19 @@ const QuickChecker = styled.label`
   margin: auto 10px;
   border : 1px solid ${oc.cyan[6]};
   padding : 0.5rem;
+`
+
+const TextUtilArea = styled.div`
+  display:flex;
+  z-index: 10;
+  position: relative;
+`
+const TextCounter = styled.label`
+  margin: auto 10px;
+`
+
+const Spacer = styled.div`
+flex-grow: 1;
 `
 
 export const InputTextArea = ({setCount}) => {
@@ -60,7 +74,12 @@ export const InputTextArea = ({setCount}) => {
         onChange={inputTextChange}
         value={text}
       ></TextArea>
+      <TextUtilArea>
       <QuickChecker>testtest -&gt; testest</QuickChecker>
+      <Spacer/>
+      <TextCounter>0/500</TextCounter>
+      <Button>검사</Button>
+      </TextUtilArea>
     </Area>
   );
 };
