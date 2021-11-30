@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import oc from 'open-color'
 
 const Area = styled.article`
   width: 70%;
@@ -19,6 +20,12 @@ const TextArea = styled.textarea`
   resize: none;
   font-family: 'noto sans KR';
 `;
+
+const QuickChecker = styled.label`
+  margin: auto 10px;
+  border : 1px solid ${oc.cyan[6]};
+  padding : 0.5rem;
+`
 
 export const InputTextArea = ({setCount}) => {
     const [ text, setText ] = useState("");
@@ -53,6 +60,7 @@ export const InputTextArea = ({setCount}) => {
         onChange={inputTextChange}
         value={text}
       ></TextArea>
+      <QuickChecker>testtest -&gt; testest</QuickChecker>
     </Area>
   );
 };
