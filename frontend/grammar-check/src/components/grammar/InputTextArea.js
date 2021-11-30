@@ -44,17 +44,18 @@ const QuickChecker = styled.label`
   padding: 0.5rem;
   position: absolute;
   opacity: 0;
+  top: -100%;
 `;
 
-export const InputTextArea = () => {
-  const ENTER_KEY_CODE = 32
+export const InputTextArea = ({text, setText, startEvent}) => {
   const CTRL_KEY_CODE = 17
   const SINGLE_QUOTATION_KEY_CODE = 192
   const BACKSPACE_KEY_CODE = 8
 
-  const [textCount, setCount] = useState(0);
-  const [text, setText] = useState("");
-  const [fixedText, setFixedText] = useState("");
+  const CHECKABLE_MAX_LENGTH = 500
+
+  const [textCount, setCount] = useState(0)
+  const [fixedText, setFixedText] = useState("")
 
   const quickCheckerRef = useRef();
 
@@ -62,12 +63,12 @@ export const InputTextArea = () => {
   var serverSendTimer = null;
 
   const inputTextKeyUp = (e) => {
-    if (e.which === BACKSPACE_KEY_CODE) {
-      setCount(text.length);
-      sendServer()
-      return 
+    if (e.which === CTRL_KEY_CODE) {
+      isCtrl = false
+      return
     }
-    if (e.which === CTRL_KEY_CODE) isCtrl = false;
+    setCount(text.length);
+    sendServer()
   };
 
   const inputTextKeyDown = (e) => {
@@ -79,13 +80,10 @@ export const InputTextArea = () => {
 
   const inputTextChange = (e) => {
     var targetText = e.target.value;
-    if (targetText.length >= 500) {
-      targetText = targetText.substr(0, 500);
+    if (targetText.length >= CHECKABLE_MAX_LENGTH) {
+      targetText = targetText.substr(0, CHECKABLE_MAX_LENGTH);
     }
     setText(targetText);
-    setCount(text.length);
-
-    sendServer()
   };
 
   const sendServer = () => {
@@ -99,7 +97,7 @@ export const InputTextArea = () => {
 
   const sendServerQuick = () => {
     const inputArea = document.getElementById("input");
-    const sendText = inputArea.value.replaceAll("\n", " ").split(" ").pop();
+    const sendText = text.replaceAll("\n", " ").split(" ").pop();
 
     if (sendText.trim() === "") {
       return true;
@@ -146,7 +144,7 @@ export const InputTextArea = () => {
         <QuickChecker ref={quickCheckerRef}>{fixedText}</QuickChecker>
         <Spacer />
         <TextCounter>{textCount}/500</TextCounter>
-        <Button>검사</Button>
+        <Button onClick={(e) => {startEvent(true)}}>검사</Button>
       </TextUtilArea>
     </Area>
   );

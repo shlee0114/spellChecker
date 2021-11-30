@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState} from "react";
 import styled from "styled-components";
 import { InputTextArea } from "./InputTextArea";
 import { ResultTextArea } from "./ResultTextArea";
@@ -12,10 +12,13 @@ const Area = styled.section`
 `;
 
 export const GrammarArea = () => {
+  const [text, setText] = useState("")
+  const [checkEvent, setCheckEvent] = useState(true)
+  const [ resultList, setResultList ] = useState([]);
   return (
     <Area>
-      <InputTextArea />
-      <ResultTextArea />
+      <InputTextArea text={text} setText={setText} startEvent={setCheckEvent}/>
+      <ResultTextArea text={text} eventChecker={checkEvent} endEvent={setCheckEvent} setResultList={setResultList}/>
     </Area>
   );
 };

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { CloseButton } from "../common/CloseButton";
+import axios from "axios";
+import { gsap } from "gsap";
 
 const Area = styled.article`
   width: 24%;
@@ -31,13 +33,64 @@ const TextArea = styled.textarea`
   font-family: "noto sans KR";
 `;
 
-export const ResultTextArea = () => {
+export const ResultTextArea = ({
+  text,
+  eventChecker,
+  endEvent,
+  setResultList,
+}) => {
+  const serverIp = "http://localhost:8089/api/";
+  const [fixedText, setFixedText] = useState("");
+
+  const checkerRef = useRef();
+
+  useEffect(() => {
+    if (!eventChecker) return;
+    
+    axios
+      .get(`${serverIp}check?grammar=${text}`)
+      .then((result) => {
+        const list = result.data.response;
+        const resultist = [];
+        var fix = "";
+
+        list.map(
+          (info) => (
+            (fix += `${info.errorText} -> ${info.fixedText}\n`),
+            resultist.push({
+              errorText: info.errorText,
+              fixedText: info.fixedText,
+            })
+          )
+        );
+
+        setFixedText(fix);
+        setResultList(resultist);
+        gsap.to(checkerRef.current, {
+          marginLeft: "-100%",
+          duration: 0.5,
+        });
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+    endEvent(false);
+  }, [eventChecker]);
+
+  const close = (e) => {
+    gsap.to(checkerRef.current, {
+      marginLeft: "0",
+      duration: 0.5,
+    });
+    setResultList([]);
+  };
+
   return (
     <Area>
       <CorverArea />
-      <FixedArea>
-        <CloseButton></CloseButton>
-        <TextArea readOnly></TextArea>
+      <FixedArea ref={checkerRef}>
+        <CloseButton onClick={close}></CloseButton>
+        <TextArea readOnly value={fixedText}></TextArea>
       </FixedArea>
     </Area>
   );
