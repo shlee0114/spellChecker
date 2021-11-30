@@ -46,7 +46,7 @@ export const ResultTextArea = ({
 
   useEffect(() => {
     if (!eventChecker) return;
-    
+
     axios
       .get(`${serverIp}check?grammar=${text}`)
       .then((result) => {
@@ -66,10 +66,7 @@ export const ResultTextArea = ({
 
         setFixedText(fix);
         setResultList(resultist);
-        gsap.to(checkerRef.current, {
-          marginLeft: "-100%",
-          duration: 0.5,
-        });
+        openOrClose(true)
       })
       .catch((res) => {
         console.log(res);
@@ -78,11 +75,16 @@ export const ResultTextArea = ({
   }, [eventChecker]);
 
   const close = (e) => {
+    openOrClose(false)
+    setResultList([]);
+  }
+
+  const openOrClose = (e) => {
+    const marginLeft = e ? "-100%" : "0"
     gsap.to(checkerRef.current, {
-      marginLeft: "0",
+      marginLeft: marginLeft,
       duration: 0.5,
     });
-    setResultList([]);
   };
 
   return (

@@ -96,10 +96,10 @@ export const InputTextArea = ({text, setText, startEvent}) => {
   }
 
   const sendServerQuick = () => {
-    const inputArea = document.getElementById("input");
     const sendText = text.replaceAll("\n", " ").split(" ").pop();
 
     if (sendText.trim() === "") {
+      openOrCloseChecker(false)
       return true;
     }
 
@@ -108,28 +108,33 @@ export const InputTextArea = ({text, setText, startEvent}) => {
         query: grammar.GRAMMAR_CHECK(sendText),
       })
       .then((result) => {
-        if (
-          !(result.errors ?? false) &&
-          (result.data.check.fixedText ?? "") !== ""
-        ) {
-          setFixedText(`${sendText} -> ${result.data.check.fixedText}`);
-          gsap.to(quickCheckerRef.current, {
-            top: "0",
-            opacity: "1",
-            duration: 1,
-          });
-        } else {
-          gsap.to(quickCheckerRef.current, {
-            top: "-100%",
-            opacity: "0",
-            duration: 1,
-          });
-        }
+        const fixedYn = 
+        !(result.errors ?? false) &&
+        (result.data.check.fixedText ?? "") !== "" &&
+        sendText != result.data.check.fixedText
+
+        openOrCloseChecker(fixedYn)
+
+        if(!fixedYn) return
+        
+        setFixedText(`${sendText} -> ${result.data.check.fixedText}`);
+        
       })
       .catch((res) => {
         console.log(res);
       });
   };
+
+  const openOrCloseChecker = (openYn) => {
+    const top = openYn? "0" : "-100%"
+    const opacity = openYn? "1" : "0"
+
+    gsap.to(quickCheckerRef.current, {
+      top: top,
+      opacity: opacity,
+      duration: 1,
+    });
+  }
 
   return (
     <Area>
