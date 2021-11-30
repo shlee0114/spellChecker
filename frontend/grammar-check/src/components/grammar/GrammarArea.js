@@ -13,10 +13,9 @@ const Area = styled.section`
 `
 
 export const GrammarArea = () => {
-    const [ textCount, setCount ] = useState(0);
     return (
         <Area>
-        <InputTextArea setCount={setCount}/>
+        <InputTextArea/>
         <ResultTextArea/>
         </Area>
     )

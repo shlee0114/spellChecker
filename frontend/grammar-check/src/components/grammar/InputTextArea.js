@@ -41,7 +41,8 @@ const Spacer = styled.div`
 flex-grow: 1;
 `
 
-export const InputTextArea = ({setCount}) => {
+export const InputTextArea = () => {
+  const [ textCount, setCount ] = useState(0);
     const [ text, setText ] = useState("");
     var isCtrl = false
 
@@ -77,7 +78,7 @@ export const InputTextArea = ({setCount}) => {
       <TextUtilArea>
       <QuickChecker>testtest -&gt; testest</QuickChecker>
       <Spacer/>
-      <TextCounter>0/500</TextCounter>
+      <TextCounter>{textCount}/500</TextCounter>
       <Button>검사</Button>
       </TextUtilArea>
     </Area>
