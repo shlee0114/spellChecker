@@ -7,16 +7,15 @@ import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Flux
 
 @Component
-class GrammarChecker {
-
+class GrammarChecker(
     @Value("\${naver.url}")
-    private lateinit var naverUrl: String
-
+    private val naverUrl: String,
     @Value("\${naver.user-gent}")
-    private lateinit var naverUserGent: String
-
+    private val naverUserGent: String,
     @Value("\${naver.referer}")
-    private lateinit var naverReferer: String
+    private val naverReferer: String
+) {
+
 
     fun checkGrammar(grammar: String = "") =
         WebClient.create("$naverUrl$grammar")
