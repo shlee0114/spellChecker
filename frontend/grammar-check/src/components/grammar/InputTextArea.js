@@ -3,8 +3,11 @@ import styled from "styled-components";
 import { Button } from "../common/Button";
 
 const Area = styled.article`
-  width: 100%;
+  width: 70%;
   height: 100%;
+  background: #F7F7F7;
+  box-sizing: border-box;
+  border: 1px solid rgba(95, 92, 92, 0.47);
 `;
 
 const TextArea = styled.textarea`
@@ -19,12 +22,12 @@ const TextArea = styled.textarea`
 `;
 
 const TextUtilArea = styled.div`
-    bottom: 0;
-    display:flex;
-    float: right
+  bottom: 0;
+  display:flex;
+  float: right
 `
 const TextCounter = styled.label`
-margin: auto 10px;
+  margin: auto 10px;
 `
 
 export const InputTextArea = () => {
