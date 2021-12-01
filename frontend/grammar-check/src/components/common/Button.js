@@ -18,7 +18,7 @@ margin-right: 10px;
 &:hover{
     background : ${oc.cyan[6]};
     color : white;
-    ${shadow(1)}
+    ${shadow(0)}
 }
 
 &:active{
