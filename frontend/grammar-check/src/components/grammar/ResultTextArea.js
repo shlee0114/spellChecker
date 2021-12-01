@@ -38,7 +38,8 @@ export const ResultTextArea = ({
   eventChecker,
   endEvent,
   setResultList,
-  setResultOpened
+  setResultOpened,
+  closeAll
 }) => {
   const serverIp = "http://localhost:8089/api/";
   const [fixedText, setFixedText] = useState("");
@@ -46,6 +47,10 @@ export const ResultTextArea = ({
   const checkerRef = useRef();
 
   useEffect(() => {
+    if(closeAll) {
+      close()
+      return 
+    }
     if (!eventChecker) return;
 
     axios
@@ -56,13 +61,13 @@ export const ResultTextArea = ({
         var fix = "";
 
         list.map(
-          (info) => (
-            (fix += `${info.errorText} -> ${info.fixedText}\n`),
+          function(info) {
+            fix += `${info.errorText} -> ${info.fixedText}\n\n`
             resultist.push({
               errorText: info.errorText,
               fixedText: info.fixedText,
             })
-          )
+          }
         );
 
         setFixedText(fix);
@@ -73,9 +78,9 @@ export const ResultTextArea = ({
         console.log(res);
       });
     endEvent(false);
-  }, [eventChecker]);
+  }, [eventChecker, closeAll]);
 
-  const close = (e) => {
+  const close = (_) => {
     openOrClose(false)
     setResultList([]);
   }

@@ -50,7 +50,6 @@ const QuickChecker = styled.label`
 
 const CTRL_KEY_CODE = 17;
 const SINGLE_QUOTATION_KEY_CODE = 192;
-const BACKSPACE_KEY_CODE = 8;
 
 const CHECKABLE_MAX_LENGTH = 500;
 
@@ -59,8 +58,8 @@ export const InputTextArea = ({
   setText,
   startEvent,
   resultList,
-  setResultOpened,
   resultOpened,
+  setCloseAll
 }) => {
 
   const [textAreaWidth, setWidth] = useState("100%");
@@ -77,7 +76,6 @@ export const InputTextArea = ({
 
   
   useEffect(() => {
-    
     const width = resultOpened ? "65%" : "100%";
     setWidth(width)
     gsap.to(inputAreaRef.current, {
@@ -87,6 +85,9 @@ export const InputTextArea = ({
   },[resultOpened])
 
   const inputTextKeyUp = (e) => {
+    if(resultOpened) {
+      setCloseAll(true)
+    }
     if (e.which === CTRL_KEY_CODE) {
       isCtrl = false;
       return;
@@ -135,7 +136,7 @@ export const InputTextArea = ({
         const fixedYn =
           !(result.errors ?? false) &&
           (result.data.check.fixedText ?? "") !== "" &&
-          sendText != result.data.check.fixedText;
+          sendText !== result.data.check.fixedText;
 
         openOrCloseChecker(fixedYn);
 
@@ -173,8 +174,10 @@ export const InputTextArea = ({
         <Spacer />
         <TextCounter>{textCount}/500</TextCounter>
         <Button
-          onClick={(e) => {
-            startEvent(true);
+          onClick={(_) => {
+            startEvent(true)
+            setCloseAll(false)
+            openOrCloseChecker(false)
           }}
         >
           검사

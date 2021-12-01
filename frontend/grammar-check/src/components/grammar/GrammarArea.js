@@ -16,6 +16,7 @@ export const GrammarArea = () => {
   const [checkEvent, setCheckEvent] = useState(true);
   const [resultList, setResultList] = useState([]);
   const [resultOpened, setResultOpened] = useState(false);
+  const [closeAll, setCloseAll] = useState(false);
   return (
     <Area>
       <InputTextArea
@@ -23,8 +24,8 @@ export const GrammarArea = () => {
         setText={setText}
         startEvent={setCheckEvent}
         resultList={resultList}
-        setResultOpened={setResultOpened}
         resultOpened={resultOpened}
+        setCloseAll={setCloseAll}
       />
       <ResultTextArea
         text={text}
@@ -32,6 +33,7 @@ export const GrammarArea = () => {
         endEvent={setCheckEvent}
         setResultList={setResultList}
         setResultOpened={setResultOpened}
+        closeAll={closeAll}
       />
     </Area>
   );
