@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import oc from "open-color";
 import { Button } from "../common/Button";
@@ -23,6 +23,7 @@ const TextArea = styled.textarea`
   outline: none;
   resize: none;
   font-family: "noto sans KR";
+  transition: 0.5s;
 `;
 
 const TextUtilArea = styled.div`
@@ -47,28 +48,51 @@ const QuickChecker = styled.label`
   top: -100%;
 `;
 
-export const InputTextArea = ({text, setText, startEvent}) => {
-  const CTRL_KEY_CODE = 17
-  const SINGLE_QUOTATION_KEY_CODE = 192
-  const BACKSPACE_KEY_CODE = 8
+const CTRL_KEY_CODE = 17;
+const SINGLE_QUOTATION_KEY_CODE = 192;
+const BACKSPACE_KEY_CODE = 8;
 
-  const CHECKABLE_MAX_LENGTH = 500
+const CHECKABLE_MAX_LENGTH = 500;
 
-  const [textCount, setCount] = useState(0)
-  const [fixedText, setFixedText] = useState("")
+export const InputTextArea = ({
+  text,
+  setText,
+  startEvent,
+  resultList,
+  setResultOpened,
+  resultOpened,
+}) => {
+
+  const [textAreaWidth, setWidth] = useState("100%");
+  const textAreaStyle = {width:textAreaWidth}
+
+  const [textCount, setCount] = useState(0);
+  const [fixedText, setFixedText] = useState("");
 
   const quickCheckerRef = useRef();
+  const inputAreaRef = useRef();
 
   var isCtrl = false;
   var serverSendTimer = null;
 
+  
+  useEffect(() => {
+    
+    const width = resultOpened ? "65%" : "100%";
+    setWidth(width)
+    gsap.to(inputAreaRef.current, {
+      width: width,
+      duration: 0.5,
+    });
+  },[resultOpened])
+
   const inputTextKeyUp = (e) => {
     if (e.which === CTRL_KEY_CODE) {
-      isCtrl = false
-      return
+      isCtrl = false;
+      return;
     }
     setCount(text.length);
-    sendServer()
+    sendServer();
   };
 
   const inputTextKeyDown = (e) => {
@@ -93,13 +117,13 @@ export const InputTextArea = ({text, setText, startEvent}) => {
     serverSendTimer = setTimeout(() => {
       sendServerQuick();
     }, 800);
-  }
+  };
 
   const sendServerQuick = () => {
     const sendText = text.replaceAll("\n", " ").split(" ").pop();
 
     if (sendText.trim() === "") {
-      openOrCloseChecker(false)
+      openOrCloseChecker(false);
       return true;
     }
 
@@ -108,17 +132,16 @@ export const InputTextArea = ({text, setText, startEvent}) => {
         query: grammar.GRAMMAR_CHECK(sendText),
       })
       .then((result) => {
-        const fixedYn = 
-        !(result.errors ?? false) &&
-        (result.data.check.fixedText ?? "") !== "" &&
-        sendText != result.data.check.fixedText
+        const fixedYn =
+          !(result.errors ?? false) &&
+          (result.data.check.fixedText ?? "") !== "" &&
+          sendText != result.data.check.fixedText;
 
-        openOrCloseChecker(fixedYn)
+        openOrCloseChecker(fixedYn);
 
-        if(!fixedYn) return
-        
+        if (!fixedYn) return;
+
         setFixedText(`${sendText} -> ${result.data.check.fixedText}`);
-        
       })
       .catch((res) => {
         console.log(res);
@@ -126,15 +149,15 @@ export const InputTextArea = ({text, setText, startEvent}) => {
   };
 
   const openOrCloseChecker = (openYn) => {
-    const top = openYn? "0" : "-100%"
-    const opacity = openYn? "1" : "0"
+    const top = openYn ? "0" : "-100%";
+    const opacity = openYn ? "1" : "0";
 
     gsap.to(quickCheckerRef.current, {
       top: top,
       opacity: opacity,
       duration: 1,
     });
-  }
+  };
 
   return (
     <Area>
@@ -143,13 +166,19 @@ export const InputTextArea = ({text, setText, startEvent}) => {
         onKeyUp={inputTextKeyUp}
         onChange={inputTextChange}
         value={text}
-        id="input"
+        style={textAreaStyle}
       ></TextArea>
-      <TextUtilArea>
+      <TextUtilArea ref={inputAreaRef}>
         <QuickChecker ref={quickCheckerRef}>{fixedText}</QuickChecker>
         <Spacer />
         <TextCounter>{textCount}/500</TextCounter>
-        <Button onClick={(e) => {startEvent(true)}}>검사</Button>
+        <Button
+          onClick={(e) => {
+            startEvent(true);
+          }}
+        >
+          검사
+        </Button>
       </TextUtilArea>
     </Area>
   );

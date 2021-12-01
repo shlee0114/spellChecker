@@ -38,6 +38,7 @@ export const ResultTextArea = ({
   eventChecker,
   endEvent,
   setResultList,
+  setResultOpened
 }) => {
   const serverIp = "http://localhost:8089/api/";
   const [fixedText, setFixedText] = useState("");
@@ -80,6 +81,7 @@ export const ResultTextArea = ({
   }
 
   const openOrClose = (e) => {
+    setResultOpened(e)
     const marginLeft = e ? "-100%" : "0"
     gsap.to(checkerRef.current, {
       marginLeft: marginLeft,
