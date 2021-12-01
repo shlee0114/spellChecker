@@ -8,7 +8,7 @@ const Area = styled.section`
   width: 100%;
   height: 60vh;
   margin-left: 15%;
-  margin-top: 10%;
+  margin-top: 7.5%;
   display: flex;
 `;
 
