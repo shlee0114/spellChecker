@@ -1,12 +1,8 @@
 import React from 'react'
 import {GrammarArea} from '../components/grammar/GrammarArea'
 
-export default function Main (){
-
-
+export const Main = () => {
     return (
-        <GrammarArea>
-            
-        </GrammarArea>
+        <GrammarArea/>
     )
 }
