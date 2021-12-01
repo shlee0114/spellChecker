@@ -5,6 +5,7 @@ import { Button } from "../common/Button";
 import axios from "axios";
 import { gsap } from "gsap";
 
+const serverIp = "http://localhost:8089/api/";
 const Area = styled.article`
   width: 24%;
   height: 100%;
@@ -51,12 +52,10 @@ export const ResultTextArea = ({
   setResultOpened,
   closeAll,
 }) => {
-  const serverIp = "http://localhost:8089/api/";
   const [fixedText, setFixedText] = useState("");
+  const [innerResultist, setInnerResult] = useState([]);
 
   const checkerRef = useRef();
-
-  var resultist = [];
 
   useEffect(() => {
     if (closeAll) {
@@ -72,7 +71,7 @@ export const ResultTextArea = ({
       .get(`${serverIp}check?grammar=${text}`)
       .then((result) => {
         const list = result.data.response;
-        resultist = [];
+        const resultist = [];
         var fix = "";
 
         list.map(function (info) {
@@ -82,7 +81,7 @@ export const ResultTextArea = ({
             fixedText: info.fixedText,
           });
         });
-
+        setInnerResult(resultist)
         setFixedText(fix);
         openOrClose(true);
       })
@@ -115,7 +114,7 @@ export const ResultTextArea = ({
         <AllFixBtn>
           <Button
             onClick={(_) => {
-              setResultList(resultist);
+              setResultList(innerResultist)
             }}
           >
             일괄수정

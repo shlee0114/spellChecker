@@ -5,7 +5,9 @@ import { Button } from "../common/Button";
 import url from "../../apolloClient";
 import { grammar } from "../../graphql/index";
 import { gsap } from "gsap";
+import axios from "axios";
 
+const serverIp = "http://localhost:8089/api/";
 const Area = styled.article`
   width: 70%;
   height: 100%;
@@ -60,11 +62,10 @@ export const InputTextArea = ({
   resultList,
   resultOpened,
   setCloseAll,
-  ip
+  ip,
 }) => {
-
   const [textAreaWidth, setWidth] = useState("100%");
-  const textAreaStyle = {width:textAreaWidth}
+  const textAreaStyle = { width: textAreaWidth };
 
   const [textCount, setCount] = useState(0);
   const [fixedText, setFixedText] = useState("");
@@ -75,19 +76,49 @@ export const InputTextArea = ({
   var isCtrl = false;
   var serverSendTimer = null;
 
-  
+  useEffect(() => {
+    if (resultList.length === 0) return;
+    const beforeText = text;
+    var afterText = text;
+
+    resultList.map((result) => {
+      afterText = afterText.replaceAll(result.errorText, result.fixedText);
+      url
+        .mutate({
+          mutation: grammar.LOG_INSERT(result.errorText, result.fixedText, ip),
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    });
+
+    axios
+      .post(`${serverIp}log`, {
+        errorText: beforeText,
+        fixedText: afterText,
+        fixedCount: resultList.length,
+        ip: ip,
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+
+    setText(afterText);
+    setCloseAll(true);
+  }, [resultList]);
+
   useEffect(() => {
     const width = resultOpened ? "65%" : "100%";
-    setWidth(width)
+    setWidth(width);
     gsap.to(inputAreaRef.current, {
       width: width,
       duration: 0.5,
     });
-  },[resultOpened])
+  }, [resultOpened]);
 
   const inputTextKeyUp = (e) => {
-    if(resultOpened) {
-      setCloseAll(true)
+    if (resultOpened) {
+      setCloseAll(true);
     }
     if (e.which === CTRL_KEY_CODE) {
       isCtrl = false;
@@ -102,17 +133,19 @@ export const InputTextArea = ({
       isCtrl = true;
       return;
     }
-    if(e.which === 192 && isCtrl === true) {  
-        const textArray = fixedText.replaceAll(" ", "").split('->')
-        setText(text.replace(new RegExp(textArray[0]+ '$'), textArray[1]));
-        
-        url.mutate({
-            mutation:grammar.LOG_INSERT(textArray[0], textArray[1], ip)
-        }).catch(res => {
-            console.log(res)
+    if (e.which === SINGLE_QUOTATION_KEY_CODE && isCtrl === true) {
+      const textArray = fixedText.replaceAll(" ", "").split("->");
+      setText(text.replace(new RegExp(textArray[0] + "$"), textArray[1]));
+
+      url
+        .mutate({
+          mutation: grammar.LOG_INSERT(textArray[0], textArray[1], ip),
         })
-        return false;  
-    } 
+        .catch((res) => {
+          console.log(res);
+        });
+      return false;
+    }
   };
 
   const inputTextChange = (e) => {
@@ -187,9 +220,9 @@ export const InputTextArea = ({
         <TextCounter>{textCount}/500</TextCounter>
         <Button
           onClick={(_) => {
-            startEvent(true)
-            setCloseAll(false)
-            openOrCloseChecker(false)
+            startEvent(true);
+            setCloseAll(false);
+            openOrCloseChecker(false);
           }}
         >
           검사
