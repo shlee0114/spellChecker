@@ -21,8 +21,8 @@ margin-right: 10px;
 }
 `
 
-export const CloseButton = ({onClick}) => (
-    <Wrapper onClick={onClick}>
+export const CloseButton = ({onClick, style}) => (
+    <Wrapper onClick={onClick} style={style}>
         X
     </Wrapper>
 )

@@ -7,10 +7,8 @@ import { shadow } from '../../lib/StyleUtils'
 const Positioner = styled.header`
     display: flex;
     flex-direction: column;
-    position: fixed;
-    top: 0px;
     width: 100%;
-    ${shadow(1)}
+    ${shadow(0)}
 `;
 
 
