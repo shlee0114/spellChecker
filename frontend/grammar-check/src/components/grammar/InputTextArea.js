@@ -59,7 +59,8 @@ export const InputTextArea = ({
   startEvent,
   resultList,
   resultOpened,
-  setCloseAll
+  setCloseAll,
+  ip
 }) => {
 
   const [textAreaWidth, setWidth] = useState("100%");
@@ -101,6 +102,17 @@ export const InputTextArea = ({
       isCtrl = true;
       return;
     }
+    if(e.which === 192 && isCtrl === true) {  
+        const textArray = fixedText.replaceAll(" ", "").split('->')
+        setText(text.replace(new RegExp(textArray[0]+ '$'), textArray[1]));
+        
+        url.mutate({
+            mutation:grammar.LOG_INSERT(textArray[0], textArray[1], ip)
+        }).catch(res => {
+            console.log(res)
+        })
+        return false;  
+    } 
   };
 
   const inputTextChange = (e) => {

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { InputTextArea } from "./InputTextArea";
 import { ResultTextArea } from "./ResultTextArea";
+import axios from 'axios'
 
 const Area = styled.section`
   width: 100%;
@@ -17,6 +18,17 @@ export const GrammarArea = () => {
   const [resultList, setResultList] = useState([]);
   const [resultOpened, setResultOpened] = useState(false);
   const [closeAll, setCloseAll] = useState(false);
+  const [ip, setIP] = useState('');
+
+  const getData = async () => {
+    const res = await axios.get('https://geolocation-db.com/json/')
+    setIP(res.data.IPv4)
+  }
+
+  useEffect( () => {
+      getData()
+  }, [])
+
   return (
     <Area>
       <InputTextArea
@@ -26,6 +38,7 @@ export const GrammarArea = () => {
         resultList={resultList}
         resultOpened={resultOpened}
         setCloseAll={setCloseAll}
+        ip={ip}
       />
       <ResultTextArea
         text={text}

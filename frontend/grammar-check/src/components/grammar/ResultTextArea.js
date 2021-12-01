@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { CloseButton } from "../common/CloseButton";
+import { Button } from "../common/Button";
 import axios from "axios";
 import { gsap } from "gsap";
 
@@ -17,11 +18,13 @@ const CorverArea = styled.div`
   background: #efefec;
   z-index: 10;
 `;
+
 const FixedArea = styled.div`
   width: 100%;
   height: 100%;
   background: #dddddd;
 `;
+
 const TextArea = styled.textarea`
   margin: 10%;
   width: 80%;
@@ -33,61 +36,70 @@ const TextArea = styled.textarea`
   font-family: "noto sans KR";
 `;
 
+const AllFixBtn = styled.div`
+  width: 95px;
+  float: right;
+  margin-top: -8%;
+  margin-right: 6%;
+`;
+
 export const ResultTextArea = ({
   text,
   eventChecker,
   endEvent,
   setResultList,
   setResultOpened,
-  closeAll
+  closeAll,
 }) => {
   const serverIp = "http://localhost:8089/api/";
   const [fixedText, setFixedText] = useState("");
 
   const checkerRef = useRef();
 
+  var resultist = [];
+
   useEffect(() => {
-    if(closeAll) {
-      close()
-      return 
+    if (closeAll) {
+      close();
+      return;
     }
+  }, [closeAll]);
+
+  useEffect(() => {
     if (!eventChecker) return;
 
     axios
       .get(`${serverIp}check?grammar=${text}`)
       .then((result) => {
         const list = result.data.response;
-        const resultist = [];
+        resultist = [];
         var fix = "";
 
-        list.map(
-          function(info) {
-            fix += `${info.errorText} -> ${info.fixedText}\n\n`
-            resultist.push({
-              errorText: info.errorText,
-              fixedText: info.fixedText,
-            })
-          }
-        );
+        list.map(function (info) {
+          fix += `${info.errorText} -> ${info.fixedText}\n\n`;
+          resultist.push({
+            errorText: info.errorText,
+            fixedText: info.fixedText,
+          });
+        });
 
         setFixedText(fix);
-        setResultList(resultist);
-        openOrClose(true)
+        openOrClose(true);
       })
       .catch((res) => {
         console.log(res);
       });
     endEvent(false);
-  }, [eventChecker, closeAll]);
+  }, [eventChecker]);
 
   const close = (_) => {
-    openOrClose(false)
+    openOrClose(false);
     setResultList([]);
-  }
+  };
 
   const openOrClose = (e) => {
-    setResultOpened(e)
-    const marginLeft = e ? "-100%" : "0"
+    setResultOpened(e);
+    const marginLeft = e ? "-100%" : "0";
     gsap.to(checkerRef.current, {
       marginLeft: marginLeft,
       duration: 0.5,
@@ -100,6 +112,15 @@ export const ResultTextArea = ({
       <FixedArea ref={checkerRef}>
         <CloseButton onClick={close}></CloseButton>
         <TextArea readOnly value={fixedText}></TextArea>
+        <AllFixBtn>
+          <Button
+            onClick={(_) => {
+              setResultList(resultist);
+            }}
+          >
+            일괄수정
+          </Button>
+        </AllFixBtn>
       </FixedArea>
     </Area>
   );
