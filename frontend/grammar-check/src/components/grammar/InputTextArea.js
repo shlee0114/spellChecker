@@ -6,8 +6,8 @@ import url from "../../apolloClient";
 import { grammar } from "../../graphql/index";
 import { gsap } from "gsap";
 import axios from "axios";
+import { serverIp } from "../../static/setting";
 
-const serverIp = "http://localhost:8089/api/";
 const Area = styled.article`
   width: 70%;
   height: 100%;

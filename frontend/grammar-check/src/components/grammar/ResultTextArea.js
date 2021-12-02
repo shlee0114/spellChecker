@@ -4,8 +4,8 @@ import { CloseButton } from "../common/CloseButton";
 import { Button } from "../common/Button";
 import axios from "axios";
 import { gsap } from "gsap";
+import { serverIp } from "../../static/setting";
 
-const serverIp = "http://localhost:8089/api/";
 const Area = styled.article`
   width: 24%;
   height: 100%;
