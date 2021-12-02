@@ -1,26 +1,30 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 import { LogTextArea } from "./LogTextArea";
+import axios from "axios";
+import { serverIp } from "../../static/setting";
 
-const serverIp = "http://localhost:8089/api/";
-const Area = styled.article`
-width: 35%;
-  height: 100%;
-  background:#111;
-`;
-
-
-export const SentenceLog = ({opened}) => {
-
-  const [logList, setLogList] = useState("")
+export const SentenceLog = ({ opened }) => {
+  const [logList, setLogList] = useState("");
 
   useEffect(() => {
     if (opened) {
-      return;
+      axios
+        .get(`${serverIp}log`)
+        .then((result) => {
+          const list = result.data.response;
+          var log = "";
+
+          list.map(
+            (info) =>
+              (log += `${info.error} -> ${info.fixed}\ncount : ${info.count}\ntime : ${info.fixedTime}\n\n`)
+          );
+          setLogList(log);
+        })
+        .catch((res) => {
+          console.log(res);
+        });
     }
   }, [opened]);
 
-  return (
-    <LogTextArea title="문장 수정 기록" logList={logList}/>
-  );
+  return <LogTextArea title="문장 수정 기록" logList={logList} />;
 };

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import oc from "open-color";
 import { shadow } from "../../lib/StyleUtils";
@@ -48,8 +48,10 @@ const TextArea = styled.div`
 export const LogArea = ({}) => {
   const OutSideAreaRef = useRef();
   const logAreaRef = useRef();
+  const [isOpend, setOpen] = useState(false) 
 
   const openOrClose = (e) => {
+    setOpen(e)
     const bottom = e ? "0" : "-40vh";
     const height = e ? "60vh" : "0";
     gsap.to(logAreaRef.current, {
@@ -78,9 +80,9 @@ export const LogArea = ({}) => {
           }}
         />
         <TextArea>
-        <SentenceLog/>
-          <WordLog/>
-        </TextArea>
+        <SentenceLog opened={isOpend}/>
+          <WordLog opened={isOpend}/>
+        </TextArea >
       </HistoryArticle>
       <OpenButton>
         <Button
