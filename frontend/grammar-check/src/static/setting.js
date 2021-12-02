@@ -1,1 +1,1 @@
-export const serverIp = "http://localhost:8089/api/"
+export const serverIp = "http://zifori.me:8089/api/"
