@@ -21,7 +21,7 @@ const logInsert = (errorText, fixedText, ip) => {
 const searchLog = () => {
     return gql`
         query log{
-            log{
+            log(ver: "${new Date()}"){
                 error,
                 fixed,
                 count,

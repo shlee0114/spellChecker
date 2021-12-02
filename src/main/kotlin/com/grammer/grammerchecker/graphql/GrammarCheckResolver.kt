@@ -29,7 +29,7 @@ class GrammarCheckResolver(
                 }
             }.awaitFirst()
 
-    suspend fun log(): List<LogDto> =
+    suspend fun log(ver: String): List<LogDto> =
         service.findAll()
             .flatMap {
                 Flux.just(LogDto(it))

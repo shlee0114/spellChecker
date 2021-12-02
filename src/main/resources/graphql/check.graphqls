@@ -1,6 +1,6 @@
 type Query{
     check(text : String) : GrammarDto!
-    log : [LogDto]!
+    log(ver : String) : [LogDto]!
 }
 
 type Mutation{
