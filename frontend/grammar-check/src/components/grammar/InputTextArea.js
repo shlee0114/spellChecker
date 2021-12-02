@@ -144,6 +144,7 @@ export const InputTextArea = ({
         .catch((res) => {
           console.log(res);
         });
+      openOrCloseChecker(false);
       return false;
     }
   };
