@@ -25,7 +25,7 @@ export const GrammarArea = () => {
     setIP(res.data.IPv4)
   }
 
-  useEffect( () => {
+  useEffect(() => {
       getData()
   }, [])
 

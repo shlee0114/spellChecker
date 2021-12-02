@@ -4,7 +4,6 @@ import {Main} from './pages/Main'
 import {Header} from './components/header/Header'
 
 function App() {
-
     return (
           <BrowserRouter>
             <Header/>

@@ -45,7 +45,7 @@ const TextArea = styled.div`
   justify-content: space-evenly;
 `
 
-export const LogArea = ({}) => {
+export const LogArea = () => {
   const OutSideAreaRef = useRef();
   const logAreaRef = useRef();
   const [isOpend, setOpen] = useState(false) 
