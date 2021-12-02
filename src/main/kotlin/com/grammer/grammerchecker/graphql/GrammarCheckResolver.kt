@@ -3,8 +3,6 @@ package com.grammer.grammerchecker.graphql
 import com.grammer.grammerchecker.handlers.service.impl.GrammarGraphQLServiceImpl
 import com.grammer.grammerchecker.model.dto.GrammarDto
 import com.grammer.grammerchecker.model.dto.LogDto
-import com.grammer.grammerchecker.model.dto.LogRequest
-import com.grammer.grammerchecker.model.domain.GrammarWordLog
 import com.grammer.grammerchecker.validator.impl.GrammarValidator
 import graphql.kickstart.tools.GraphQLQueryResolver
 import kotlinx.coroutines.reactive.awaitFirst
@@ -37,8 +35,4 @@ class GrammarCheckResolver(
                 Flux.just(LogDto(it))
             }.collectList()
             .awaitFirst()
-
-    suspend fun log(log: LogRequest): Boolean =
-        service.logSave(GrammarWordLog(log))
-            .thenReturn(true).awaitFirst()
 }
