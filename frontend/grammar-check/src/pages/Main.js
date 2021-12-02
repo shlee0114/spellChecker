@@ -1,11 +1,11 @@
 import React from 'react'
 import {GrammarArea} from '../components/grammar/GrammarArea'
-import { HistoryArea } from '../components/history/HistoryArea'
+import { LogArea } from '../components/history/LogArea'
 
 export const Main = () => {
     return (
         <main>
-        <HistoryArea/>
+        <LogArea/>
             <GrammarArea/>
         </main>
     )

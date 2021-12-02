@@ -5,6 +5,8 @@ import { shadow } from "../../lib/StyleUtils";
 import { CloseButton } from "../common/CloseButton";
 import { gsap } from "gsap";
 import { Button } from "../common/Button";
+import { SentenceLog } from "./SentenceLog";
+import { WordLog } from "./WordLog";
 
 const OutSideArticle = styled.article`
   top: 0;
@@ -36,7 +38,14 @@ const OpenButton = styled.div`
   margin: 0 48.4%;
 `;
 
-export const HistoryArea = ({}) => {
+const TextArea = styled.div`
+  width: 100%;
+  height: 100%;
+  display flex;
+  justify-content: space-evenly;
+`
+
+export const LogArea = ({}) => {
   const OutSideAreaRef = useRef();
   const logAreaRef = useRef();
 
@@ -68,6 +77,10 @@ export const HistoryArea = ({}) => {
             openOrClose(false);
           }}
         />
+        <TextArea>
+        <SentenceLog/>
+          <WordLog/>
+        </TextArea>
       </HistoryArticle>
       <OpenButton>
         <Button
