@@ -23,7 +23,7 @@ class WebConfig(
         registry
             .addMapping("/**")
             .allowedHeaders("*")
-            .allowedOrigins("http://localhost:3000")
+            .allowedOrigins("http://zifori.me:3000")
             .allowedMethods("*")
             .maxAge(1800)
             .allowCredentials(false)
