@@ -5,6 +5,7 @@ import { Button } from "../common/Button";
 import axios from "axios";
 import { gsap } from "gsap";
 import { serverIp } from "../../static/setting";
+import oc from "open-color";
 
 const Area = styled.article`
   width: 24%;
@@ -23,7 +24,7 @@ const CorverArea = styled.div`
 const FixedArea = styled.div`
   width: 100%;
   height: 100%;
-  background: #dddddd;
+  background: ${oc.teal[1]};
 `;
 
 const TextArea = styled.textarea`
