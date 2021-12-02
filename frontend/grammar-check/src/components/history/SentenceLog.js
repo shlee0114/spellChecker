@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { CloseButton } from "../common/CloseButton";
-import { Button } from "../common/Button";
-import axios from "axios";
-import { gsap } from "gsap";
+import { LogTextArea } from "./LogTextArea";
 
 const serverIp = "http://localhost:8089/api/";
 const Area = styled.article`
@@ -15,6 +12,8 @@ width: 35%;
 
 export const SentenceLog = ({opened}) => {
 
+  const [logList, setLogList] = useState("")
+
   useEffect(() => {
     if (opened) {
       return;
@@ -22,7 +21,6 @@ export const SentenceLog = ({opened}) => {
   }, [opened]);
 
   return (
-    <Area>
-    </Area>
+    <LogTextArea title="문장 수정 기록" logList={logList}/>
   );
 };
