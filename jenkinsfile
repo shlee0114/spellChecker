@@ -3,6 +3,7 @@ node {
         checkout scm   
     }
     stage('Unit & Integration Tests') { 
+        sh "chmod +x gradlew"
         sh "./gradlew clean test --no-daemon"
     }
   }
