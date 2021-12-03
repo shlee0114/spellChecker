@@ -2,7 +2,13 @@ node {
     stage('Checkout') {
         checkout scm   
     }
-    stage('Build') { 
-        sh "./gradlew build"
+    stage('Unit & Integration Tests') { 
+        steps {
+            script {
+                try {
+                    sh "./gradlew clean test --no-daemon"
+                }
+            }
+        }
     }
   }
