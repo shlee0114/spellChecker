@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Button } from "../common/Button";
 import url from "../../apolloClient";
 import { grammar } from "../../graphql/index";
-import { gsap } from "gsap";
 
 const Area = styled.article`
   width: 50%;
@@ -44,6 +43,7 @@ const QuickChecker = styled.label`
   margin: auto 10px;
   padding: 0.5rem;
   position: absolute;
+  transition : .2s all;
   opacity: 0;
 `;
 
@@ -55,14 +55,14 @@ const CHECKABLE_MAX_LENGTH = 500;
 export const InputTextArea = ({ text, setText, startEvent, ip }) => {
   const [textCount, setCount] = useState(0);
   const [fixedText, setFixedText] = useState("");
-  const [clearText, setClearText] = useState("hidden");
-
-  const quickCheckerRef = useRef();
+  const [clearText, setClearText] = useState("0");
+  const [serverSendTimer, setServerSendTimer] = useState(null);
+  const [clearFixedTextCount, setClearFixedTextCount] = useState(null)
+  const [quickChecker, setQuickChecker] = useState("0");
+  
   const inputAreaRef = useRef();
 
   var isCtrl = false;
-  var [serverSendTimer, setServerSendTimer] = useState(null);
-  var [clearFixedTextCount, setClearFixedTextCount] = useState(null)
 
   const inputTextKeyUp = (e) => {
     if (e.which === CTRL_KEY_CODE) {
@@ -105,9 +105,9 @@ export const InputTextArea = ({ text, setText, startEvent, ip }) => {
   const textSetting = (text) => {
     setText(text);
     setCount(text.length);
-    const isTextHidden = text.length === 0 ? "hidden" : "";
+    const isTextHidden = text.length === 0 ? "0" : "1";
     setClearText(isTextHidden);
-    openOrCloseQuickChecker(!isTextHidden);
+    openOrCloseQuickChecker(isTextHidden === "1");
   };
 
   const sendServer = () => {
@@ -155,17 +155,14 @@ export const InputTextArea = ({ text, setText, startEvent, ip }) => {
       setClearFixedTextCount(
         setTimeout(() => {
           setFixedText("");
+          setQuickChecker("0")
         }, 800
       ))
     } else if (openYn && clearFixedTextCount != null) {
       clearTimeout(clearFixedTextCount)
     }
-    const opacity = openYn ? "1" : "0";
 
-    gsap.to(quickCheckerRef.current, {
-      opacity: opacity,
-      duration: 0.8,
-    });
+    setQuickChecker(openYn ? "1" : "0")
   };
 
   return (
@@ -173,7 +170,7 @@ export const InputTextArea = ({ text, setText, startEvent, ip }) => {
       <HeaderArea>
         <Button
           style={{
-            visibility: clearText,
+            opacity: clearText,
             fontWeight: "500",
             color: "gray",
             fontSize: "1.5rem",
@@ -194,7 +191,13 @@ export const InputTextArea = ({ text, setText, startEvent, ip }) => {
         value={text}
       />
       <TextUtilArea ref={inputAreaRef}>
-        <QuickChecker ref={quickCheckerRef}>{fixedText}</QuickChecker>
+        <QuickChecker 
+          style={{
+            opacity: quickChecker,
+          }}
+          >
+            {fixedText}
+            </QuickChecker>
         <Spacer />
         <TextCounter>{textCount}/500</TextCounter>
         <Button
