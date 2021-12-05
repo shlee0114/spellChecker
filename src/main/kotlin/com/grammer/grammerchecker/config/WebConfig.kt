@@ -2,6 +2,7 @@ package com.grammer.grammerchecker.config
 
 import com.grammer.grammerchecker.handlers.GrammarHandler
 import com.grammer.grammerchecker.handlers.LogHandler
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
@@ -17,13 +18,15 @@ import org.springframework.web.reactive.function.server.router
 @Configuration
 class WebConfig(
     private val grammarHandler: GrammarHandler,
-    private val logHandler: LogHandler
+    private val logHandler: LogHandler,
+    @Value("\${allow.origin}")
+    private val allowedOrigin: String
     ) : WebFluxConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         registry
             .addMapping("/**")
             .allowedHeaders("*")
-            .allowedOrigins("http://zifori.me:3000")
+            .allowedOrigins(allowedOrigin)
             .allowedMethods("*")
             .maxAge(1800)
             .allowCredentials(false)
