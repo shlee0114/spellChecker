@@ -16,7 +16,7 @@ https://hdesigner.creatorlink.net/
 
 ## 호환성
 
-|Chrome|Safari|Edge|IE11|
+|Chrome|FireFox|Edge|IE11|
 |---|---|---|---|
 |latest check|latest check|latest check|no support|
 
