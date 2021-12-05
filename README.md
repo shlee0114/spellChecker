@@ -14,6 +14,12 @@ https://hdesigner.creatorlink.net/
 현재 개인 linux 서버에 올려두었으며 aws로 옮기면서 pipeline을 구축하고 있습니다. 
 이에 현재 Dockerfile, jenkinsfile, k8s는 아직 미완입니다.
 
+## 호환성
+
+|Chrome|Safari|Edge|IE11|
+|---|---|---|---|
+|latest check|latest check|latest check|no support|
+
 ## [Fronend 구조](https://github.com/tlgj255/spellChecker/tree/master/frontend/grammar-check)
 
 ## Backend 구조
@@ -46,3 +52,85 @@ https://hdesigner.creatorlink.net/
     > 실제 validation 체크를 하는 부분입니다.
   
 
+## api 구조
+에러 발생 시
+```
+{
+    "success": false,
+    "response": null,
+    "error": 
+    {
+      "message": error massage,
+      "status": 400
+    }
+}
+```
+
+### 맞춤법 검사 | GET /api/check 
+#### Request Parameter
+|Parameter|Types|Description|
+|---|---|---|
+|grammar|String|한글만 검사를 하며 500자 이하의 String만 검색이 가능합니다.|
+#### Response
+성공 예제
+```
+{
+    "success": true,
+    "response": [
+        {
+            "errorText": "되요",
+            "fixedText": "돼요"
+        }
+    ],
+    "error": null
+}
+```
+수정 데이터 없을 시
+```
+{
+    "success": true,
+    "response": [],
+    "error": null
+}
+```
+
+### log 검색 | GET /api/log
+> 시간대는 UTC 사용 중
+#### Request Parameter
+None
+#### Response
+성공 예제
+```
+{
+    "success": true,
+    "response": [
+        {
+            "error": "되요",
+            "fixed": "돼요",
+            "count": 1,
+            "fixedTime": "2021-12-05T19:08:17"
+        },
+        .
+        .
+        .
+    ],
+    "error": null
+}
+```
+
+### log 등록 | POST /api/log
+### Request Body
+|Fields|Types|Description|
+|---|---|---|
+|errorText|String|기존 에러 텍스트 500자 이하의 글자만 입력 가능|
+|fixedText|String|수정된 텍스트 500자 이하의 글자만 입력 가능|
+|ip|String|사용자의 ip 500자 이하의 글자만 입력 가능|
+#### Response
+성공 예제
+```
+{
+    "success": true,
+    "response": true,
+    "error": null
+}
+```
