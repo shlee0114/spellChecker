@@ -52,12 +52,7 @@ const SINGLE_QUOTATION_KEY_CODE = 192;
 
 const CHECKABLE_MAX_LENGTH = 500;
 
-export const InputTextArea = ({
-  text,
-  setText,
-  startEvent,
-  ip,
-}) => {
+export const InputTextArea = ({ text, setText, startEvent, ip }) => {
   const [textCount, setCount] = useState(0);
   const [fixedText, setFixedText] = useState("");
   const [clearText, setClearText] = useState("hidden");
@@ -66,8 +61,8 @@ export const InputTextArea = ({
   const inputAreaRef = useRef();
 
   var isCtrl = false;
-  var serverSendTimer = null;
-  var beforeOpacity = false
+  var [serverSendTimer, setServerSendTimer] = useState(null);
+  var [clearFixedTextCount, setClearFixedTextCount] = useState(null)
 
   const inputTextKeyUp = (e) => {
     if (e.which === CTRL_KEY_CODE) {
@@ -119,9 +114,11 @@ export const InputTextArea = ({
     if (serverSendTimer != null) {
       clearTimeout(serverSendTimer);
     }
-    serverSendTimer = setTimeout(() => {
-      sendServerQuick();
-    }, 700);
+    setServerSendTimer(
+      setTimeout(() => {
+        sendServerQuick();
+      }, 700)
+    )
   };
 
   const sendServerQuick = () => {
@@ -154,8 +151,15 @@ export const InputTextArea = ({
   };
 
   const openOrCloseQuickChecker = (openYn) => {
-    if(beforeOpacity === openYn) return
-    beforeOpacity = openYn
+    if (!openYn) {
+      setClearFixedTextCount(
+        setTimeout(() => {
+          setFixedText("");
+        }, 800
+      ))
+    } else if (openYn && clearFixedTextCount != null) {
+      clearTimeout(clearFixedTextCount)
+    }
     const opacity = openYn ? "1" : "0";
 
     gsap.to(quickCheckerRef.current, {
