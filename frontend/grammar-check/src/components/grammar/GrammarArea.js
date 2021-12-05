@@ -7,7 +7,7 @@ import axios from "axios";
 import nayngFootprint from "../../static/images/nayng-footprint.png"
 
 const Area = styled.section`
-  padding: 1rem 6rem;
+  padding: 2.6rem 6rem;
   height: 70vh;
   display: flex;
 `;
@@ -27,7 +27,7 @@ const CenterLine = styled.div`
 const FootPrint = styled.img`
   position: absolute;
   right: -4%;
-  bottom: -15%;
+  bottom: -12%;
 `
 
 export const GrammarArea = () => {

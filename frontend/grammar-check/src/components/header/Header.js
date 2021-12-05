@@ -4,7 +4,7 @@ import nayng from '../../static/images/nayng.png'
 
 const HeaderContents = styled.div`
     width: 100%;
-    height: 20vh;
+    height: 16vh;
     display: flex;
     flex-direction: column;
     align-items: start;

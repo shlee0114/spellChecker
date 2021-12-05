@@ -3,7 +3,7 @@ import styled from "styled-components";
 import oc from "open-color";
 import { shadow } from "../../lib/StyleUtils";
 import { gsap } from "gsap";
-import { Button } from "../common/Button";
+import logBtn from '../../static/images/logBtn.png'
 import { SentenceLog } from "./SentenceLog";
 import { WordLog } from "./WordLog";
 
@@ -33,9 +33,13 @@ const GradientBorder = styled.div`
 
 const OpenButton = styled.div`
   position: absolute;
-  bottom: 0;
-  margin: 0 48.4%;
+  padding: 0 6rem;
+  right: 0;
 `;
+
+const OpenImg = styled.img`
+height: 2.5rem;
+`
 
 const TextArea = styled.div`
   width: 100%;
@@ -78,13 +82,12 @@ export const LogArea = () => {
         </TextArea >
       </HistoryArticle>
       <OpenButton>
-        <Button
+        <OpenImg
           onClick={(_) => {
             openOrClose(true);
           }}
-        >
-          기록
-        </Button>
+          src={logBtn}
+        />
       </OpenButton>
     </section>
   );
