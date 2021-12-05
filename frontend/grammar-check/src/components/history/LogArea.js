@@ -79,6 +79,7 @@ export const LogArea = () => {
 
   const [word, setWord] = useState(true)
   const [sentence, setSentence] = useState(false)
+  const [isWord, setIsWord] = useState(true)
 
   const [isOpened, setIsOpened] = useState(false) 
 
@@ -91,10 +92,15 @@ export const LogArea = () => {
 
   const openLog = (_) => {
     setLogStyle(openLogStyle)
+    setWord(isWord)
+    setSentence(!isWord)
   }
 
   const closeLog = (_) => {
     setLogStyle(closeLogStyle)
+    setIsWord(word)
+    setWord(false)
+    setSentence(false)
   }
 
   const clickSentence = (_) => {
