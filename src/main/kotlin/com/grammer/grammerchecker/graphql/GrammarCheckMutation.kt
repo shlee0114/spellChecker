@@ -7,12 +7,13 @@ import com.grammer.grammerchecker.validator.impl.LogValidator
 import graphql.kickstart.tools.GraphQLMutationResolver
 import kotlinx.coroutines.reactive.awaitFirst
 import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.web.server.ResponseStatusException
 import reactor.core.publisher.Mono
 
-@Controller
+@Component
 class GrammarCheckMutation(
     private val service: GrammarGraphQLServiceImpl,
     private val validator: LogValidator
