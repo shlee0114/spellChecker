@@ -1,57 +1,40 @@
 import React from 'react'
 import styled from 'styled-components'
-import oc from 'open-color'
-import { shadow } from '../../lib/StyleUtils'
+import nayng from '../../static/images/nayng.png'
 
-// 상단 고정, 그림자
-const Positioner = styled.header`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    ${shadow(0)}
-`;
-
-
-// 해더의 내용
 const HeaderContents = styled.div`
     width: 100%;
-    height: 5vh;
+    height: 20vh;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-
+    flex-direction: column;
+    align-items: start;
     padding-left: 6rem;
 `;
 
-// 로고
 const Logo = styled.div`
-    font-size: 1.6rem;
+    font-size: 48px;
     letter-spacing: 2px;
-    color: ${oc.teal[7]};
+    color: #1DB9C3;
     font-family: 'godo maum';
+    padding-top: 3%;
 `;
 
+const LogoImg = styled.img`
+    vertical-align: sub;
+`
+
 const Caution = styled.div`
-    font-size: 1rem;
-    color: ${oc.teal[7]};
-    font-family: 'godo maum';
+    font-size: 15px;
+    color: #555555;
+    font-family: 'Noto Sans KR';
     margin: 5px;
 `
 
-// 하단 그래디언트 테두리
-const GradientBorder = styled.div`
-    height: 3px;
-    background: linear-gradient(to right, ${oc.teal[6]}, ${oc.cyan[5]});
-`;
-
 export const Header = () => {
     return (
-        <Positioner>
                 <HeaderContents>
-                    <Logo>이승현의 맞춤법 검사기</Logo>
-                    <Caution>네이버 맞춤법 검사기 사용</Caution>
+                    <Logo>이승현의 맞춤법 검사기<LogoImg src={nayng}/></Logo>
+                    <Caution>네이버 검사기 사용</Caution>
                 </HeaderContents>
-            <GradientBorder/>
-        </Positioner>
     );
 };
