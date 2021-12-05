@@ -17,3 +17,7 @@ BODY {
 BODY::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
 }
+
+.fixed {
+    color : #9F69F9
+}

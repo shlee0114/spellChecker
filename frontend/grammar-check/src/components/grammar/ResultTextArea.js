@@ -15,7 +15,7 @@ const HeaderArea = styled.div`
   height: 13%;
 `;
 
-const TextArea = styled.textarea`
+const TextArea = styled.div`
   width: 94%;
   height: 74%;
   background: #0000;
@@ -51,7 +51,7 @@ export const ResultTextArea = ({
         var count = 0
 
         list.map(function (info) {
-          fix = fix.replaceAll(info.errorText, `<bold>${info.fixedText}</bold>`);
+          fix = fix.replaceAll(info.errorText, `<label class='fixed'">${info.fixedText}</label>`);
           resultTempText = resultTempText.replaceAll(info.errorText, info.fixedText);
           count++
         });
@@ -106,7 +106,8 @@ export const ResultTextArea = ({
         일괄 수정
       </Button>
     </HeaderArea>
-        <TextArea readOnly value={fixedText}/>
+        <TextArea dangerouslySetInnerHTML={{__html: fixedText}}> 
+        </TextArea>
     </Area>
   );
 };
