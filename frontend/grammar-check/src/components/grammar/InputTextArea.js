@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import oc from "open-color";
 import { Button } from "../common/Button";
 import url from "../../apolloClient";
 import { grammar } from "../../graphql/index";
@@ -9,23 +8,24 @@ import axios from "axios";
 import { serverIp } from "../../static/setting";
 
 const Area = styled.article`
-  width: 70%;
+  width: 50%;
   height: 100%;
-  background: #f7f7f7;
-  box-sizing: border-box;
-  border: 1px solid rgba(95, 92, 92, 0.47);
+`;
+
+const HeaderArea = styled.div`
+  height: 13%;
 `;
 
 const TextArea = styled.textarea`
-  width: 100%;
-  height: 90%;
-  background: #00000000;
-  font-size: 1.95rem;
+  width: 94%;
+  height: 74%;
+  background: #0000;
+  font-size: 1.3rem;
   border: none;
   outline: none;
   resize: none;
   font-family: "noto sans KR";
-  transition: 0.5s;
+  padding: 0 3%;
 `;
 
 const TextUtilArea = styled.div`
@@ -42,7 +42,7 @@ const Spacer = styled.div`
 `;
 
 const QuickChecker = styled.label`
-  color: #8D8D8D;
+  color: #8d8d8d;
   margin: auto 10px;
   padding: 0.5rem;
   position: absolute;
@@ -59,15 +59,11 @@ export const InputTextArea = ({
   setText,
   startEvent,
   resultList,
-  resultOpened,
-  setCloseAll,
   ip,
 }) => {
-  const [textAreaWidth, setWidth] = useState("100%");
-  const textAreaStyle = { width: textAreaWidth };
-
   const [textCount, setCount] = useState(0);
   const [fixedText, setFixedText] = useState("");
+  const [clearText, setClearText] = useState(false);
 
   const quickCheckerRef = useRef();
   const inputAreaRef = useRef();
@@ -103,27 +99,14 @@ export const InputTextArea = ({
       });
 
     setText(afterText);
-    setCloseAll(true);
   }, [resultList]);
 
-  useEffect(() => {
-    const width = resultOpened ? "65%" : "100%";
-    setWidth(width);
-    gsap.to(inputAreaRef.current, {
-      width: width,
-      duration: 0.5,
-    });
-  }, [resultOpened]);
-
   const inputTextKeyUp = (e) => {
-    if (resultOpened) {
-      setCloseAll(true);
-    }
     if (e.which === CTRL_KEY_CODE) {
       isCtrl = false;
       return;
     }
-    setCount(text.length);
+    textSetting(text);
     sendServer();
   };
 
@@ -134,7 +117,7 @@ export const InputTextArea = ({
     }
     if (e.which === SINGLE_QUOTATION_KEY_CODE && isCtrl === true) {
       const textArray = fixedText.replaceAll(" ", "").split("->");
-      setText(text.replace(new RegExp(textArray[0] + "$"), textArray[1]));
+      textSetting(text.replace(new RegExp(textArray[0] + "$"), textArray[1]));
 
       url
         .mutate({

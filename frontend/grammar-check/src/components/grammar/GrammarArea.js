@@ -1,53 +1,69 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { shadow } from "../../lib/StyleUtils";
 import { InputTextArea } from "./InputTextArea";
 import { ResultTextArea } from "./ResultTextArea";
-import axios from 'axios'
+import axios from "axios";
+import nayngFootprint from "../../static/images/nayng-footprint.png"
 
 const Area = styled.section`
-  width: 100%;
-  height: 60vh;
-  margin-left: 15%;
-  margin-top: 7.5%;
+  padding: 1rem 6rem;
+  height: 70vh;
   display: flex;
 `;
+
+const TextArea = styled.article`
+  width: 100%;
+  ${shadow(0)}
+  display: flex;
+`;
+
+const CenterLine = styled.div`
+  border: 1px solid #c7c7c7;
+  height: 90%;
+  align-self: center;
+`;
+
+const FootPrint = styled.img`
+  position: absolute;
+  right: -4%;
+  bottom: -15%;
+`
 
 export const GrammarArea = () => {
   const [text, setText] = useState("");
   const [checkEvent, setCheckEvent] = useState(true);
   const [resultList, setResultList] = useState([]);
-  const [resultOpened, setResultOpened] = useState(false);
-  const [closeAll, setCloseAll] = useState(false);
-  const [ip, setIP] = useState('');
+  const [ip, setIP] = useState("");
 
   const getData = async () => {
-    const res = await axios.get('https://geolocation-db.com/json/')
-    setIP(res.data.IPv4)
-  }
+    const res = await axios.get("https://geolocation-db.com/json/");
+    setIP(res.data.IPv4);
+  };
 
   useEffect(() => {
-      getData()
-  }, [])
+    getData();
+  }, []);
 
   return (
     <Area>
-      <InputTextArea
-        text={text}
-        setText={setText}
-        startEvent={setCheckEvent}
-        resultList={resultList}
-        resultOpened={resultOpened}
-        setCloseAll={setCloseAll}
-        ip={ip}
-      />
-      <ResultTextArea
-        text={text}
-        eventChecker={checkEvent}
-        endEvent={setCheckEvent}
-        setResultList={setResultList}
-        setResultOpened={setResultOpened}
-        closeAll={closeAll}
-      />
+      <TextArea>
+        <InputTextArea
+          text={text}
+          setText={setText}
+          startEvent={setCheckEvent}
+          resultList={resultList}
+          ip={ip}
+        />
+        <CenterLine />
+        <ResultTextArea
+          text={text}
+          eventChecker={checkEvent}
+          endEvent={setCheckEvent}
+          setResultList={setResultList}
+        />
+      </TextArea>
+      <FootPrint src={nayngFootprint}/>
     </Area>
   );
 };
