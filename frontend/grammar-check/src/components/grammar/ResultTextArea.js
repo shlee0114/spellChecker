@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { CloseButton } from "../common/CloseButton";
-import { Button } from "../common/Button";
 import axios from "axios";
 import { gsap } from "gsap";
 import { serverIp } from "../../static/setting";
@@ -108,20 +106,7 @@ export const ResultTextArea = ({
 
   return (
     <Area>
-      <CorverArea />
-      <FixedArea ref={checkerRef}>
-        <CloseButton onClick={close} text="X"/>
-        <TextArea readOnly value={fixedText}></TextArea>
-        <AllFixBtn>
-          <Button
-            onClick={(_) => {
-              setResultList(innerResultist)
-            }}
-          >
-            일괄수정
-          </Button>
-        </AllFixBtn>
-      </FixedArea>
+        <TextArea readOnly value={fixedText}/>
     </Area>
   );
 };

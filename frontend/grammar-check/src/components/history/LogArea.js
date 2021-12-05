@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import oc from "open-color";
 import { shadow } from "../../lib/StyleUtils";
-import { CloseButton } from "../common/CloseButton";
 import { gsap } from "gsap";
 import { Button } from "../common/Button";
 import { SentenceLog } from "./SentenceLog";
@@ -73,13 +72,6 @@ export const LogArea = () => {
       />
       <HistoryArticle ref={logAreaRef}>
         <GradientBorder />
-        <CloseButton
-          style={{ right: "0" }}
-          onClick={(_) => {
-            openOrClose(false);
-          }}
-          text="X"
-        />
         <TextArea>
         <SentenceLog opened={isOpend}/>
           <WordLog opened={isOpend}/>

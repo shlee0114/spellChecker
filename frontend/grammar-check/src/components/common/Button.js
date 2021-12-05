@@ -1,24 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
-import oc from 'open-color'
-import { shadow } from '../../lib/StyleUtils'
 
 const Wrapper = styled.div `
+font-size: 1.3rem;
 font-weight : 600;
-color : ${oc.cyan[6]};
-border : 1px solid ${oc.cyan[6]};
-padding : 0.5rem;
-padding-bottom : 0.4rem;
+color : #1DB9C3;
+padding : 0.6rem;
 cursor : pointer;
-border-radius : 2px;
-text-decoration : none;
 transition : .2s all;
 margin-right: 10px;
 
 &:hover{
-    background : ${oc.cyan[6]};
-    color : white;
-    ${shadow(0)}
+    color : gray;
 }
 
 &:active{
@@ -26,8 +19,8 @@ margin-right: 10px;
 }
 `
 
-export const Button = ({children, onClick}) => (
-    <Wrapper onClick={onClick}>
+export const Button = ({children, onClick, style}) => (
+    <Wrapper onClick={onClick} style={style}>
         {children}
     </Wrapper>
 )

@@ -143,7 +143,7 @@ export const InputTextArea = ({
         .catch((res) => {
           console.log(res);
         });
-      openOrCloseChecker(false);
+      openOrCloseQuickChecker(false);
       return false;
     }
   };
@@ -153,7 +153,13 @@ export const InputTextArea = ({
     if (targetText.length >= CHECKABLE_MAX_LENGTH) {
       targetText = targetText.substr(0, CHECKABLE_MAX_LENGTH);
     }
-    setText(targetText);
+    textSetting(targetText);
+  };
+
+  const textSetting = (text) => {
+    setText(text);
+    setCount(text.length);
+    setClearText(text.length === 0 ? "hidden" : "");
   };
 
   const sendServer = () => {
@@ -169,7 +175,7 @@ export const InputTextArea = ({
     const sendText = text.replaceAll("\n", " ").split(" ").pop();
 
     if (sendText.trim() === "") {
-      openOrCloseChecker(false);
+      openOrCloseQuickChecker(false);
       return true;
     }
 
@@ -183,7 +189,7 @@ export const InputTextArea = ({
           (result.data.check.fixedText ?? "") !== "" &&
           sendText !== result.data.check.fixedText;
 
-        openOrCloseChecker(fixedYn);
+        openOrCloseQuickChecker(fixedYn);
 
         if (!fixedYn) return;
 
@@ -194,7 +200,7 @@ export const InputTextArea = ({
       });
   };
 
-  const openOrCloseChecker = (openYn) => {
+  const openOrCloseQuickChecker = (openYn) => {
     const opacity = openYn ? "1" : "0";
 
     gsap.to(quickCheckerRef.current, {
@@ -205,13 +211,26 @@ export const InputTextArea = ({
 
   return (
     <Area>
+      <HeaderArea>
+        <Button
+          style={{
+            visibility: clearText,
+            fontWeight: "500",
+            color: "gray",
+            fontSize: "1.5rem",
+            float: "right",
+            padding: "3%"
+          }}
+        >
+          X
+        </Button>
+      </HeaderArea>
       <TextArea
         onKeyDown={inputTextKeyDown}
         onKeyUp={inputTextKeyUp}
         onChange={inputTextChange}
         value={text}
-        style={textAreaStyle}
-      ></TextArea>
+      />
       <TextUtilArea ref={inputAreaRef}>
         <QuickChecker ref={quickCheckerRef}>{fixedText}</QuickChecker>
         <Spacer />
@@ -219,8 +238,7 @@ export const InputTextArea = ({
         <Button
           onClick={(_) => {
             startEvent(true);
-            setCloseAll(false);
-            openOrCloseChecker(false);
+            openOrCloseQuickChecker(false);
           }}
         >
           검사
