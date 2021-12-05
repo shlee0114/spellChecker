@@ -1,34 +1,40 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import oc from "open-color";
 import { shadow } from "../../lib/StyleUtils";
-import { gsap } from "gsap";
 import logBtn from '../../static/images/logBtn.png'
 import { SentenceLog } from "./SentenceLog";
 import { WordLog } from "./WordLog";
-
-const OutSideArticle = styled.article`
-  top: 0;
-  position: absolute;
-  width: 100%;
-  height: 0vh;
-`;
+import { Button } from "../common/Button";
 
 const HistoryArticle = styled.article`
-  bottom: -40vh;
+  right: 8.6rem;
   position: absolute;
-  width: 100%;
-  height: 40vh;
+  width: 20%;
+  height: 60vh;
   display: flex;
-  flex-direction: column;
-  ${shadow(1)}
+  ${shadow(0)}
   z-index:11;
-  background: #efefec;
+  background: #FBFBFB;
+  flex-direction: column;
+  transition : .4s all;
 `;
 
-const GradientBorder = styled.div`
-  height: 3px;
-  background: linear-gradient(to right, ${oc.teal[6]}, ${oc.cyan[5]});
+const SelectedArea = styled.div`
+  height:10%;
+  padding: 0.3rem 2rem 0;
+  display: flex;
+`
+
+const SelectedText = styled.div`
+  align-self: center;
+  margin: 0 1rem;
+  font-size: 12px;
+  font-family: 'Noto Sans KR';
+  color: #888888;
+`
+
+const Spacer = styled.div`
+  flex-grow: 1;
 `;
 
 const OpenButton = styled.div`
@@ -42,49 +48,100 @@ height: 2.5rem;
 `
 
 const TextArea = styled.div`
-  width: 100%;
   height: 100%;
   display flex;
-  justify-content: space-evenly;
+  padding: 0 2.3rem;
 `
 
 export const LogArea = () => {
-  const OutSideAreaRef = useRef();
-  const logAreaRef = useRef();
-  const [isOpend, setOpen] = useState(false) 
 
-  const openOrClose = (e) => {
-    setOpen(e)
-    const bottom = e ? "0" : "-40vh";
-    const height = e ? "60vh" : "0";
-    gsap.to(logAreaRef.current, {
-      bottom: bottom,
-      duration: 0.5,
-    });
-    gsap.to(OutSideAreaRef.current, {
-      height: height,
-    });
-  };
+  const selectedStyle = {
+    textDecoration :"underline",
+    textUnderlinePosition : "under",
+    color : "#1DB9C3"
+  }
+
+  const openLogStyle = {
+    width: "20%",
+    height: "60vh",
+    opacity: "1"
+  }
+
+  const closeLogStyle = {
+    width: "0",
+    height: "0",
+    opacity: "0"
+  }
+
+  const [wordStyle, setWordStyle] = useState(selectedStyle)
+  const [sentenceStyle, setSentenceStyle] = useState([])
+  const [logStyle, setLogStyle] = useState(closeLogStyle)
+
+  const [word, setWord] = useState(true)
+  const [sentence, setSentence] = useState(false)
+
+  const [isOpened, setIsOpened] = useState(false) 
+
+  const openOrClose = (open) => {
+    if(isOpened === open) return
+
+    open ? openLog() : closeLog()
+    setIsOpened(open) 
+  }
+
+  const openLog = (_) => {
+    setLogStyle(openLogStyle)
+  }
+
+  const closeLog = (_) => {
+    setLogStyle(closeLogStyle)
+  }
+
+  const clickSentence = (_) => {
+    setWord(false)
+    setSentence(true)
+    setWordStyle([])
+    setSentenceStyle(selectedStyle)
+  }
+
+  const clickWord = (_) => {
+    setWord(true)
+    setSentence(false)
+    setWordStyle(selectedStyle)
+    setSentenceStyle([])
+   
+  }
 
   return (
     <section>
-      <OutSideArticle
-        ref={OutSideAreaRef}
-        onClick={(_) => {
-          openOrClose(false);
-        }}
-      />
-      <HistoryArticle ref={logAreaRef}>
-        <GradientBorder />
+      <HistoryArticle style={logStyle}>
+        <SelectedArea>
+          <SelectedText onClick={clickWord} style={wordStyle}>단어</SelectedText>
+          <SelectedText onClick={clickSentence} style={sentenceStyle}>문장</SelectedText>
+          <Spacer />
+        <Button
+          style={{
+            fontWeight: "500",
+            color: "gray",
+            fontSize: "1.5rem",
+            paddingRight: "0" 
+          }}
+          onClick={(_) => {
+            openOrClose(false)
+          }}
+        >
+          X
+        </Button>
+        </SelectedArea>
         <TextArea>
-        <SentenceLog opened={isOpend}/>
-          <WordLog opened={isOpend}/>
+        <SentenceLog opened={sentence}/>
+        <WordLog opened={word}/>
         </TextArea >
       </HistoryArticle>
       <OpenButton>
         <OpenImg
           onClick={(_) => {
-            openOrClose(true);
+            openOrClose(true)
           }}
           src={logBtn}
         />

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button } from "../common/Button";
 import url from "../../apolloClient";
@@ -59,8 +59,6 @@ export const InputTextArea = ({ text, setText, startEvent, ip }) => {
   const [serverSendTimer, setServerSendTimer] = useState(null);
   const [clearFixedTextCount, setClearFixedTextCount] = useState(null)
   const [quickChecker, setQuickChecker] = useState("0");
-  
-  const inputAreaRef = useRef();
 
   var isCtrl = false;
 
@@ -190,7 +188,7 @@ export const InputTextArea = ({ text, setText, startEvent, ip }) => {
         onChange={inputTextChange}
         value={text}
       />
-      <TextUtilArea ref={inputAreaRef}>
+      <TextUtilArea>
         <QuickChecker 
           style={{
             opacity: quickChecker,

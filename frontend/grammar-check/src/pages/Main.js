@@ -5,7 +5,7 @@ import { LogArea } from '../components/history/LogArea'
 export const Main = () => {
     return (
         <main>
-        <LogArea/>
+            <LogArea/>
             <GrammarArea/>
         </main>
     )

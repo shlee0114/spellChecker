@@ -5,8 +5,10 @@ import { grammar } from "../../graphql";
 
 export const WordLog = ({ opened }) => {
   const [logList, setLogList] = useState("");
+  const [display, setDisplay] = useState("");
 
   useEffect(() => {
+    setDisplay(opened ? "" : "none")
     if (opened) {
       url
         .query({
@@ -28,5 +30,5 @@ export const WordLog = ({ opened }) => {
     }
   },[opened]);
 
-  return <LogTextArea title="낱말 수정 기록" logList={logList} />;
+  return <LogTextArea logList={logList} display={display}/>;
 };

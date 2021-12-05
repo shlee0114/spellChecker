@@ -5,8 +5,10 @@ import { serverIp } from "../../static/setting";
 
 export const SentenceLog = ({ opened }) => {
   const [logList, setLogList] = useState("");
+  const [display, setDisplay] = useState("");
 
   useEffect(() => {
+    setDisplay(opened ? "" : "none")
     if (opened) {
       axios
         .get(`${serverIp}log`)
@@ -26,5 +28,5 @@ export const SentenceLog = ({ opened }) => {
     }
   }, [opened]);
 
-  return <LogTextArea title="문장 수정 기록" logList={logList} />;
+  return <LogTextArea logList={logList} display={display}/>;
 };
