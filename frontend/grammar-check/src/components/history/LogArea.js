@@ -78,6 +78,7 @@ export const LogArea = () => {
           onClick={(_) => {
             openOrClose(false);
           }}
+          text="X"
         />
         <TextArea>
         <SentenceLog opened={isOpend}/>

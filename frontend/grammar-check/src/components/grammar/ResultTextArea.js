@@ -110,7 +110,7 @@ export const ResultTextArea = ({
     <Area>
       <CorverArea />
       <FixedArea ref={checkerRef}>
-        <CloseButton onClick={close}></CloseButton>
+        <CloseButton onClick={close} text="X"/>
         <TextArea readOnly value={fixedText}></TextArea>
         <AllFixBtn>
           <Button

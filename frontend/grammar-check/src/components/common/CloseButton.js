@@ -6,7 +6,7 @@ const Wrapper = styled.div `
 font-size: 1.3rem;
 position: absolute;
 font-weight : 600;
-color : ${oc.cyan[6]};
+color : #1DB9C3;
 padding : 0.6rem;
 cursor : pointer;
 transition : .2s all;
@@ -21,8 +21,8 @@ margin-right: 10px;
 }
 `
 
-export const CloseButton = ({onClick, style}) => (
+export const CloseButton = ({onClick, style, text}) => (
     <Wrapper onClick={onClick} style={style}>
-        X
+        {text}
     </Wrapper>
 )
