@@ -42,12 +42,11 @@ const Spacer = styled.div`
 `;
 
 const QuickChecker = styled.label`
+  color: #8D8D8D;
   margin: auto 10px;
-  border: 1px solid ${oc.cyan[6]};
   padding: 0.5rem;
   position: absolute;
   opacity: 0;
-  top: -100%;
 `;
 
 const CTRL_KEY_CODE = 17;
@@ -163,7 +162,7 @@ export const InputTextArea = ({
     }
     serverSendTimer = setTimeout(() => {
       sendServerQuick();
-    }, 800);
+    }, 700);
   };
 
   const sendServerQuick = () => {
@@ -196,13 +195,11 @@ export const InputTextArea = ({
   };
 
   const openOrCloseChecker = (openYn) => {
-    const top = openYn ? "0" : "-100%";
     const opacity = openYn ? "1" : "0";
 
     gsap.to(quickCheckerRef.current, {
-      top: top,
       opacity: opacity,
-      duration: 1,
+      duration: 0.8,
     });
   };
 
