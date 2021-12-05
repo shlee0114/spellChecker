@@ -33,7 +33,6 @@ const FootPrint = styled.img`
 export const GrammarArea = () => {
   const [text, setText] = useState("");
   const [checkEvent, setCheckEvent] = useState(true);
-  const [resultList, setResultList] = useState([]);
   const [ip, setIP] = useState("");
 
   const getData = async () => {
@@ -52,15 +51,15 @@ export const GrammarArea = () => {
           text={text}
           setText={setText}
           startEvent={setCheckEvent}
-          resultList={resultList}
           ip={ip}
         />
         <CenterLine />
         <ResultTextArea
           text={text}
+          setText={setText}
           eventChecker={checkEvent}
           endEvent={setCheckEvent}
-          setResultList={setResultList}
+          ip={ip}
         />
       </TextArea>
       <FootPrint src={nayngFootprint}/>

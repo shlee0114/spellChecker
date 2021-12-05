@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { Button } from "../common/Button";
 import url from "../../apolloClient";
 import { grammar } from "../../graphql/index";
 import { gsap } from "gsap";
-import axios from "axios";
-import { serverIp } from "../../static/setting";
 
 const Area = styled.article`
   width: 50%;
@@ -58,7 +56,6 @@ export const InputTextArea = ({
   text,
   setText,
   startEvent,
-  resultList,
   ip,
 }) => {
   const [textCount, setCount] = useState(0);
@@ -70,36 +67,7 @@ export const InputTextArea = ({
 
   var isCtrl = false;
   var serverSendTimer = null;
-
-  useEffect(() => {
-    if (resultList.length === 0) return;
-    const beforeText = text;
-    var afterText = text;
-
-    resultList.map((result) => {
-      afterText = afterText.replaceAll(result.errorText, result.fixedText);
-      url
-        .mutate({
-          mutation: grammar.LOG_INSERT(result.errorText, result.fixedText, ip),
-        })
-        .catch((res) => {
-          console.log(res);
-        });
-    });
-
-    axios
-      .post(`${serverIp}log`, {
-        errorText: beforeText,
-        fixedText: afterText,
-        fixedCount: resultList.length,
-        ip: ip,
-      })
-      .catch((res) => {
-        console.log(res);
-      });
-
-    setText(afterText);
-  }, [resultList]);
+  var beforeOpacity = false
 
   const inputTextKeyUp = (e) => {
     if (e.which === CTRL_KEY_CODE) {
@@ -186,6 +154,8 @@ export const InputTextArea = ({
   };
 
   const openOrCloseQuickChecker = (openYn) => {
+    if(beforeOpacity === openYn) return
+    beforeOpacity = openYn
     const opacity = openYn ? "1" : "0";
 
     gsap.to(quickCheckerRef.current, {
