@@ -63,7 +63,7 @@ export const InputTextArea = ({
 }) => {
   const [textCount, setCount] = useState(0);
   const [fixedText, setFixedText] = useState("");
-  const [clearText, setClearText] = useState(false);
+  const [clearText, setClearText] = useState("hidden");
 
   const quickCheckerRef = useRef();
   const inputAreaRef = useRef();
@@ -142,7 +142,9 @@ export const InputTextArea = ({
   const textSetting = (text) => {
     setText(text);
     setCount(text.length);
-    setClearText(text.length === 0 ? "hidden" : "");
+    const isTextHidden = text.length === 0 ? "hidden" : "";
+    setClearText(isTextHidden);
+    openOrCloseQuickChecker(!isTextHidden);
   };
 
   const sendServer = () => {
@@ -202,7 +204,10 @@ export const InputTextArea = ({
             color: "gray",
             fontSize: "1.5rem",
             float: "right",
-            padding: "3%"
+            padding: "3%",
+          }}
+          onClick={(_) => {
+            textSetting("");
           }}
         >
           X
