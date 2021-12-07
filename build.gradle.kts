@@ -36,7 +36,7 @@ dependencies {
     //webflux
     implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation ("org.mariadb:r2dbc-mariadb:1.0.3")
-    implementation("io.r2dbc:r2dbc-pool:0.9.0.RC1")
+
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     compileOnly("org.projectlombok:lombok")
