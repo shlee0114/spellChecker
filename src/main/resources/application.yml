@@ -4,6 +4,12 @@ spring:
     url: r2dbc:mariadb://1.230.255.115:3306/grammar_log
     username: grammar
     password: log
+    pool:
+      enabled: true
+      initial-size: 100
+      max-size: 500
+      max-idle-time: 30m
+      validation-query: SELECT 1
   main:
     web-application-type: reactive
 
