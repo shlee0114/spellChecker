@@ -6,8 +6,8 @@ spring:
     password: log
     pool:
       enabled: true
-      initial-size: 100
-      max-size: 500
+      initial-size: 10
+      max-size: 10
       max-idle-time: 30m
       validation-query: SELECT 1
   main:
@@ -35,4 +35,4 @@ naver :
   referer : https://search.naver.com/
 
 allow :
-  origin : http://zifori.me:3000
+  origin : https://www.grammar-checker.site/
