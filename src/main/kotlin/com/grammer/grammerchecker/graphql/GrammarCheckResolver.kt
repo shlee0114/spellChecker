@@ -31,8 +31,6 @@ class GrammarCheckResolver(
 
     suspend fun log(ver: String): List<LogDto> =
         service.findAll()
-            .flatMap {
-                Flux.just(LogDto(it))
-            }.collectList()
+            .collectList()
             .awaitFirst()
 }

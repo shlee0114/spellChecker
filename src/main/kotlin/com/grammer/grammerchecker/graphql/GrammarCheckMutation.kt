@@ -2,7 +2,6 @@ package com.grammer.grammerchecker.graphql
 
 import com.grammer.grammerchecker.handlers.GrammarGraphQLServiceImpl
 import com.grammer.grammerchecker.model.dto.LogRequest
-import com.grammer.grammerchecker.model.domain.GrammarWordLog
 import com.grammer.grammerchecker.validator.impl.LogValidator
 import graphql.kickstart.tools.GraphQLMutationResolver
 import kotlinx.coroutines.reactive.awaitFirst
@@ -18,6 +17,8 @@ class GrammarCheckMutation(
     suspend fun log(log: LogRequest): Boolean =
         Mono.just(log).flatMap {
             validator.validationCheck(it)
-            service.logSave(GrammarWordLog(it))
-        }.thenReturn(true).awaitFirst()
+            service.logSave(it)
+        }
+            .thenReturn(true)
+            .awaitFirst()
 }
