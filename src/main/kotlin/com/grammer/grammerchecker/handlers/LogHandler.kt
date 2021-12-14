@@ -1,17 +1,13 @@
 package com.grammer.grammerchecker.handlers
 
-import com.grammer.grammerchecker.handlers.service.impl.GrammarServiceImpl
 import com.grammer.grammerchecker.model.domain.GrammarSentenceLog
 import com.grammer.grammerchecker.model.dto.LogDto
 import com.grammer.grammerchecker.model.dto.LogRequest
 import com.grammer.grammerchecker.utils.ApiUtils
 import com.grammer.grammerchecker.validator.impl.LogValidator
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
-import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
-import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.reactive.function.server.body
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono

@@ -1,6 +1,5 @@
 package com.grammer.grammerchecker.handlers
 
-import com.grammer.grammerchecker.handlers.service.impl.GrammarServiceImpl
 import com.grammer.grammerchecker.utils.ApiUtils
 import com.grammer.grammerchecker.validator.impl.GrammarValidator
 import org.springframework.stereotype.Component

@@ -1,6 +1,6 @@
 package com.grammer.grammerchecker.graphql
 
-import com.grammer.grammerchecker.handlers.service.impl.GrammarGraphQLServiceImpl
+import com.grammer.grammerchecker.handlers.GrammarGraphQLServiceImpl
 import com.grammer.grammerchecker.model.dto.GrammarDto
 import com.grammer.grammerchecker.model.dto.LogDto
 import com.grammer.grammerchecker.validator.impl.GrammarValidator

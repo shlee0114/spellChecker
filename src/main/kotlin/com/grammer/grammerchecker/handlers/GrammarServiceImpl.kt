@@ -1,29 +1,27 @@
-package com.grammer.grammerchecker.handlers.service.impl
+package com.grammer.grammerchecker.handlers
 
 import com.grammer.grammerchecker.handlers.repository.SentenceLogRepository
-import com.grammer.grammerchecker.handlers.service.GrammarService
 import com.grammer.grammerchecker.model.domain.GrammarSentenceLog
-import com.grammer.grammerchecker.model.dto.GrammarDto
 import com.grammer.grammerchecker.utils.GrammarChecker
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Transactional
-import reactor.core.publisher.Flux
 
 @Service
 class GrammarServiceImpl(
     private val grammarChecker: GrammarChecker,
     private val logRepository: SentenceLogRepository
-) : GrammarService<GrammarSentenceLog>() {
+) {
+    val sort = Sort.by(Sort.Direction.DESC, "fixed_time")
 
-    override fun checkGrammar(grammar: String) : Flux<GrammarDto> =
+    fun checkGrammar(grammar: String) =
         grammarChecker.checkGrammar(grammar)
 
     @Transactional(readOnly = true)
-    override fun findAll() =
+    fun findAll() =
         logRepository.findAll(sort)
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    override fun logSave(log: GrammarSentenceLog) =
+    @Transactional
+    fun logSave(log: GrammarSentenceLog) =
         logRepository.save(log)
 }
