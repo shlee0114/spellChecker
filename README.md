@@ -16,9 +16,9 @@ https://hdesigner.creatorlink.net/
 
 ## 호환성
 
-|Chrome|Firefox|Edge|IE11|
-|---|---|---|---|
-|latest check|latest check|latest check|no support|
+|Chrome|Safari|Firefox|Edge|IE11|
+|---|---|---|---|---|
+|latest check|latest check|latest check|latest check|no support|
 
 ## [Fronend 구조](https://github.com/tlgj255/spellChecker/tree/master/frontend/grammar-check)
 
