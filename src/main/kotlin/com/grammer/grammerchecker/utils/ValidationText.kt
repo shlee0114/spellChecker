@@ -1,4 +1,4 @@
-package com.grammer.grammerchecker.validator
+package com.grammer.grammerchecker.utils
 
 class ValidationText {
     companion object {

@@ -1,4 +1,4 @@
-package com.grammer.grammerchecker.validator
+package com.grammer.grammerchecker.utils
 
 import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.validation.Validator

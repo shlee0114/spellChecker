@@ -1,7 +1,7 @@
-package com.grammer.grammerchecker.validator.impl
+package com.grammer.grammerchecker.handlers.validator
 
-import com.grammer.grammerchecker.validator.CommonValidator
-import com.grammer.grammerchecker.validator.ValidationText
+import com.grammer.grammerchecker.utils.CommonValidator
+import com.grammer.grammerchecker.utils.ValidationText
 import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
 

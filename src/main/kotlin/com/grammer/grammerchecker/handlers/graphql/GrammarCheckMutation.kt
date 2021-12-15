@@ -1,8 +1,8 @@
-package com.grammer.grammerchecker.graphql
+package com.grammer.grammerchecker.handlers.graphql
 
-import com.grammer.grammerchecker.handlers.GrammarGraphQLServiceImpl
-import com.grammer.grammerchecker.model.dto.LogRequest
-import com.grammer.grammerchecker.validator.impl.LogValidator
+import com.grammer.grammerchecker.handlers.service.impl.GrammarGraphQLServiceImpl
+import com.grammer.grammerchecker.handlers.model.dto.LogRequest
+import com.grammer.grammerchecker.handlers.validator.LogValidator
 import graphql.kickstart.tools.GraphQLMutationResolver
 import kotlinx.coroutines.reactive.awaitFirst
 import org.springframework.stereotype.Component

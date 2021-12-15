@@ -1,7 +1,7 @@
-package com.grammer.grammerchecker.model.dto
+package com.grammer.grammerchecker.handlers.model.dto
 
-import com.grammer.grammerchecker.model.domain.GrammarSentenceLog
-import com.grammer.grammerchecker.model.domain.GrammarWordLog
+import com.grammer.grammerchecker.handlers.model.domain.GrammarSentenceLog
+import com.grammer.grammerchecker.handlers.model.domain.GrammarWordLog
 
 data class LogDto(
     val error: String,

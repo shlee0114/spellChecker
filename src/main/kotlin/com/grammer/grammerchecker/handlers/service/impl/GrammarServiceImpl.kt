@@ -1,9 +1,10 @@
-package com.grammer.grammerchecker.handlers
+package com.grammer.grammerchecker.handlers.service.impl
 
 import com.grammer.grammerchecker.handlers.repository.SentenceLogRepository
-import com.grammer.grammerchecker.model.domain.GrammarSentenceLog
-import com.grammer.grammerchecker.model.dto.LogDto
-import com.grammer.grammerchecker.model.dto.LogRequest
+import com.grammer.grammerchecker.handlers.service.GrammarService
+import com.grammer.grammerchecker.handlers.model.domain.GrammarSentenceLog
+import com.grammer.grammerchecker.handlers.model.dto.LogDto
+import com.grammer.grammerchecker.handlers.model.dto.LogRequest
 import com.grammer.grammerchecker.utils.GrammarChecker
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service

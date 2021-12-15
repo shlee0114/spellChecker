@@ -1,8 +1,9 @@
 package com.grammer.grammerchecker.handlers
 
-import com.grammer.grammerchecker.model.dto.LogRequest
+import com.grammer.grammerchecker.handlers.service.impl.GrammarServiceImpl
+import com.grammer.grammerchecker.handlers.model.dto.LogRequest
 import com.grammer.grammerchecker.utils.ApiUtils
-import com.grammer.grammerchecker.validator.impl.LogValidator
+import com.grammer.grammerchecker.handlers.validator.LogValidator
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
