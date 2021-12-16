@@ -11,8 +11,6 @@ interface GrammarService {
     val sort : Sort
 
     fun checkGrammar(grammar: String) : Flux<GrammarDto>
-
     fun findAll() : Flux<LogDto>
-
     fun logSave(log: LogRequest) : Mono<LogDto>
 }

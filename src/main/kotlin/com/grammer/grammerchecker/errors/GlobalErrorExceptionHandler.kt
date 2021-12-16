@@ -2,10 +2,8 @@ package com.grammer.grammerchecker.errors
 
 import com.grammer.grammerchecker.utils.ApiUtils
 import com.grammer.grammerchecker.utils.ErrorUtils
-import io.netty.handler.codec.http.HttpResponseStatus
 import org.springframework.boot.autoconfigure.web.WebProperties
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler
-import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.reactive.error.ErrorAttributes
 import org.springframework.context.ApplicationContext
 import org.springframework.http.HttpStatus

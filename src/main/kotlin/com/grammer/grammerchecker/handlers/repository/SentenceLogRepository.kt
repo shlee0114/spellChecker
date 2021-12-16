@@ -5,5 +5,4 @@ import org.springframework.data.repository.reactive.ReactiveSortingRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface SentenceLogRepository : ReactiveSortingRepository<GrammarSentenceLog, Long> {
-}
+interface SentenceLogRepository : ReactiveSortingRepository<GrammarSentenceLog, Long>
