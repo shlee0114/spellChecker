@@ -54,7 +54,7 @@ jobs:
           cp Procfile deploy/
           cp -r .ebextensions deploy/
           cp -r .platform deploy/
-          zip -r deploy.zip deploy
+          cd deploy && zip -r deploy.zip .
 
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@v20
@@ -63,6 +63,6 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: spellChecker
           environment_name: Spellchecker-env
-          version_label: 12345
+          version_label: Sample Application
           region: ap-northeast-2
-          deployment_package: deploy.zip
+          deployment_package: deploy/deploy.zip
