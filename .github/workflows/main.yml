@@ -47,16 +47,14 @@ jobs:
           format: YYYY-MM-DDTHH-mm-ss
           utcOffset: "+09:00"
 
-      - name: Generate deployment folder
-        run: mkdir -p deploy
-
       - name: Generate deployment package
         run: |
+          mkdir -p deploy
           cp build/libs/spellChecker-0.0.1-SNAPSHOT.jar deploy/
           cp Procfile deploy/
           cp -r .ebextensions deploy/
           cp -r .platform deploy/
-          cd deploy && zip -r deploy.zip .
+          zip -r deploy.zip deploy
 
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@v20
