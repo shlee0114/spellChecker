@@ -52,10 +52,10 @@ jobs:
 
       - name: Generate deployment package
         run: |
-          cp build/libs/*.jar deploy/application.jar
-          cp Procfile deploy/Procfile
-          cp -r .ebextensions deploy/.ebextensions
-          cp -r .platform deploy/.platform
+          mv build/libs/*.jar deploy/application.jar
+          mv Procfile deploy/Procfile
+          mv -r .ebextensions deploy/.ebextensions
+          mv -r .platform deploy/.platform
           cd deploy && zip -r deploy.zip .
 
       - name: Beanstalk Deploy
