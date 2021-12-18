@@ -35,4 +35,4 @@ naver :
   referer : https://search.naver.com/
 
 allow :
-  origin : https://www.grammar-checker.site/
+  origin : https://www.grammar-checker.link/
