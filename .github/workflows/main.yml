@@ -61,8 +61,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: spell
-          environment_name: Spell-env
+          application_name: backend-spell
+          environment_name: Backendspell-env
           version_label: ${{github.SHA}}
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
