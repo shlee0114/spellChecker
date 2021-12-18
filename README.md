@@ -4,15 +4,13 @@
 네이버 맞춤법 검사기를 사용했으며, 문제가 발생할 시 바로 내리도록 하겠습니다.
 
 링크에서 바로 확인 가능합니다. > 
-https://www.grammar-checker.site/
+www.grammar-checker.link
 
 Spring Framework + Kotlin, ReactJS를 사용하여 Backend, Frontend를 개발
 
-최화영 디자이너님이 사이트 디자인을 해주었습니다.
-https://hdesigner.creatorlink.net/
+[최화영 디자이너님](https://hdesigner.creatorlink.net/)이 사이트 디자인을 해주었습니다.
 
-현재 개인 linux 서버에 올려두었으며 AWS로 옮기면서 pipeline을 구축하고 있습니다. 
-이에 현재 Dockerfile, jenkinsfile, k8s는 아직 미완입니다.
+frontend server는 aws의 amplify를 사용했으며, backend server는 aws의 elastic beanstack을 사용하였습니다.
 
 ## 호환성
 
@@ -20,7 +18,7 @@ https://hdesigner.creatorlink.net/
 |---|---|---|---|---|
 |latest check|latest check|latest check|latest check|no support|
 
-## [Fronend 구조](https://github.com/tlgj255/spellChecker/tree/master/frontend/grammar-check)
+## [Fronend 구조](https://github.com/tlgj255/spellCheckerFrontend)
 
 ## Backend 구조
 ### 전체 구조
