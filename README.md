@@ -39,6 +39,76 @@ frontend server는 aws의 amplify를 사용했으며, backend server는 aws의 e
 ```
 ### 상세 코드 및 구조
 #### 비즈니스 로직(handlers)
+- graphql
+  > graphql 관련 처리를 위한 폴더 Resolver는 select, Mutation은 insert, update, delete를 처리하고 있습니다.
+- model
+  - domain
+    > server <> database 통신을 담당하는 data model
+  - dto
+    > server <> client 통신을 담당하는 data model(server -> client : dto, client -> server : request) 
+- repository
+  > R2DBC를 사용하고 있습니다.
+- service
+  > 두 개의 서비스가 동일한 로직에 다른 repository를 사용하기에 같은 기능의 service라는 것을 표기하기 위하여 interface를 사용했습니다.
+    - impl
+      > Transactional처리 및 실제 비즈니스 로직을 수행하고 있습니다.
+      ``` kotlin
+          @Transactional(readOnly = true)
+          override fun findAll() =
+              logRepository.findAll(sort)
+                  .flatMap {
+                      Flux.just(LogDto(it))
+                  }
+
+          @Transactional
+          override fun logSave(log: LogRequest) =
+              logRepository.save(GrammarSentenceLog(log))
+                  .flatMap {
+                      Mono.just(LogDto(it))
+                  }
+      
+      ```
+- validator
+  > 서비스상 입력되면 안 되거나 잘못 입력된 부분을 체크 후 해당하는 ValidationText와 함께 throw IllegalStateException 합니다.
+- handler
+  > request의 validation 처리, 에러 처리(주로 valudation 처리 내부에 있습니다), 실제 기능, 반환으로 이루어져 있습니다. 
+  ``` kotlin
+      fun insertLog(req: ServerRequest): Mono<ServerResponse> = ServerResponse.ok()
+          .body(
+              req.bodyToMono(LogRequest::class.java)
+                  .switchIfEmpty(Mono.empty())
+                  .flatMap { log ->
+                      //validation 처리
+                      validator.validationCheck(log)
+                      //실제 기능
+                      service.logSave(log)
+                      //반환
+                      Mono.just(ApiUtils(response = true))
+                  }
+          )
+  ```
+#### 비즈니스 로직 외(config, errors, utils)
+- config
+  > cors, router등록 등 서버 관련 설정 
+- errors
+  > error 발생 시 response 포맷을 통일 시켜주기 위해 생성한 handler
+- utils
+  > ApiUtils success, error response 포맷 정의
+  ``` kotlin
+  data class ApiUtils<T>(
+    val success: Boolean = true,
+    val response: T? = null,
+    val error: ErrorUtils? = null
+  )
+
+  data class ErrorUtils(
+      val message: String = "",
+      val status: Int
+  )
+  ```
+  > GrammarChecker 실제 text를 naver 맞춤법 탐색기를 통해 검사하는 기능
+  > RegularExpression ObjectMapper는 bolcking code 이기에 정규식을 사용해서 분리
+  > ValidationText error text
 
 ## api 구조
 에러 발생 시
