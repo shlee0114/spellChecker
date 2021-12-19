@@ -34,14 +34,15 @@ class WebConfig(
 
     @Bean
     fun routerFunction() = RouterFunctions.nest(
-        RequestPredicates.path("/api"),
+        RequestPredicates.path(""),
         router {
             contentType(MediaType.APPLICATION_JSON)
             charset("UTF-8")
             listOf(
-                GET("/check", grammarHandler::checkGrammar),
-                GET("/log", logHandler::logList),
-                POST("/log", logHandler::insertLog)
+                GET("/", grammarHandler::awsStatusSuccess),
+                GET("/api/check", grammarHandler::checkGrammar),
+                GET("/api/log", logHandler::logList),
+                POST("/api/log", logHandler::insertLog)
             )
         }
     )

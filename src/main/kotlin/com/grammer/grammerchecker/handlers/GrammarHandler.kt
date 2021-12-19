@@ -17,6 +17,9 @@ class GrammarHandler(
     private val service: GrammarServiceImpl
 ) {
 
+    fun awsStatusSuccess(req: ServerRequest) = ok()
+        .body(Mono.empty())
+
     fun checkGrammar(req: ServerRequest): Mono<ServerResponse> = ok()
         .body(
             Flux.just(
