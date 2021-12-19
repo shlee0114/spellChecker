@@ -50,7 +50,7 @@ jobs:
       - name: Generate deployment package
         run: |
           mkdir -p deploy
-          cp build/libs/spellChecker-0.0.1-SNAPSHOT.jar deploy/
+          cp build/libs/grammerChecker-0.0.1-SNAPSHOT.jar deploy/
           cp Procfile deploy/
           cp -r .ebextensions deploy/
           cp -r .platform deploy/
