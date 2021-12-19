@@ -56,4 +56,4 @@ jobs:
           environment_name: Spelllcheckerbackend-env
           version_label: ${{github.SHA}}
           region: ap-northeast-2
-          deployment_package: grammerChecker-0.0.1-SNAPSHOT.jar
+          deployment_package: build/libs/grammerChecker-0.0.1-SNAPSHOT.jar
